@@ -1,8 +1,5 @@
 import traceback
 
-import sys
-
-
 from django.core.management.base import BaseCommand
 from django.utils import timezone as tz
 from radio.models import Radio, Play
@@ -12,8 +9,9 @@ from radio.utils import get_current_song
 class Command(BaseCommand):
     help = 'For each defined radio, loads the current playing song and saves it to the database.'
 
-    def log_error(self, string):
-        self.stderr.write(string)
+    def __init__(self, *args, **kwargs):
+        self.now = "{:%Y-%m-%d %H:%M:%S}".format(tz.now())
+        super(Command, self).__init__(*args, **kwargs)
 
     def save(self, radio, artist, title):
         last_play = Play.objects.filter(radio=radio).order_by('-timestamp').first()
@@ -31,14 +29,15 @@ class Command(BaseCommand):
             artist, title = get_current_song(radio.slug)
             self.save(radio, artist, title)
         except Exception:
-            self.log_error("Failed loading song")
+            self.stdout.write("#############################################")
+            self.stdout.write("### Failed loading song. Check error log. ###")
+            self.stdout.write("#############################################")
+
+            # traceback will write to stderr
+            self.stderr.write("\n--- " + self.now + " " + "-" * 60)
             traceback.print_exc()
 
     def handle(self, *args, **options):
-        self.stdout.write("\n--- " + str(tz.now()) + " " + "-" * 60)
+        self.stdout.write("\n--- " + self.now + " " + "-" * 60)
         for radio in Radio.objects.all():
             self.load_song(radio)
-
-            # Required to preserve order when redirecting output to a file
-            sys.stdout.flush()
-            sys.stderr.flush()

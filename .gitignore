@@ -1,4 +1,6 @@
 /.env
+/_env/
 /*.sublime-project
 /*.sublime-workspace
+/*.log
 __pycache__/
