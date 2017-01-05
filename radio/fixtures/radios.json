@@ -1,0 +1,18 @@
+[
+    {
+        "model": "radio.Radio",
+        "pk": 1,
+        "fields": {
+            "name": "Radio Antena",
+            "slug": "antena"
+        }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 2,
+        "fields": {
+            "name": "Gold FM",
+            "slug": "gold"
+        }
+    }
+]
