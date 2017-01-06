@@ -3,7 +3,7 @@
         "model": "radio.Radio",
         "pk": 1,
         "fields": {
-            "name": "Radio Antena",
+            "name": "Antena Zagreb",
             "slug": "antena"
         }
     },
@@ -13,6 +13,14 @@
         "fields": {
             "name": "Gold FM",
             "slug": "gold"
+        }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 3,
+        "fields": {
+            "name": "Radio 101",
+            "slug": "radio101"
         }
     }
 ]
