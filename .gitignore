@@ -1,5 +1,7 @@
 /.env
 /_env/
+/tmp/
+/node_modules/
 /*.sublime-project
 /*.sublime-workspace
 /*.log

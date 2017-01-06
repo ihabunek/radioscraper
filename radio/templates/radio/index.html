@@ -1,0 +1,17 @@
+{% extends "radio/base.html" %}
+
+{% block content %}
+
+<div class="row column">
+    <h1>Radio scraper</h1>
+
+    <h3>Most frequently played songs</h3>
+
+    <ul>
+    {% for play in top_plays %}
+        <li>{{ play.artist }} - {{ play.title }} ({{ play.count }})</li>
+    {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}
