@@ -19,7 +19,7 @@ class MostPlayedView(TemplateView):
 
         context = super(MostPlayedView, self).get_context_data(**kwargs)
         context.update({
-            "radios": Radio.objects.all(),
+            "radios": Radio.objects.all().order_by("name"),
             "top_plays": top_plays,
         })
         return context

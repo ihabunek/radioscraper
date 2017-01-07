@@ -34,8 +34,11 @@
 }
 
 .search-plays-form {
-    .input-group-label, .button {
-        width: 6rem;
+    .input-group {
        font-family: $font-family-monospace;
+    }
+
+    .input-group-label, .button {
+       width: 6rem;
     }
 }

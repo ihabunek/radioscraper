@@ -3818,8 +3818,10 @@ a.thumbnail {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   text-decoration: none; }
 
-.search-plays-form .input-group-label, .search-plays-form .button {
-  width: 6rem;
+.search-plays-form .input-group {
   font-family: Consolas, "Liberation Mono", Courier, monospace; }
+
+.search-plays-form .input-group-label, .search-plays-form .button {
+  width: 6rem; }
 
 /*# sourceMappingURL=styles.css.map*/
