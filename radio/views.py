@@ -10,17 +10,32 @@ class IndexView(TemplateView):
     template_name = 'radio/index.html'
 
 
-class MostPlayedView(TemplateView):
-    template_name = 'radio/most_played.html'
+class StatsView(TemplateView):
+    template_name = 'radio/stats.html'
+    radio = None
+
+    def dispatch(self, *args, **kwargs):
+        radio_slug = self.kwargs.get('radio_slug')
+        if radio_slug:
+            self.radio = get_object_or_404(Radio, slug=radio_slug)
+
+        return super(StatsView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        top_plays = Play.objects.all().values('artist', 'title') \
-            .annotate(count=Count('*')).order_by('-count')[:20]
+        qs = Play.objects.all().values('artist', 'title').annotate(count=Count('*'))
 
-        context = super(MostPlayedView, self).get_context_data(**kwargs)
+        if self.radio:
+            qs = qs.filter(radio=self.radio)
+
+        top_plays = qs.order_by('-count')[:20]
+        bottom_plays = qs.order_by('count')[:20]
+
+        context = super(StatsView, self).get_context_data(**kwargs)
         context.update({
+            "radio": self.radio,
             "radios": Radio.objects.all().order_by("name"),
             "top_plays": top_plays,
+            "bottom_plays": bottom_plays,
         })
         return context
 

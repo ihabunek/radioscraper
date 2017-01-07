@@ -1,0 +1,64 @@
+{% extends "radio/base.html" %}
+
+{% block title %}Stats{% endblock %}
+
+{% block content %}
+<div class="row column">
+
+    <div class="button-group">
+        <a href="{% url 'radio:stats' %}" class="button {% if not radio %}secondary{% endif %}">All</a>
+        {% for r in radios %}
+            {% if r == radio %}
+            <a disabled class="button">
+            {% else %}
+            <a href="{% url 'radio:stats' radio_slug=r.slug %}" class="button">
+            {% endif %}
+                {{ r.name }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="small-12 medium-6 columns">
+            <h3>Most played</h3>
+
+            <table class="hover">
+                <tr>
+                    <th>Rank</th>
+                    <th class="text-left">Artist</th>
+                    <th class="text-left">Title</th>
+                    <th>Played</th>
+                </tr>
+                {% for play in top_plays %}
+                <tr>
+                    <td>#{{ forloop.counter }}</td>
+                    <td>{{ play.artist }}</td>
+                    <td>{{ play.title }}</td>
+                    <td class="text-center">{{ play.count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="small-12 medium-6 columns">
+            <h3>Least played</h3>
+
+            <table class="hover">
+                <tr>
+                    <th>Rank</th>
+                    <th class="text-left">Artist</th>
+                    <th class="text-left">Title</th>
+                    <th>Played</th>
+                </tr>
+                {% for play in bottom_plays %}
+                <tr>
+                    <td>#{{ forloop.counter }}</td>
+                    <td>{{ play.artist }}</td>
+                    <td>{{ play.title }}</td>
+                    <td class="text-center">{{ play.count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
