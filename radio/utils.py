@@ -5,6 +5,11 @@ from datetime import datetime
 
 
 def get_current_song(slug):
+    """Returns the currently playing [artist, song] for the given radio.
+
+    Returns None if no song is playing (e.g. talk shows).
+    Raises an exception if fetching fails. """
+
     if slug == 'antena':
         return _prvi('antena')
 
@@ -16,6 +21,9 @@ def get_current_song(slug):
 
     if slug == 'otvoreni':
         return _otvoreni()
+
+    if slug == 'student':
+        return _student()
 
     raise ValueError("Unknown radio '{}'".format(slug))
 
@@ -58,3 +66,18 @@ def _otvoreni():
         artist.text.title(),
         song.text.capitalize()
     ]
+
+
+def _student():
+    url = 'http://www.radiostudent.hr/slusas/'
+    html = requests.get(url).text
+
+    bs = BeautifulSoup(html, "html.parser")
+    cell = bs.find("td", class_="column-title")
+    bits = cell.text.split('-', 1)
+
+    # Some radio shows are in the feed, which are not songs
+    if len(bits) != 2:
+        return None
+
+    return [s.strip() for s in bits]
