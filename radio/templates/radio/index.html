@@ -1,17 +1,17 @@
 {% extends "radio/base.html" %}
 
+{% block title %}Home{% endblock %}
+
 {% block content %}
 
 <div class="row column">
     <h1>Radio scraper</h1>
 
-    <h3>Most frequently played songs</h3>
+    <p>Collecting radio playlists for no particular reason.</p>
 
-    <ul>
-    {% for play in top_plays %}
-        <li>{{ play.artist }} - {{ play.title }} ({{ play.count }})</li>
-    {% endfor %}
-    </ul>
-
+    <p>
+        <a href="{% url 'radio:plays' %}">List plays</a> ·
+        <a href="{% url 'radio:most-played' %}">Most played songs</a>
+    </p>
 </div>
 {% endblock %}

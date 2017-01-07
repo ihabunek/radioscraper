@@ -1,11 +1,41 @@
 @import "settings";
-@import "../../node_modules/foundation-sites/scss/foundation.scss";
+@import "../../node_modules/foundation-sites/scss/foundation";
 
 @include foundation-everything();
 
-.foo {
-    .bar {
-        padding: 0px;
+.no-wrap {
+    white-space: nowrap;
+}
+
+.not-wide {
+    width: max-content;
+}
+
+.header {
+    color: white;
+    background-color: black;
+    padding: 1rem;
+    margin-bottom: 2rem;
+
+    h1 {
+        font-family: $font-family-monospace;
+        font-size: 1.6rem;
+        text-transform: uppercase;
+
+        a {
+            color: white;
+        }
     }
 }
 
+.button {
+    font-family: $font-family-monospace;
+    text-decoration: none;
+}
+
+.search-plays-form {
+    .input-group-label, .button {
+        width: 6rem;
+       font-family: $font-family-monospace;
+    }
+}

@@ -1,10 +1,15 @@
-{% load static %}<!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}{% endblock %} - Radio Scraper</title>
-    <link rel="stylesheet" type="text/css" href="{% static "styles.css" %}">
-</head>
-<body>
-{% block content %}{% endblock %}
-</body>
-</html>
+{% extends "radio/superbase.html" %}
+
+{% block body %}
+    <div class="header">
+        <div class="row column">
+            <h1>
+                <a href="/">Radio scraper</a> //
+                {% block title %}{% endblock %}
+                {% block after_title %}{% endblock %}
+            </h1>
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
+{% endblock %}

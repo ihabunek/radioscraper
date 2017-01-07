@@ -2,10 +2,12 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
 
 module.exports = {
-    entry: path.join(__dirname, 'ui/index.js'),
+    entry: {
+        "index": ['./ui/index.js'],
+    },
     output: {
         path: path.join(__dirname, 'static'),
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
     module: {
         loaders: [{

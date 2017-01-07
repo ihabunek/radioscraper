@@ -1,0 +1,50 @@
+{% if is_paginated %}
+<ul class="pagination text-center" role="navigation" aria-label="Pagination">
+    {% if page_obj.has_previous %}
+        <li class="pagination-previous">
+            <a href="#" data-paging data-page="{{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+    {% endif %}
+
+    {% if page_obj.number > 3 %}
+        <li>
+            <a href="#" data-paging data-page="1">1</a>
+        </li>
+    {% endif %}
+
+   {% if page_obj.number > 4 %}
+        <li class="ellipsis"></li>
+    {% endif %}
+
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if num == page_obj.number %}
+            <li class="current">
+                <span class="show-for-sr">You're on page</span> {{ num }}
+            </li>
+        {% elif page_obj.number < num|add:"3" and page_obj.number > num|add:"-3" %}
+            <li>
+                <a href="#" data-paging data-page="{{ num }}">{{ num }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.number < page_obj.paginator.num_pages|add:"-3" %}
+        <li class="ellipsis"></li>
+    {% endif %}
+
+    {% if page_obj.number < page_obj.paginator.num_pages|add:"-2" %}
+        <li>
+            <a href="#" data-paging data-page="{{ page_obj.paginator.num_pages }}">
+                {{ page_obj.paginator.num_pages }}
+            </a>
+        </li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        <li class="pagination-next">
+            <a href="#" data-paging data-page="{{ page_obj.next_page_number }}">Next</a>
+        </li>
+    {% endif %}
+</ul>
+{% endif %}

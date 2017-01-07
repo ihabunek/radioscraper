@@ -1,0 +1,133 @@
+{% extends "radio/base.html" %}
+
+{% block title %}Plays{% endblock %}
+
+{% block after_title %}
+    {% if radio %}
+        // {{ radio.name }}
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+function searchWith(params) {
+    var uri = new URI();
+    uri.removeQuery(["page"]);
+    uri.setQuery(params);
+    window.location.href = uri.toString();
+}
+
+function clearSearch(fields) {
+    fields =  fields || ["artist", "title"];
+    var uri = new URI();
+    uri.removeQuery(["page"]);
+    uri.removeQuery(fields);
+    window.location.href = uri.toString();
+}
+
+function goToPath(url) {
+    var uri = new URI();
+    uri.removeQuery(["page"]);
+    uri.pathname(url);
+    window.location.href = uri.toString();
+}
+
+$(document).ready(function () {
+    $('.artist > a').click(function (e) {
+        e.preventDefault();
+        searchWith({ "artist": this.innerText.trim() });
+    });
+
+    $('.title > a').click(function (e) {
+        e.preventDefault();
+        searchWith({ "title": this.innerText.trim() });
+    });
+
+    $('[data-clear]').click(function (e) {
+        e.preventDefault();
+        var fields = this.dataset.clear ? [this.dataset.clear] : null;
+        clearSearch(fields);
+    });
+
+    $('a[data-paging]').click(function (e) {
+        e.preventDefault();
+        searchWith({ "page": this.dataset.page });
+    });
+
+    $('a[data-radio-url]').click(function (e) {
+        e.preventDefault();
+        goToPath(this.dataset.radioUrl);
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row column">
+    <div class="button-group">
+        <a href="#" data-radio-url="{% url 'radio:plays' %}" class="button {% if not radio %}secondary{% endif %}">All</a>
+        {% for r in radios %}
+            {% if r == radio %}
+            <a disabled class="button">
+            {% else %}
+            <a href="#" class="button" data-radio-url="{% url 'radio:plays' radio_slug=r.slug %}">
+            {% endif %}
+                {{ r.name }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <form class="search-plays-form" action=".">
+        <div class="row">
+            <div class="small-12 medium-6 columns">
+                <div class="input-group">
+                    <span class="input-group-label">Artist</span>
+                    <input name="artist" class="input-group-field" type="text" value="{{ artist|default:"" }}">
+                    <div class="input-group-button">
+                        <a href="#" data-clear="artist" class="button">&times;</a>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-label">Title</span>
+                    <input name="title" class="input-group-field" type="text" value="{{ title|default:"" }}">
+                    <div class="input-group-button">
+                        <a href="#" data-clear="title" class="button">&times;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="button" type="submit">Search</button>
+            <button class="button" data-clear>Clear</button>
+        </div>
+    </form>
+
+    {% if plays %}
+    <table class="hover">
+        <tr>
+            <th>Time</th>
+            <th>Radio</th>
+            <th>Artist</th>
+            <th>Title</th>
+        </tr>
+        {% for play in plays %}
+        <tr>
+            <td class="no-wrap">{{ play.timestamp|date:"d.m.Y @ H:i" }}</td>
+            <td class="no-wrap">{{ play.radio.name }}</td>
+            <td class="artist">
+                <a href="#">{{ play.artist }}</a>
+            </td>
+            <td class="title">
+                <a href="#">{{ play.title }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <h5>No plays matching given search parameters found.</h5>
+    {% endif %}
+
+    {% include "radio/partial/paging.html" %}
+</div>
+{% endblock %}

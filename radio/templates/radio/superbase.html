@@ -1,0 +1,16 @@
+{% load static %}<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %} - Radio scraper</title>
+    <link rel="stylesheet" type="text/css" href="{% static "styles.css" %}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block body %}{% endblock %}
+
+    <script src="{% static "bundle.js" %}" type="text/javascript"></script>
+    <script src="{% static "jquery.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "URI.min.js" %}" type="text/javascript"></script>
+    {% block script %}{% endblock %}
+</body>
+</html>
