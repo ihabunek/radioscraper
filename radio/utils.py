@@ -1,5 +1,6 @@
 import requests
 
+from bs4 import BeautifulSoup
 from datetime import datetime
 
 
@@ -12,6 +13,9 @@ def get_current_song(slug):
 
     if slug == 'radio101':
         return _radio101()
+
+    if slug == 'otvoreni':
+        return _otvoreni()
 
     raise ValueError("Unknown radio '{}'".format(slug))
 
@@ -39,4 +43,18 @@ def _radio101():
     return [
         data[0]['author'],
         data[0]['title'],
+    ]
+
+
+def _otvoreni():
+    url = "http://www.otvoreni.hr/player/"
+    html = requests.get(url).text
+
+    bs = BeautifulSoup(html, "html.parser")
+    artist = bs.find(id="song-artist")
+    song = bs.find(id="song-track")
+
+    return [
+        artist.text.title(),
+        song.text.capitalize()
     ]

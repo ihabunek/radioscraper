@@ -22,5 +22,13 @@
             "name": "Radio 101",
             "slug": "radio101"
         }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 4,
+        "fields": {
+            "name": "Otvoreni radio",
+            "slug": "otvoreni"
+        }
     }
 ]
