@@ -69,15 +69,18 @@ def _otvoreni():
 
 
 def _student():
-    url = 'http://www.radiostudent.hr/slusas/'
-    html = requests.get(url).text
+    url = 'http://www.radiostudent.hr/wp-admin/admin-ajax.php?action=rsplaylist_api'
+    data = requests.get(url).json()
 
-    bs = BeautifulSoup(html, "html.parser")
-    cell = bs.find("td", class_="column-title")
-    bits = cell.text.split('-', 1)
+    bits = data['rows'][0]['played_song'].split('-', 1)
 
     # Some radio shows are in the feed, which are not songs
     if len(bits) != 2:
         return None
 
-    return [s.strip() for s in bits]
+    artist, title = bits
+
+    return [
+        artist.strip().title(),
+        title.strip().capitalize()
+    ]
