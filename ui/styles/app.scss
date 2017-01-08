@@ -33,6 +33,15 @@
     text-decoration: none;
 }
 
+table {
+    font-family: $font-family-monospace;
+    font-size: .9rem;
+
+    th {
+        text-align: left;
+    }
+}
+
 .search-plays-form {
     .input-group {
        font-family: $font-family-monospace;
