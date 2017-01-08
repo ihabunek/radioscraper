@@ -51,8 +51,9 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2)
-
+	'use strict';
+	
+	__webpack_require__(2);
 
 /***/ },
 /* 2 */
@@ -62,4 +63,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=main.js.map

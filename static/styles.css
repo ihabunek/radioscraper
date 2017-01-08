@@ -1567,9 +1567,9 @@ textarea {
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: 2.4375rem;
-  margin: 0 0 1rem;
-  padding: 0.5rem;
+  height: 2.25rem;
+  margin: 0 0 0.875rem;
+  padding: 0.4375rem;
   border: 1px solid #cacaca;
   border-radius: 0;
   background-color: #fefefe;
@@ -1614,14 +1614,14 @@ input[type='search'] {
 [type='file'],
 [type='checkbox'],
 [type='radio'] {
-  margin: 0 0 1rem; }
+  margin: 0 0 0.875rem; }
 
 [type='checkbox'] + label,
 [type='radio'] + label {
   display: inline-block;
   vertical-align: baseline;
-  margin-left: 0.5rem;
-  margin-right: 1rem;
+  margin-left: 0.4375rem;
+  margin-right: 0.875rem;
   margin-bottom: 0; }
   [type='checkbox'] + label[for],
   [type='radio'] + label[for] {
@@ -1629,7 +1629,7 @@ input[type='search'] {
 
 label > [type='checkbox'],
 label > [type='radio'] {
-  margin-right: 0.5rem; }
+  margin-right: 0.4375rem; }
 
 [type='file'] {
   width: 100%; }
@@ -1642,11 +1642,11 @@ label {
   line-height: 1.8;
   color: #0a0a0a; }
   label.middle {
-    margin: 0 0 1rem;
-    padding: 0.5625rem 0; }
+    margin: 0 0 0.875rem;
+    padding: 0.5rem 0; }
 
 .help-text {
-  margin-top: -0.5rem;
+  margin-top: -0.4375rem;
   font-size: 0.8125rem;
   font-style: italic;
   color: #0a0a0a; }
@@ -1654,7 +1654,7 @@ label {
 .input-group {
   display: table;
   width: 100%;
-  margin-bottom: 1rem; }
+  margin-bottom: 0.875rem; }
   .input-group > :first-child {
     border-radius: 0 0 0 0; }
   .input-group > :last-child > * {
@@ -1685,7 +1685,7 @@ label {
 
 .input-group-field {
   border-radius: 0;
-  height: 2.5rem; }
+  height: 2.3125rem; }
 
 .input-group-button {
   padding-top: 0;
@@ -1697,7 +1697,7 @@ label {
   .input-group-button input,
   .input-group-button button,
   .input-group-button label {
-    height: 2.5rem;
+    height: 2.3125rem;
     padding-top: 0;
     padding-bottom: 0;
     font-size: 1rem; }
@@ -1712,7 +1712,7 @@ fieldset {
 
 legend {
   max-width: 100%;
-  margin-bottom: 0.5rem; }
+  margin-bottom: 0.4375rem; }
 
 .fieldset {
   margin: 1.125rem 0;
@@ -1725,9 +1725,9 @@ legend {
     background: #fefefe; }
 
 select {
-  height: 2.4375rem;
-  margin: 0 0 1rem;
-  padding: 0.5rem;
+  height: 2.25rem;
+  margin: 0 0 0.875rem;
+  padding: 0.4375rem;
   appearance: none;
   border: 1px solid #cacaca;
   border-radius: 0;
@@ -1738,10 +1738,10 @@ select {
   color: #0a0a0a;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28138, 138, 138%29'></polygon></svg>");
   background-origin: content-box;
-  background-position: right -1rem center;
+  background-position: right -0.875rem center;
   background-repeat: no-repeat;
   background-size: 9px 6px;
-  padding-right: 1.5rem;
+  padding-right: 1.3125rem;
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out; }
   @media screen and (min-width: 0\0) {
     select {
@@ -1772,8 +1772,8 @@ select {
 
 .form-error {
   display: none;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
+  margin-top: -0.4375rem;
+  margin-bottom: 0.875rem;
   font-size: 0.75rem;
   font-weight: bold;
   color: #cc4b37; }
@@ -1784,7 +1784,7 @@ select {
   display: inline-block;
   vertical-align: middle;
   margin: 0 0 1rem 0;
-  padding: 0.85em 1em;
+  padding: 0.75em 0.9em;
   -webkit-appearance: none;
   border: 1px solid transparent;
   border-radius: 0;
@@ -1928,7 +1928,7 @@ select {
     top: 0.4em;
     display: inline-block;
     float: right;
-    margin-left: 1em; }
+    margin-left: 0.9em; }
   .button.arrow-only::after {
     top: -0.1em;
     float: none;
