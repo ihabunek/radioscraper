@@ -72,9 +72,9 @@ class PlaysView(ListView):
             qs = qs.filter(radio=self.radio)
 
         if self.artist:
-            qs = qs.filter(artist__iexact=self.artist)
+            qs = qs.filter(artist__unaccent__iexact=self.artist)
 
         if self.title:
-            qs = qs.filter(title__iexact=self.title)
+            qs = qs.filter(title__unaccent__iexact=self.title)
 
         return qs
