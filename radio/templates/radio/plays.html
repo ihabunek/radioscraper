@@ -4,10 +4,6 @@
 
 {% block title %}Plays{% endblock %}
 
-{% block after_title %}
-    {% if radio %}// {{ radio.name }}{% endif %}
-{% endblock %}
-
 {% block script %}
 <script src="{% static 'plays.js' %}" type="text/javascript"></script>
 {% endblock %}
@@ -22,13 +18,13 @@
                     <select data-radio-select name="radio" class="input-group-field">
                         <option value=""{% if not radio %} selected{% endif %}>--- All ---</option>
                         {% for r in radios %}
-                            <option value="{{ r.slug }}" {% if r == radio %}selected{% endif %}>
+                            <option value="{{ r.slug }}" {% if r.slug == radio %}selected{% endif %}>
                                 {{ r.name }}
                             </option>
                         {% endfor %}
                     </select>
                     <div class="input-group-button">
-                        <a href="#" data-clear-radio class="button">&times;</a>
+                        <a href="#" data-clear-field="radio" class="button">&times;</a>
                     </div>
                 </div>
                 <div class="input-group">

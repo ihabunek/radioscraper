@@ -75,18 +75,11 @@
 	    window.location.href = uri.toString();
 	};
 	
-	var clearSearch = function clearSearch(fields) {
-	    fields = fields || ["artist", "title"];
+	var clearSearch = function clearSearch(field) {
+	    var fields = field ? [field] : ["artist", "title", "radio"];
 	    var uri = new _urijs2.default();
 	    uri.removeQuery(["page"]);
 	    uri.removeQuery(fields);
-	    window.location.href = uri.toString();
-	};
-	
-	var goToPath = function goToPath(path) {
-	    var uri = new _urijs2.default();
-	    uri.removeQuery(["page"]);
-	    uri.pathname(path);
 	    window.location.href = uri.toString();
 	};
 	
@@ -103,7 +96,7 @@
 	
 	    (0, _jquery2.default)('a[data-radio]').click(function (e) {
 	        e.preventDefault();
-	        goToPath(playsPath + e.target.dataset.radio);
+	        searchWith({ "radio": e.target.dataset.radio });
 	    });
 	
 	    (0, _jquery2.default)('[data-clear-field]').click(function (e) {
@@ -113,22 +106,12 @@
 	
 	    (0, _jquery2.default)('[data-clear-all]').click(function (e) {
 	        e.preventDefault();
-	        window.location.href = playsPath;
+	        clearSearch();
 	    });
 	
 	    (0, _jquery2.default)('a[data-paging]').click(function (e) {
 	        e.preventDefault();
 	        searchWith({ "page": e.target.dataset.page });
-	    });
-	
-	    (0, _jquery2.default)('[data-radio-select]').change(function (e) {
-	        e.preventDefault();
-	        goToPath(playsPath + e.target.value);
-	    });
-	
-	    (0, _jquery2.default)('[data-clear-radio]').click(function (e) {
-	        e.preventDefault();
-	        goToPath(playsPath);
 	    });
 	});
 

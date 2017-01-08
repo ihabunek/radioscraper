@@ -10,18 +10,11 @@ const searchWith = (params) => {
     window.location.href = uri.toString()
 }
 
-const clearSearch = (fields) => {
-    fields =  fields || ["artist", "title"]
+const clearSearch = (field) => {
+    const fields =  field ? [field] : ["artist", "title", "radio"]
     const uri = new URI()
     uri.removeQuery(["page"])
     uri.removeQuery(fields)
-    window.location.href = uri.toString()
-}
-
-const goToPath = (path) => {
-    const uri = new URI()
-    uri.removeQuery(["page"])
-    uri.pathname(path)
     window.location.href = uri.toString()
 }
 
@@ -38,7 +31,7 @@ $(document).ready(() => {
 
     $('a[data-radio]').click(e => {
         e.preventDefault()
-        goToPath(playsPath + e.target.dataset.radio)
+        searchWith({ "radio": e.target.dataset.radio })
     })
 
     $('[data-clear-field]').click(e => {
@@ -48,21 +41,11 @@ $(document).ready(() => {
 
     $('[data-clear-all]').click(e => {
         e.preventDefault()
-        window.location.href = playsPath
+        clearSearch()
     })
 
     $('a[data-paging]').click(e => {
         e.preventDefault()
         searchWith({ "page": e.target.dataset.page })
-    })
-
-    $('[data-radio-select]').change(e => {
-        e.preventDefault()
-        goToPath(playsPath + e.target.value)
-    })
-
-    $('[data-clear-radio]').click(e => {
-        e.preventDefault()
-        goToPath(playsPath)
     })
 })
