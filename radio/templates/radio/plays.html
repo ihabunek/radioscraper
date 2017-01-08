@@ -12,7 +12,19 @@
 <div class="row column">
     <form class="search-plays-form" action=".">
         <div class="row">
-            <div class="small-12 medium-6 columns">
+            <div class="small-12 large-6 columns">
+
+                <!-- Pick date range -->
+                <div class="input-group time-span">
+                    <span class="input-group-label">Date</span>
+                    <input class="input-group-field" type="text" name="start" placeholder="Start" value="{{ start|date:'d.m.Y' }}" />
+                    <input class="input-group-field" type="text" name="end" placeholder="End" value="{{ end|date:'d.m.Y' }}" />
+                    <div class="input-group-button">
+                        <a href="#" data-clear-field="start,end" class="button">&times;</a>
+                    </div>
+                </div>
+
+                <!-- Pick radio -->
                 <div class="input-group">
                     <span class="input-group-label">Radio</span>
                     <select data-radio-select name="radio" class="input-group-field">
@@ -27,16 +39,20 @@
                         <a href="#" data-clear-field="radio" class="button">&times;</a>
                     </div>
                 </div>
+
+                <!-- Search artist -->
                 <div class="input-group">
                     <span class="input-group-label">Artist</span>
-                    <input name="artist" class="input-group-field" type="text" value="{{ artist|default:"" }}">
+                    <input name="artist" class="input-group-field" type="text" value="{{ artist|default:"" }}" placeholder="Search by artist">
                     <div class="input-group-button">
                         <a href="#" data-clear-field="artist" class="button">&times;</a>
                     </div>
                 </div>
+
+                <!-- Search title -->
                 <div class="input-group">
                     <span class="input-group-label">Title</span>
-                    <input name="title" class="input-group-field" type="text" value="{{ title|default:"" }}">
+                    <input name="title" class="input-group-field" type="text" value="{{ title|default:"" }}" placeholder="Search by title">
                     <div class="input-group-button">
                         <a href="#" data-clear-field="title" class="button">&times;</a>
                     </div>

@@ -2,7 +2,7 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic import TemplateView
-
+from datetime import datetime
 from radio.models import Radio, Play
 
 
@@ -46,10 +46,18 @@ class PlaysView(ListView):
     context_object_name = 'plays'
     paginate_by = 100
 
+    def _parse_date(self, value):
+        try:
+            return datetime.strptime(value, "%d.%m.%Y")
+        except:
+            return None
+
     def dispatch(self, *args, **kwargs):
         self.artist = self.request.GET.get('artist')
         self.title = self.request.GET.get('title')
         self.radio = self.request.GET.get('radio')
+        self.start = self._parse_date(self.request.GET.get('start'))
+        self.end = self._parse_date(self.request.GET.get('end'))
 
         return super(PlaysView, self).dispatch(*args, **kwargs)
 
@@ -60,6 +68,8 @@ class PlaysView(ListView):
             'radio': self.radio,
             'artist': self.artist,
             'title': self.title,
+            'start': self.start,
+            'end': self.end,
         })
         return context
 
@@ -74,5 +84,11 @@ class PlaysView(ListView):
 
         if self.title:
             qs = qs.filter(title__unaccent__iexact=self.title)
+
+        if self.start:
+            qs = qs.filter(timestamp__date__gte=self.start)
+
+        if self.end:
+            qs = qs.filter(timestamp__date__lte=self.end)
 
         return qs

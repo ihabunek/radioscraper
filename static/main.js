@@ -54,9 +54,17 @@
 	'use strict';
 	
 	__webpack_require__(2);
+	__webpack_require__(4);
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 3 */,
+/* 4 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

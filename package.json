@@ -7,6 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "foundation-sites": "^6.3.0",
+    "jquery-ui": "^1.12.1",
     "urijs": "^1.18.4"
   },
   "devDependencies": {
@@ -15,6 +16,7 @@
     "babel-preset-es2015": "^6.18.0",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
     "node-sass": "^4.1.1",
     "sass-loader": "^4.1.1",
     "webpack": "^1.14.0"
