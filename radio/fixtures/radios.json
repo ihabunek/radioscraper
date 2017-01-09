@@ -38,5 +38,13 @@
             "name": "Radio Student",
             "slug": "student"
         }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 6,
+        "fields": {
+            "name": "Yammat FM",
+            "slug": "yammat"
+        }
     }
 ]

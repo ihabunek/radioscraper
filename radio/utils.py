@@ -25,6 +25,9 @@ def get_current_song(slug):
     if slug == 'student':
         return _student()
 
+    if slug == 'yammat':
+        return _yammat()
+
     raise ValueError("Unknown radio '{}'".format(slug))
 
 
@@ -84,3 +87,21 @@ def _student():
         artist.strip().title(),
         title.strip().capitalize()
     ]
+
+
+def _yammat():
+    url = 'http://192.240.102.133:12430/played'
+    params = {
+        'sid': 1,
+        'type': 'json',
+        '_': datetime.now().timestamp(),
+    }
+
+    data = requests.get(url, params).json()
+    bits = data[0]['title'].split('-', 1)
+
+    # Some radio shows are in the feed, which are not songs
+    if len(bits) != 2:
+        return None
+
+    return [x.strip() for x in bits]
