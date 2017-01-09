@@ -126,3 +126,16 @@ if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
     INTERNAL_IPS = ['127.0.0.1']
+
+
+# sentry.io
+
+SENTRY_DSN = ENV_STR('SENTRY_DSN', None)
+
+if SENTRY_DSN:
+    import raven
+    INSTALLED_APPS += ['raven.contrib.django.raven_compat']
+    RAVEN_CONFIG = {
+        'dsn': SENTRY_DSN,
+        'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
+    }
