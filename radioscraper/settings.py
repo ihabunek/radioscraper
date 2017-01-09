@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
+import dj_database_url
 import os
 from .env import ENV_BOOL, ENV_STR
 
@@ -74,16 +75,7 @@ WSGI_APPLICATION = 'radioscraper.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': ENV_STR('DB_ENGINE', None),
-        'NAME': ENV_STR('DB_NAME', None),
-        'USER': ENV_STR('DB_USER', None),
-        'PASSWORD': ENV_STR('DB_PASSWORD', None),
-        'HOST': ENV_STR('DB_HOST', None),
-        'PORT': ENV_STR('DB_PORT', None),
-    }
-}
+DATABASES = {'default': dj_database_url.config()}
 
 
 # Password validation
