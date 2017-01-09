@@ -26,8 +26,10 @@ class Command(BaseCommand):
     def load_song(self, radio):
         try:
             self.stdout.write("\nLoading song for {}".format(radio.name))
-            artist, title = get_current_song(radio.slug)
-            self.save(radio, artist, title)
+            song = get_current_song(radio.slug)
+            if song:
+                artist, title = song
+                self.save(radio, artist, title)
         except Exception:
             self.stdout.write("#############################################")
             self.stdout.write("### Failed loading song. Check error log. ###")
