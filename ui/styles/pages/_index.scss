@@ -1,0 +1,13 @@
+#index-page {
+
+    .radio {
+        border: 1px solid $black;
+        margin-bottom: 1rem;
+        padding: 1rem;
+
+        &:hover {
+            background-color: $light-gray;
+            cursor: pointer;
+        }
+    }
+}

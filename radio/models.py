@@ -6,6 +6,9 @@ class Radio(models.Model):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
 
+    def first_play(self):
+        return self.play_set.order_by('timestamp').first()
+
     def __str__(self):
         return '<Radio "{}">'.format(self.name)
 

@@ -3,8 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
-<div class="row column">
+<div id="index-page" class="row column">
     <h1>Radio scraper</h1>
 
     <p>Collecting radio playlists for no particular reason.</p>
@@ -13,5 +12,17 @@
         <a href="{% url 'radio:plays' %}">List plays</a> ·
         <a href="{% url 'radio:stats' %}">Statistics</a>
     </p>
+
+    <div class="row small-up-1 medium-up-2 large-up-4">
+        {% for radio in radios %}
+        <div class="column">
+            <div class="radio" data-radio-link="{{ radio.slug }}">
+                <h5>{{ radio.name }}</h5>
+                Plays: {{ radio.play_set.count }}<br />
+                Since: {{ radio.first_play.timestamp|date:"d.m.Y" }}<br />
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
