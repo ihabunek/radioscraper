@@ -1,5 +1,6 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -9,7 +10,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, 'static'),
-        filename: '[name].js'
+        filename: '[name].min.js'
     },
     module: {
         loaders: [{
@@ -32,6 +33,14 @@ module.exports = {
     },
     devtool: 'source-map',
     plugins: [
-        new ExtractTextPlugin("styles.css")
+        new ExtractTextPlugin("styles.css"),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "commons"
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
     ]
 }
