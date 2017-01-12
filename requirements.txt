@@ -4,3 +4,4 @@ psycopg2==2.6.2
 beautifulsoup4==4.5.3
 dj-database-url==0.4.2
 raven==5.32.0
+python-dateutil==2.6.0

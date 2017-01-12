@@ -3,6 +3,8 @@
 
 @include foundation-everything();
 
+@import "pages/stats";
+
 .no-wrap {
     white-space: nowrap;
 }

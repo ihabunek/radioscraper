@@ -2,8 +2,9 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic import TemplateView
-from datetime import datetime
+from datetime import datetime, date
 from radio.models import Radio, Play
+from dateutil.relativedelta import relativedelta
 
 
 class IndexView(TemplateView):
@@ -14,10 +15,29 @@ class StatsView(TemplateView):
     template_name = 'radio/stats.html'
     radio = None
 
+    def get_month_year(self):
+        today = date.today()
+        default = [today.year, today.month]
+
+        try:
+            year = int(self.request.GET.get('year'))
+            month = int(self.request.GET.get('month'))
+        except:
+            return default
+
+        if year < 2000 or year > today.year or month < 1 or month > 12:
+            return default
+
+        return [year, month]
+
     def dispatch(self, *args, **kwargs):
         radio_slug = self.kwargs.get('radio_slug')
         if radio_slug:
             self.radio = get_object_or_404(Radio, slug=radio_slug)
+
+        self.year, self.month = self.get_month_year()
+        self.start = date(self.year, self.month, 1)
+        self.end = self.start + relativedelta(months=1)
 
         return super(StatsView, self).dispatch(*args, **kwargs)
 
@@ -26,6 +46,10 @@ class StatsView(TemplateView):
 
         if self.radio:
             qs = qs.filter(radio=self.radio)
+
+        # Limit to one month
+        qs = qs.filter(timestamp__date__gte=self.start)
+        qs = qs.filter(timestamp__date__lt=self.end)
 
         top_plays = qs.order_by('-count')[:20]
         bottom_plays = qs.order_by('count')[:20]
@@ -36,6 +60,8 @@ class StatsView(TemplateView):
             "radios": Radio.objects.all().order_by("name"),
             "top_plays": top_plays,
             "bottom_plays": bottom_plays,
+            "month": self.month,
+            "year": self.year,
         })
         return context
 

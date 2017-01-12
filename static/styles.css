@@ -3796,6 +3796,14 @@ a.thumbnail {
 .clearfix::after {
   clear: both; }
 
+#stats-page .button.hollow {
+  width: 5rem; }
+
+#stats-page .time-selectors {
+  display: flex; }
+  #stats-page .time-selectors div {
+    margin-right: 1rem; }
+
 .no-wrap {
   white-space: nowrap; }
 

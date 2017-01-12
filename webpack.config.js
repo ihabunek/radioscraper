@@ -5,6 +5,7 @@ module.exports = {
     entry: {
         "main": ['./ui/scripts/main.jsx'],
         "plays": ['./ui/scripts/plays.jsx'],
+        "stats": ['./ui/scripts/stats.jsx'],
     },
     output: {
         path: path.join(__dirname, 'static'),
