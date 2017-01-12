@@ -2,6 +2,7 @@ import requests
 
 from bs4 import BeautifulSoup
 from datetime import datetime
+from xml.etree import ElementTree
 
 
 def get_current_song(slug):
@@ -28,7 +29,17 @@ def get_current_song(slug):
     if slug == 'yammat':
         return _yammat()
 
+    if slug == 'martin':
+        return _martin()
+
+    if slug == 'hrt2':
+        return _hrt2()
+
     raise ValueError("Unknown radio '{}'".format(slug))
+
+
+def _timestamp():
+    return int(datetime.now().timestamp() * 1000)
 
 
 def _prvi(slug):
@@ -46,7 +57,9 @@ def _prvi(slug):
 
 def _radio101():
     url = 'http://www.radio101.hr/generated/radio_playlist.json'
-    params = {"request.preventCache": datetime.now().timestamp()}
+    params = {
+        "request.preventCache": _timestamp
+    }
 
     response = requests.get(url, params)
     data = response.json()
@@ -105,3 +118,40 @@ def _yammat():
         return None
 
     return [x.strip() for x in bits]
+
+
+def _martin():
+    url = 'http://radio-martin.hr/onAir.php'
+    bits = requests.get(url).text.split('-', 1)
+
+    if len(bits) != 2:
+        return None
+
+    artist, title = bits
+
+    return [
+        artist.strip().title(),
+        title.strip().capitalize()
+    ]
+
+
+def _hrt2():
+    url = 'http://np.tritondigital.com/public/nowplaying'
+    params = {
+        'mountName': 'PROGRAM2',
+        'numberToFetch': 10,
+        'eventType': 'track,',
+        'request.preventCache': _timestamp(),
+    }
+
+    data = requests.get(url, params).text
+    root = ElementTree.fromstring(data)
+
+    for item in root.findall('nowplaying-info'):
+        timestamp, title, artist = [i.text for i in item.findall('property')]
+
+        if title != 'HRVATSKI RADIO':  # returned when no song is playing
+            return [
+                artist.strip().title(),
+                title.strip().capitalize()
+            ]

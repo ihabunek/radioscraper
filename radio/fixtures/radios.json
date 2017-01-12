@@ -46,5 +46,21 @@
             "name": "Yammat FM",
             "slug": "yammat"
         }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 7,
+        "fields": {
+            "name": "Radio Martin",
+            "slug": "martin"
+        }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 8,
+        "fields": {
+            "name": "HRT2",
+            "slug": "hrt2"
+        }
     }
 ]
