@@ -3,5 +3,5 @@ from radio.models import Radio
 
 def radios(request):
     return {
-        "radios": Radio.objects.all()
+        "radios": Radio.objects.all().order_by('name')
     }
