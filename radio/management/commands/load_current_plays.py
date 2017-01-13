@@ -3,7 +3,7 @@ import traceback
 from django.core.management.base import BaseCommand
 from django.utils import timezone as tz
 from radio.models import Radio, Play
-from radio.utils import get_current_song
+from radio.utils.loaders import get_current_song
 
 
 class Command(BaseCommand):
