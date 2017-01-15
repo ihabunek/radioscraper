@@ -1,12 +1,19 @@
 #stats-page {
     .button.hollow {
-        width: 5rem;
+        width: rem;
     }
+
     .time-selectors {
         display: flex;
 
         div {
             margin-right: 1rem;
+        }
+    }
+
+    table.stats-table {
+        small {
+            font-weight: normal;
         }
     }
 }

@@ -45,43 +45,53 @@
 
     <h3>Stats</h3>
 
-    <table>
+    <table class="stats-table not-wide">
         <tr>
-            <th>Radio</th>
-            <th>Distinct songs</th>
-            <th>Played once</th>
-            <th>Played multiple</th>
-            <th>Repeated on avg</th>
+            <th>Total songs played</th>
+            <td>{{ play_count }}</td>
         </tr>
-        {% for replay in repeated %}
-        {% if not radio or replay.radio_id == radio.id %}
-            <tr>
-                <td>{{ replay.radio_name }}</td>
-                <td>{{ replay.distinct_song_count }}</td>
-                <td>{{ replay.single_play_song_count }}</td>
-                <td>{{ replay.repeated_song_count }}</td>
-                <td>{{ replay.avg_repetitions|floatformat }}</td>
-            </tr>
-        {% endif %}
-        {% endfor %}
+        <tr>
+            <th>Distinct songs played</th>
+            <td>{{ repeated.distinct_song_count }}</td>
+        </tr>
+        <tr>
+            <th>Repeated songs<br /><small>Songs played multiple times</small></th>
+            <td>{{ repeated.repeated_song_count }}</td>
+        </tr>
+        <tr>
+            <th>
+                Single plays<br />
+                <small>Songs played only once</small>
+            </th>
+            <td>{{ repeated.single_play_song_count }}</td>
+        </tr>
+        <tr>
+            <th>
+                Most played daily<br />
+                <small>Most repeated song in a single day</small>
+            </th>
+            <td>
+                {% with mrp=most_played_daily %}
+                    {{ mrp.artist }} - {{ mrp.title }}<br />
+                    <small>played {{ mrp.count }} times on {{ mrp.day|date }}</small>
+                {% endwith %}
+            </td>
+        </tr>
     </table>
 
-
-    {% if top_plays %}
-    <h3>Top 20</h3>
+    {% if most_played %}
+    <h3>Top 30</h3>
 
     <table class="hover">
         <tr>
-            <th>Rank</th>
-            <th class="text-left">Artist</th>
-            <th class="text-left">Title</th>
-            <th>Played</th>
+            <th class="text-center">Rank</th>
+            <th>Song</th>
+            <th class="text-center">Played</th>
         </tr>
-        {% for play in top_plays %}
+        {% for play in most_played %}
         <tr>
-            <td>#{{ forloop.counter }}</td>
-            <td>{{ play.artist }}</td>
-            <td>{{ play.title }}</td>
+            <td class="text-center">#{{ forloop.counter }}</td>
+            <td>{{ play.artist }} - {{ play.title }}</td>
             <td class="text-center">{{ play.count }}</td>
         </tr>
         {% endfor %}
