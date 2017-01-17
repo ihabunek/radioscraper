@@ -79,23 +79,52 @@
         </tr>
     </table>
 
-    {% if most_played %}
-    <h3>Top 30</h3>
+    {% if most_played_songs or most_played_artists %}
+    <div class="row">
 
-    <table class="hover">
-        <tr>
-            <th class="text-center">Rank</th>
-            <th>Song</th>
-            <th class="text-center">Played</th>
-        </tr>
-        {% for play in most_played %}
-        <tr>
-            <td class="text-center">#{{ forloop.counter }}</td>
-            <td>{{ play.artist }} - {{ play.title }}</td>
-            <td class="text-center">{{ play.count }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        {% if most_played_songs %}
+        <div class="small-12 large-6 columns">
+            <h3>Top 30 songs</h3>
+
+            <table class="hover">
+                <tr>
+                    <th class="text-center">Rank</th>
+                    <th>Song</th>
+                    <th class="text-center">Played</th>
+                </tr>
+                {% for play in most_played_songs %}
+                <tr>
+                    <td class="text-center">#{{ forloop.counter }}</td>
+                    <td>{{ play.artist }} - {{ play.title }}</td>
+                    <td class="text-center">{{ play.count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% if most_played_artists %}
+        <div class="small-12 large-6 columns">
+            <h3>Top 30 artists</h3>
+
+            <table class="hover">
+                <tr>
+                    <th class="text-center">Rank</th>
+                    <th>Artist</th>
+                    <th class="text-center">Played</th>
+                </tr>
+                {% for play in most_played_artists %}
+                <tr>
+                    <td class="text-center">#{{ forloop.counter }}</td>
+                    <td>{{ play.artist }}</td>
+                    <td class="text-center">{{ play.count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+    </div>
     {% else %}
     <p>No data exists for this period.</p>
     {% endif %}

@@ -22,7 +22,7 @@ class Radio(models.Model):
 
         return qs
 
-    def most_played(self, start=None, end=None):
+    def most_played_songs(self, start=None, end=None):
         return (self.plays(start, end)
                     .values('radio_id', 'artist', 'title')
                     .annotate(count=Count('*'))
@@ -32,6 +32,12 @@ class Radio(models.Model):
         return (self.plays(start, end)
                     .annotate(day=TruncDay('timestamp'))
                     .values('radio_id', 'artist', 'title', 'day')
+                    .annotate(count=Count('*'))
+                    .order_by("-count"))
+
+    def most_played_artists(self, start=None, end=None):
+        return (self.plays(start, end)
+                    .values('artist')
                     .annotate(count=Count('*'))
                     .order_by("-count"))
 

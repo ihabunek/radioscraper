@@ -47,7 +47,8 @@ class RadioStatsView(TemplateView):
             "radio": radio,
             "month": month,
             "year": year,
-            "most_played": radio.most_played(start, end)[:30],
+            "most_played_songs": radio.most_played_songs(start, end)[:30],
+            "most_played_artists": radio.most_played_artists(start, end)[:30],
             "most_played_daily": radio.most_played_daily(start, end).first()
         })
         return context
