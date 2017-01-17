@@ -11,9 +11,15 @@
         }
     }
 
-    table.stats-table {
-        small {
-            font-weight: normal;
+    .song-stats-table,
+    .artist-stats-table {
+        td {
+            width: 13%;
+
+            &:first-child {
+                width: 22%;
+                white-space: nowrap;
+            }
         }
     }
 }

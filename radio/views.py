@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, TemplateView
 
 from radio.models import Radio, Play
-from radio.utils.stats import get_repeated_plays
+from radio.utils.stats import get_song_stats, get_artist_stats
 
 
 class IndexView(TemplateView):
@@ -42,7 +42,8 @@ class RadioStatsView(TemplateView):
 
         context = super().get_context_data(**kwargs)
         context.update({
-            "repeated": get_repeated_plays(start, end, radio.id),
+            "song_stats": get_song_stats(start, end, radio.id),
+            "artist_stats": get_artist_stats(start, end, radio.id),
             "play_count": radio.plays(start, end).count(),
             "radio": radio,
             "month": month,
@@ -62,17 +63,28 @@ class StatsView(TemplateView):
         start = date(year, month, 1)
         end = start + relativedelta(months=1)
 
-        top_plays = (Play.objects.all()
-            .values('artist', 'title')
-            .annotate(count=Count('*'))
-            .filter(timestamp__date__gte=start)
-            .filter(timestamp__date__lt=end)
-            .order_by('-count'))[:20]
+        most_played_songs = (
+            Play.objects.all()
+                        .values('artist', 'title')
+                        .annotate(count=Count('*'))
+                        .filter(timestamp__date__gte=start)
+                        .filter(timestamp__date__lt=end)
+                        .order_by('-count'))[:30]
+
+        most_played_artists = (
+            Play.objects.all()
+                        .values('artist')
+                        .annotate(count=Count('*'))
+                        .filter(timestamp__date__gte=start)
+                        .filter(timestamp__date__lt=end)
+                        .order_by('-count'))[:30]
 
         context = super().get_context_data(**kwargs)
         context.update({
-            "repeated": get_repeated_plays(start, end),
-            "top_plays": top_plays,
+            "song_stats": get_song_stats(start, end),
+            "artist_stats": get_artist_stats(start, end),
+            "most_played_songs": most_played_songs,
+            "most_played_artists": most_played_artists,
             "month": month,
             "year": year,
         })

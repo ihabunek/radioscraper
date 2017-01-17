@@ -43,41 +43,70 @@
         </div>
     </div>
 
-    <h3>Stats</h3>
+    <div class="row">
+        <div class="small-12 large-6 columns">
+            <h4>Song stats</h4>
 
-    <table class="stats-table not-wide">
-        <tr>
-            <th>Total songs played</th>
-            <td>{{ play_count }}</td>
-        </tr>
-        <tr>
-            <th>Distinct songs played</th>
-            <td>{{ repeated.distinct_song_count }}</td>
-        </tr>
-        <tr>
-            <th>Repeated songs<br /><small>Songs played multiple times</small></th>
-            <td>{{ repeated.repeated_song_count }}</td>
-        </tr>
-        <tr>
-            <th>
-                Single plays<br />
-                <small>Songs played only once</small>
-            </th>
-            <td>{{ repeated.single_play_song_count }}</td>
-        </tr>
-        <tr>
-            <th>
-                Most played daily<br />
-                <small>Most repeated song in a single day</small>
-            </th>
-            <td>
-                {% with mrp=most_played_daily %}
-                    {{ mrp.artist }} - {{ mrp.title }}<br />
-                    <small>played {{ mrp.count }} times on {{ mrp.day|date }}</small>
-                {% endwith %}
-            </td>
-        </tr>
-    </table>
+            <table class="stats-table hover">
+                <tr>
+                    <th>Total songs played</th>
+                    <td>{{ play_count }}</td>
+                </tr>
+                <tr>
+                    <th>Distinct songs played</th>
+                    <td>{{ song_stats.distinct_count }}</td>
+                </tr>
+                <tr>
+                    <th>Songs played multiple times</th>
+                    <td>
+                        {{ song_stats.repeated_count }}
+                        ({{ song_stats.repeated_perc|floatformat }}%)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Songs played only once</th>
+                    <td>
+                        {{ song_stats.single_play_count }}
+                        ({{ song_stats.single_play_perc|floatformat }}%)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Most repeated song<br />in a single day
+                    </th>
+                    <td>
+                        {% with mrp=most_played_daily %}
+                            {{ mrp.artist }} - {{ mrp.title }}<br />
+                            <small>played {{ mrp.count }} times on {{ mrp.day|date }}</small>
+                        {% endwith %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="small-12 large-6 columns">
+            <h4>Artist stats</h4>
+
+            <table class="stats-table hover">
+                <tr>
+                    <th>Distinct artists played</th>
+                    <td>{{ artist_stats.distinct_count }}</td>
+                </tr>
+                <tr>
+                    <th>Played multiple times</th>
+                    <td>
+                        {{ artist_stats.repeated_count }}
+                        ({{ artist_stats.repeated_perc|floatformat }}%)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Played only once</th>
+                    <td>
+                        {{ artist_stats.single_play_count }}
+                        ({{ artist_stats.single_play_perc|floatformat }}%)
+                </tr>
+            </table>
+        </div>
+    </div>
 
     {% if most_played_songs or most_played_artists %}
     <div class="row">
@@ -90,7 +119,7 @@
                 <tr>
                     <th class="text-center">Rank</th>
                     <th>Song</th>
-                    <th class="text-center">Played</th>
+                    <th class="text-center">Plays</th>
                 </tr>
                 {% for play in most_played_songs %}
                 <tr>
@@ -111,7 +140,7 @@
                 <tr>
                     <th class="text-center">Rank</th>
                     <th>Artist</th>
-                    <th class="text-center">Played</th>
+                    <th class="text-center">Plays</th>
                 </tr>
                 {% for play in most_played_artists %}
                 <tr>
