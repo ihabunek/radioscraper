@@ -64,10 +64,13 @@ def _radio101():
     response = requests.get(url, params)
     data = response.json()
 
-    return [
+    author, title = [
         data[0]['author'],
         data[0]['title'],
     ]
+
+    if author and title:
+        return [author, title]
 
 
 def _otvoreni():
