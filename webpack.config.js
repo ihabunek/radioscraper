@@ -32,6 +32,11 @@ module.exports = {
         }]
     },
     devtool: 'source-map',
+    resolve: {
+        alias: {
+            jquery: "jquery/src/jquery"
+        }
+    },
     plugins: [
         new ExtractTextPlugin("styles.css"),
         new webpack.optimize.CommonsChunkPlugin({
@@ -41,6 +46,10 @@ module.exports = {
             compress: {
                 warnings: false
             }
+        }),
+        new webpack.ProvidePlugin({
+            jQuery: "jquery",
+            $: "jquery",
         }),
     ]
 }

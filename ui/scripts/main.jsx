@@ -11,10 +11,9 @@ $(document).ready(() => {
     // Radio links
     $("[data-radio-link]").click(e => {
         const slug = e.target.dataset.radioLink
-        window.location.href = playsPath + "?radio=" + slug;
+        window.location.href = playsPath + "?radio=" + slug
         e.preventDefault()
     })
-
 
 })
 
