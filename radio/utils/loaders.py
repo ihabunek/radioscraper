@@ -35,6 +35,9 @@ def get_current_song(slug):
     if slug == 'hrt2':
         return _hrt2()
 
+    if slug == 'sljeme':
+        return _sljeme()
+
     raise ValueError("Unknown radio '{}'".format(slug))
 
 
@@ -138,10 +141,10 @@ def _martin():
     ]
 
 
-def _hrt2():
+def _hrt(name):
     url = 'http://np.tritondigital.com/public/nowplaying'
     params = {
-        'mountName': 'PROGRAM2',
+        'mountName': name,
         'numberToFetch': 10,
         'eventType': 'track,',
         'request.preventCache': _timestamp(),
@@ -158,3 +161,11 @@ def _hrt2():
                 artist.strip().title(),
                 title.strip().capitalize()
             ]
+
+
+def _hrt2():
+    return _hrt('PROGRAM2')
+
+
+def _sljeme():
+    return _hrt('SLJEME')
