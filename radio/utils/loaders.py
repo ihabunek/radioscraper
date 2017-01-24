@@ -17,6 +17,12 @@ def get_current_song(slug):
     if slug == 'gold':
         return _prvi('gold')
 
+    if slug == 'enter':
+        return _prvi('enter')
+
+    if slug == 'narodni':
+        return _prvi('narodni')
+
     if slug == 'radio101':
         return _radio101()
 

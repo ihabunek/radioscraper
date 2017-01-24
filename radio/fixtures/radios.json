@@ -70,5 +70,21 @@
             "name": "Radio Sljeme",
             "slug": "sljeme"
         }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 10,
+        "fields": {
+            "name": "Enter ZG",
+            "slug": "enter"
+        }
+    },
+    {
+        "model": "radio.Radio",
+        "pk": 11,
+        "fields": {
+            "name": "Narodni Radio",
+            "slug": "narodni"
+        }
     }
 ]
