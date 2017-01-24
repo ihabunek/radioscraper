@@ -4,9 +4,17 @@ from django.db.models.functions.datetime import TruncDay
 from django.db.models.deletion import PROTECT
 
 
+class RadioManager(models.Manager):
+    def active(self):
+        return self.filter(active=True)
+
+
 class Radio(models.Model):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
+    active = models.BooleanField(default=True)
+
+    objects = RadioManager()
 
     def first_play(self):
         return self.play_set.order_by('timestamp').first()
