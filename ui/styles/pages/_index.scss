@@ -5,6 +5,14 @@
         margin-bottom: 1rem;
         padding: 1rem;
 
+        p {
+            font-size: 0.9rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
         &:hover {
             background-color: $light-gray;
             cursor: pointer;

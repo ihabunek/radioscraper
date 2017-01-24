@@ -11,6 +11,9 @@ class Radio(models.Model):
     def first_play(self):
         return self.play_set.order_by('timestamp').first()
 
+    def last_play(self):
+        return self.play_set.order_by('-timestamp').first()
+
     def plays(self, start=None, end=None):
         qs = self.play_set
 
