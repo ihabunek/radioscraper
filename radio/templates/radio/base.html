@@ -1,13 +1,21 @@
 {% extends "radio/superbase.html" %}
 
 {% block body %}
-    <div class="header">
-        <div class="row column">
-            <h1>
-                <a href="/">Radio scraper</a> //
-                {% block title %}{% endblock %}
-                {% block after_title %}{% endblock %}
-            </h1>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+                <li>
+                    <a href="{% url 'radio:index' %}">Radio Scraper</a>
+                </li>
+                <li class="separator">//</li>
+                <li>
+                    <a href="{% url 'radio:plays' %}">Plays</a>
+                </li>
+                <li class="separator">//</li>
+                <li>
+                    <a href="{% url 'radio:stats' %}">Stats</a>
+                </li>
+            </ul>
         </div>
     </div>
 

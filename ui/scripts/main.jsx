@@ -4,7 +4,7 @@ require('../styles/app.scss')
 require('jquery-ui/themes/base/datepicker.css')
 
 import $ from 'jquery'
-
+import 'foundation-sites/dist/js/foundation'
 
 $(document).ready(() => {
 
@@ -15,6 +15,8 @@ $(document).ready(() => {
         e.preventDefault()
     })
 
+    // Kickstart Foundation JS
+    $(document).foundation()
 })
 
 /* global window document playsPath */
