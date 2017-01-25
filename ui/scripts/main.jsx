@@ -10,7 +10,7 @@ $(document).ready(() => {
 
     // Radio links
     $("[data-radio-link]").click(e => {
-        const slug = e.target.dataset.radioLink
+        const slug = e.currentTarget.dataset.radioLink
         window.location.href = playsPath + "?radio=" + slug
         e.preventDefault()
     })
