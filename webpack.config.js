@@ -9,7 +9,7 @@ module.exports = {
         "stats": ['./ui/scripts/stats.jsx'],
     },
     output: {
-        path: path.join(__dirname, 'static'),
+        path: path.join(__dirname, 'ui/dist'),
         filename: '[name].min.js'
     },
     module: {

@@ -117,11 +117,17 @@ DATE_FORMAT = '%d.%m.%Y'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+# URL to use when referring to static files located in STATIC_ROOT.
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# Additional locations the staticfiles app will traverse.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'ui/dist'),
+]
+
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {

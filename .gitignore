@@ -1,6 +1,7 @@
 /.env
 /_env/
 /tmp/
+/static/
 /node_modules/
 /*.sublime-project
 /*.sublime-workspace
