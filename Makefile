@@ -1,4 +1,4 @@
-default : 
+default :
 	node_modules/.bin/webpack
 
 watch :
@@ -6,4 +6,10 @@ watch :
 
 clean :
 	rm -rf static/*
+
+shell :
+	python manage.py shell_plus --ipython
+
+server :
+	python manage.py runserver
 
