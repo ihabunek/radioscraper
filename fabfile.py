@@ -1,8 +1,9 @@
-from fabric.api import run, cd, env
+from fabric.api import run, cd, env, local
 
 env.hosts = ['radio.bezdomni.net']
 
 PROJECT_HOME = '/home/ihabunek/projects/radioscraper'
+DUMP_FILE = "/tmp/radioscraper-$(date +%Y-%m-%d).sql"
 
 
 def deploy():
@@ -13,3 +14,21 @@ def deploy():
         run("source .env; _env/bin/python manage.py loaddata radios.json")
         run("source .env; _env/bin/python manage.py collectstatic --clear --no-input")
         run("sudo service radioscraper reload")
+
+
+def refresh_db():
+    # Recreate the database locally
+    local("dropdb --if-exists radioscraper")
+    local("createdb radioscraper")
+
+    # Make dump on host
+    run("rm -f {}".format(DUMP_FILE))
+    run("pg_dump -d radioscraper --no-owner > {}".format(DUMP_FILE))
+
+    # Fetch dump and restore
+    local("scp bigfish:{0} {0}".format(DUMP_FILE))
+    local("psql -d radioscraper < {}".format(DUMP_FILE))
+
+    # Cleanup
+    run("rm -f {}".format(DUMP_FILE))
+    local("rm -f {}".format(DUMP_FILE))
