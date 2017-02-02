@@ -35,20 +35,20 @@ class Radio(models.Model):
 
     def most_played_songs(self, start=None, end=None):
         return (self.plays(start, end)
-                    .values('radio_id', 'artist', 'title')
+                    .values('radio_id', 'artist_name', 'title')
                     .annotate(count=Count('*'))
                     .order_by("-count"))
 
     def most_played_daily(self, start=None, end=None):
         return (self.plays(start, end)
                     .annotate(day=TruncDay('timestamp'))
-                    .values('radio_id', 'artist', 'title', 'day')
+                    .values('radio_id', 'artist_name', 'title', 'day')
                     .annotate(count=Count('*'))
                     .order_by("-count"))
 
     def most_played_artists(self, start=None, end=None):
         return (self.plays(start, end)
-                    .values('artist')
+                    .values('artist_name')
                     .annotate(count=Count('*'))
                     .order_by("-count"))
 
@@ -58,7 +58,7 @@ class Radio(models.Model):
 
 class Play(models.Model):
     radio = models.ForeignKey(Radio, PROTECT)
-    artist = models.CharField(max_length=255)
+    artist_name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
 

@@ -43,9 +43,9 @@
                 <!-- Search artist -->
                 <div class="input-group">
                     <span class="input-group-label">Artist</span>
-                    <input name="artist" class="input-group-field" type="text" value="{{ artist|default:"" }}" placeholder="Search by artist">
+                    <input name="artist_name" class="input-group-field" type="text" value="{{ artist_name|default:"" }}" placeholder="Search by artist">
                     <div class="input-group-button">
-                        <a href="#" data-clear-field="artist" class="button">&times;</a>
+                        <a href="#" data-clear-field="artist_name" class="button">&times;</a>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@
                 <a data-radio="{{ play.radio.slug }}" href="#">{{ play.radio.name }}</a>
             </td>
             <td>
-                <a data-artist="{{ play.artist }}" href="#">{{ play.artist }}</a>
+                <a data-artist="{{ play.artist_name }}" href="#">{{ play.artist_name }}</a>
             </td>
             <td>
                 <a data-title="{{ play.title }}" href="#">{{ play.title }}</a>

@@ -65,7 +65,7 @@ class StatsView(TemplateView):
 
         most_played_songs = (
             Play.objects.all()
-                        .values('artist', 'title')
+                        .values('artist_name', 'title')
                         .annotate(count=Count('*'))
                         .filter(timestamp__date__gte=start)
                         .filter(timestamp__date__lt=end)
@@ -73,7 +73,7 @@ class StatsView(TemplateView):
 
         most_played_artists = (
             Play.objects.all()
-                        .values('artist')
+                        .values('artist_name')
                         .annotate(count=Count('*'))
                         .filter(timestamp__date__gte=start)
                         .filter(timestamp__date__lt=end)
@@ -104,7 +104,7 @@ class PlaysView(ListView):
             return None
 
     def dispatch(self, *args, **kwargs):
-        self.artist = self.request.GET.get('artist')
+        self.artist_name = self.request.GET.get('artist_name')
         self.title = self.request.GET.get('title')
         self.radio = self.request.GET.get('radio')
         self.start = self._parse_date(self.request.GET.get('start'))
@@ -116,7 +116,7 @@ class PlaysView(ListView):
         context = super(PlaysView, self).get_context_data(**kwargs)
         context.update({
             'radio': self.radio,
-            'artist': self.artist,
+            'artist_name': self.artist_name,
             'title': self.title,
             'start': self.start,
             'end': self.end,
@@ -129,8 +129,8 @@ class PlaysView(ListView):
         if self.radio:
             qs = qs.filter(radio__slug=self.radio)
 
-        if self.artist:
-            qs = qs.filter(artist__unaccent__iexact=self.artist)
+        if self.artist_name:
+            qs = qs.filter(artist_name__unaccent__iexact=self.artist_name)
 
         if self.title:
             qs = qs.filter(title__unaccent__iexact=self.title)

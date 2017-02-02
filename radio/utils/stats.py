@@ -5,10 +5,10 @@ def get_song_stats(start, end, radio_id=None):
 
     sql = """
         WITH plays AS (
-           SELECT radio_id, artist, title, count(*) AS count
+           SELECT radio_id, artist_name, title, count(*) AS count
             FROM radio_play
            WHERE timestamp BETWEEN %s AND %s %RADIO%
-        GROUP BY radio_id, artist, title
+        GROUP BY radio_id, artist_name, title
         )
         SELECT radio_id,
                r.name AS radio_name,
@@ -45,10 +45,10 @@ def get_artist_stats(start, end, radio_id=None):
 
     sql = """
         WITH plays AS (
-           SELECT radio_id, artist, count(*) AS count
+           SELECT radio_id, artist_name, count(*) AS count
             FROM radio_play
            WHERE timestamp BETWEEN %s AND %s %RADIO%
-        GROUP BY radio_id, artist
+        GROUP BY radio_id, artist_name
         )
         SELECT radio_id,
                r.name AS radio_name,

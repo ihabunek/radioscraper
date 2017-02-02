@@ -76,7 +76,7 @@
                     </th>
                     <td>
                         {% with mrp=most_played_daily %}
-                            {{ mrp.artist }} - {{ mrp.title }}<br />
+                            {{ mrp.artist_name }} - {{ mrp.title }}<br />
                             <small>played {{ mrp.count }} times on {{ mrp.day|date }}</small>
                         {% endwith %}
                     </td>
@@ -124,7 +124,7 @@
                 {% for play in most_played_songs %}
                 <tr>
                     <td class="text-center">#{{ forloop.counter }}</td>
-                    <td>{{ play.artist }} - {{ play.title }}</td>
+                    <td>{{ play.artist_name }} - {{ play.title }}</td>
                     <td class="text-center">{{ play.count }}</td>
                 </tr>
                 {% endfor %}
@@ -145,7 +145,7 @@
                 {% for play in most_played_artists %}
                 <tr>
                     <td class="text-center">#{{ forloop.counter }}</td>
-                    <td>{{ play.artist }}</td>
+                    <td>{{ play.artist_name }}</td>
                     <td class="text-center">{{ play.count }}</td>
                 </tr>
                 {% endfor %}

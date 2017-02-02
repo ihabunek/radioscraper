@@ -111,7 +111,7 @@
                 {% for play in most_played_songs %}
                 <tr>
                     <td>#{{ forloop.counter }}</td>
-                    <td>{{ play.artist }}</td>
+                    <td>{{ play.artist_name }}</td>
                     <td>{{ play.title }}</td>
                     <td class="text-center">{{ play.count }}</td>
                 </tr>
@@ -133,7 +133,7 @@
                 {% for play in most_played_artists %}
                 <tr>
                     <td>#{{ forloop.counter }}</td>
-                    <td>{{ play.artist }}</td>
+                    <td>{{ play.artist_name }}</td>
                     <td class="text-center">{{ play.count }}</td>
                 </tr>
                 {% endfor %}

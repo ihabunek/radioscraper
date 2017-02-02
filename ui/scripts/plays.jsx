@@ -12,7 +12,7 @@ const searchWith = (params) => {
 }
 
 const clearSearch = (fields) => {
-    fields =  fields ? fields : ["artist", "title", "radio", "start", "end"]
+    fields =  fields ? fields : ["artist_name", "title", "radio", "start", "end"]
 
     const uri = new URI()
     uri.removeQuery(["page"])
@@ -23,7 +23,7 @@ const clearSearch = (fields) => {
 $(document).ready(() => {
     $('a[data-artist]').click(e => {
         e.preventDefault()
-        searchWith({ "artist": e.target.dataset.artist })
+        searchWith({ "artist_name": e.target.dataset.artist })
     })
 
     $('a[data-title]').click(e => {
