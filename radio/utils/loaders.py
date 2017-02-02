@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from xml.etree import ElementTree
+from radio.utils.normalize import split_artist_title
 
 
 def get_current_song(slug):
@@ -99,19 +100,9 @@ def _otvoreni():
 def _student():
     url = 'http://www.radiostudent.hr/wp-admin/admin-ajax.php?action=rsplaylist_api'
     data = requests.get(url).json()
+    artist_title = data['rows'][0]['played_song']
 
-    bits = data['rows'][0]['played_song'].split('-', 1)
-
-    # Some radio shows are in the feed, which are not songs
-    if len(bits) != 2:
-        return None
-
-    artist, title = bits
-
-    return [
-        artist.strip().title(),
-        title.strip().capitalize()
-    ]
+    return split_artist_title(artist_title)
 
 
 def _yammat():
@@ -123,28 +114,16 @@ def _yammat():
     }
 
     data = requests.get(url, params).json()
-    bits = data[0]['title'].split('-', 1)
+    artist_title = data[0]['title']
 
-    # Some radio shows are in the feed, which are not songs
-    if len(bits) != 2:
-        return None
-
-    return [x.strip() for x in bits]
+    return split_artist_title(artist_title)
 
 
 def _martin():
     url = 'http://radio-martin.hr/onAir.php'
-    bits = requests.get(url).text.split('-', 1)
+    artist_title = requests.get(url).text
 
-    if len(bits) != 2:
-        return None
-
-    artist, title = bits
-
-    return [
-        artist.strip().title(),
-        title.strip().capitalize()
-    ]
+    return split_artist_title(artist_title, normalize_case=True)
 
 
 def _hrt(name):
