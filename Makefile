@@ -13,3 +13,5 @@ shell :
 server :
 	python manage.py runserver
 
+test :
+	pytest -s
