@@ -1,9 +1,11 @@
 import traceback
 
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from django.utils import timezone as tz
 from radio.models import Radio, Play
 from radio.utils.loaders import get_current_song
+from raven import Client
 
 
 class Command(BaseCommand):
@@ -30,6 +32,7 @@ class Command(BaseCommand):
             if song:
                 artist_name, title = song
                 self.save(radio, artist_name, title)
+
         except Exception:
             self.stdout.write("#############################################")
             self.stdout.write("### Failed loading song. Check error log. ###")
@@ -38,6 +41,11 @@ class Command(BaseCommand):
             # traceback will write to stderr
             self.stderr.write("\n--- " + self.now + " " + "-" * 60)
             traceback.print_exc()
+
+            # Report to Sentry
+            if settings.SENTRY_DSN:
+                client = Client(settings.SENTRY_DSN)
+                client.captureException()
 
     def handle(self, *args, **options):
         self.stdout.write("\n--- " + self.now + " " + "-" * 60)
