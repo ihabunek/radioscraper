@@ -13,14 +13,14 @@ class Command(BaseCommand):
         self.now = "{:%Y-%m-%d %H:%M:%S}".format(tz.now())
         super(Command, self).__init__(*args, **kwargs)
 
-    def save(self, radio, artist, title):
+    def save(self, radio, artist_name, title):
         last_play = Play.objects.filter(radio=radio).order_by('-timestamp').first()
 
-        if last_play and last_play.artist == artist and last_play.title == title:
+        if last_play and last_play.artist_name == artist_name and last_play.title == title:
             self.stdout.write("Repeated play {}, skipping".format(last_play))
             return
 
-        play = Play.objects.create(radio=radio, artist=artist, title=title)
+        play = Play.objects.create(radio=radio, artist_name=artist_name, title=title)
         self.stdout.write("Added play {}".format(play))
 
     def load_song(self, radio):
@@ -28,8 +28,8 @@ class Command(BaseCommand):
             self.stdout.write("\nLoading song for {}".format(radio.name))
             song = get_current_song(radio.slug)
             if song:
-                artist, title = song
-                self.save(radio, artist, title)
+                artist_name, title = song
+                self.save(radio, artist_name, title)
         except Exception:
             self.stdout.write("#############################################")
             self.stdout.write("### Failed loading song. Check error log. ###")

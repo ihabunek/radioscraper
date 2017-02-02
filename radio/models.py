@@ -63,4 +63,4 @@ class Play(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '<Play "{}" by "{}">'.format(self.title, self.artist)
+        return '<Play "{}" by "{}">'.format(self.title, self.artist_name)
