@@ -1,6 +1,6 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -24,7 +24,7 @@ module.exports = {
             exclude: /node_modules/,
             loader: 'babel-loader',
             query: {
-                presets: ['es2015']
+                presets: ['env']
             }
         }, {
           test: /\.(png|woff|woff2|eot|otf|ttf|svg)$/,
