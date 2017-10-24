@@ -42,11 +42,6 @@ class Command(BaseCommand):
             self.stderr.write("\n--- " + self.now + " " + "-" * 60)
             traceback.print_exc()
 
-            # Report to Sentry
-            if settings.SENTRY_DSN:
-                client = Client(settings.SENTRY_DSN)
-                client.captureException()
-
     def handle(self, *args, **options):
         self.stdout.write("\n--- " + self.now + " " + "-" * 60)
         for radio in Radio.objects.all():
