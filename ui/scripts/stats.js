@@ -1,5 +1,3 @@
-/* global window document */
-
 import $ from 'jquery'
 import 'jquery-ui/ui/widgets/datepicker'
 import URI from 'urijs'
@@ -11,14 +9,14 @@ const currentDate = () => {
 
     return moment({
         "year": year,
-        "month": month - 1
+        "month": month - 1,
     })
 }
 
 const currentRadio = () => $('[data-radio]').val()
 
 const goTo = (date, radio) => {
-    const path = radio ?  `/stats/${radio}/` : '/stats/'
+    const path = radio ? `/stats/${radio}/` : '/stats/'
     const uri = URI(path)
 
     uri.setQuery({

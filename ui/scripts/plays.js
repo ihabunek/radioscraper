@@ -1,5 +1,3 @@
-/* global window document */
-
 import $ from 'jquery'
 import 'jquery-ui/ui/widgets/datepicker'
 import URI from 'urijs'
@@ -12,7 +10,7 @@ const searchWith = (params) => {
 }
 
 const clearSearch = (fields) => {
-    fields =  fields ? fields : ["artist_name", "title", "radio", "start", "end"]
+    fields = fields || ["artist_name", "title", "radio", "start", "end"]
 
     const uri = new URI()
     uri.removeQuery(["page"])
@@ -51,7 +49,7 @@ $(document).ready(() => {
         searchWith({ "page": e.target.dataset.page })
     })
 
-    const dateFormat = "dd.mm.yy";
+    const dateFormat = "dd.mm.yy"
 
     const options = {
         "firstDay": 1,
@@ -65,7 +63,7 @@ $(document).ready(() => {
     const getDate = element => {
         try {
             return $.datepicker.parseDate(dateFormat, element.value)
-        } catch( error ) {
+        } catch (error) {
             return null
         }
     }
