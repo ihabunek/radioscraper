@@ -158,9 +158,9 @@ class PlaysView(ListView):
             qs = qs.filter(title__unaccent__iexact=self.title)
 
         if self.start:
-            qs = qs.filter(timestamp__date__gte=self.start)
+            qs = qs.filter(timestamp__gte=self.start)
 
         if self.end:
-            qs = qs.filter(timestamp__date__lte=self.end)
+            qs = qs.filter(timestamp__lt=self.end + relativedelta(days=1))
 
         return qs

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from django.db import models
@@ -34,10 +34,12 @@ class Radio(models.Model):
         qs = self.play_set
 
         if start:
-            qs = qs.filter(timestamp__date__gte=start)
+            start_dttm = datetime(start.year, start.month, start.day)
+            qs = qs.filter(timestamp__gte=start_dttm)
 
         if end:
-            qs = qs.filter(timestamp__date__lte=end)
+            end_dttm = datetime(end.year, end.month, end.day) + relativedelta(days=1)
+            qs = qs.filter(timestamp__lt=end_dttm)
 
         return qs
 
@@ -67,12 +69,10 @@ class Radio(models.Model):
 class PlayManager(models.Manager):
     def month(self, year, month):
         """Returns plays within a given calendar month"""
-        start = date(year, month, 1)
+        start = datetime(year, month, 1)
         end = start + relativedelta(months=1)
 
-        return (self.get_queryset()
-            .filter(timestamp__date__gte=start)
-            .filter(timestamp__date__lt=end))
+        return self.get_queryset().filter(timestamp__gte=start, timestamp__lt=end)
 
 
 class Play(models.Model):
