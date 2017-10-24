@@ -8,3 +8,4 @@
 /*.sublime-workspace
 /*.log
 __pycache__/
+*.pyc
