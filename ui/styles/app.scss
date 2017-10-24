@@ -18,21 +18,32 @@
     width: max-content;
 }
 
-.top-bar {
-    color: $white;
+.top-bar-container {
     background-color: $black;
-    padding: 1rem;
-    margin-bottom: 2rem;
 
-    a {
+    .top-bar {
         color: $white;
-        background-color: $black;
-        text-transform: uppercase;
-        font-size: 20px;
-    }
+        padding: 1rem 1rem 1rem 0;
+        margin-bottom: 2rem;
 
-    .separator {
-        color: #aaa;
+        .menu li {
+            a {
+                color: $white;
+                background-color: $black;
+                text-transform: uppercase;
+                font-size: 20px;
+            }
+            &.separator {
+                color: #aaa;
+                padding: 0.4rem 0.5rem;
+                font-size: 20px;
+            }
+            &:first-child {
+                a {
+                    padding-left: 0;
+                }
+            }
+        }
     }
 }
 
@@ -103,4 +114,11 @@ table {
             }
         }
     }
+}
+
+// Don't render select controls, they are drawn by foundation
+select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
 }

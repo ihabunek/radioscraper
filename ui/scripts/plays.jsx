@@ -36,7 +36,7 @@ $(document).ready(() => {
         searchWith({ "radio": e.target.dataset.radio })
     })
 
-    $('a[data-clear-field]').click(e => {
+    $('[data-clear-field]').click(e => {
         e.preventDefault()
         clearSearch(e.target.dataset.clearField.split(','))
     })

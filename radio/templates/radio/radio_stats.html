@@ -9,9 +9,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="row column" id="stats-page">
+<div class="grid-container" id="stats-page">
 
-    <div class="button-group">
+    <div class="button-group" style="flex-wrap: wrap">
         <a href="{% url 'radio:stats' %}" class="button {% if not radio %}secondary{% endif %}">All</a>
         {% for r in radios %}
             {% if r == radio %}
@@ -43,8 +43,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="small-12 large-6 columns">
+    <div class="grid-x grid-margin-x">
+        <div class="small-12 large-6 cell">
             <h4>Song stats</h4>
 
             <table class="stats-table hover">
@@ -83,7 +83,7 @@
                 </tr>
             </table>
         </div>
-        <div class="small-12 large-6 columns">
+        <div class="small-12 large-6 cell">
             <h4>Artist stats</h4>
 
             <table class="stats-table hover">
@@ -109,10 +109,10 @@
     </div>
 
     {% if most_played_songs or most_played_artists %}
-    <div class="row">
+    <div class="grid-x grid-margin-x">
 
         {% if most_played_songs %}
-        <div class="small-12 large-6 columns">
+        <div class="small-12 large-6 cell">
             <h3>Top 30 songs</h3>
 
             <table class="hover">
@@ -133,7 +133,7 @@
         {% endif %}
 
         {% if most_played_artists %}
-        <div class="small-12 large-6 columns">
+        <div class="small-12 large-6 cell">
             <h3>Top 30 artists</h3>
 
             <table class="hover">
