@@ -15,6 +15,9 @@ class Command(BaseCommand):
         self.now = "{:%Y-%m-%d %H:%M:%S}".format(tz.now())
         super(Command, self).__init__(*args, **kwargs)
 
+    def add_arguments(self, parser):
+        parser.add_argument('radio', nargs='?', type=str)
+
     def save(self, radio, artist_name, title):
         last_play = Play.objects.filter(radio=radio).order_by('-timestamp').first()
 
@@ -44,5 +47,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("\n--- " + self.now + " " + "-" * 60)
-        for radio in Radio.objects.all():
+
+        radio = options['radio']
+        qs = Radio.objects.all()
+        if radio:
+            qs = qs.filter(slug=radio)
+
+        for radio in qs:
             self.load_song(radio)
