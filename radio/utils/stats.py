@@ -38,6 +38,9 @@ def get_song_stats(start, end, radio_id=None):
         cursor.execute(sql, args)
         data = dictfetchall(cursor)
 
+    if not data:
+        return None
+
     return data[0] if radio_id else data
 
 
@@ -77,6 +80,9 @@ def get_artist_stats(start, end, radio_id=None):
     with connection.cursor() as cursor:
         cursor.execute(sql, args)
         data = dictfetchall(cursor)
+
+    if not data:
+        return None
 
     return data[0] if radio_id else data
 

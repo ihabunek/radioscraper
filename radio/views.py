@@ -33,25 +33,32 @@ class RadioStatsView(TemplateView):
     template_name = 'radio/radio_stats.html'
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
         slug = self.kwargs.get('radio_slug')
         radio = get_object_or_404(Radio, slug=slug)
 
         year, month = get_year_month(self.request)
         start = date(year, month, 1)
         end = start + relativedelta(months=1)
+        play_count = radio.plays(start, end).count()
 
-        context = super().get_context_data(**kwargs)
         context.update({
-            "song_stats": get_song_stats(start, end, radio.id),
-            "artist_stats": get_artist_stats(start, end, radio.id),
-            "play_count": radio.plays(start, end).count(),
             "radio": radio,
             "month": month,
             "year": year,
-            "most_played_songs": radio.most_played_songs(start, end)[:30],
-            "most_played_artists": radio.most_played_artists(start, end)[:30],
-            "most_played_daily": radio.most_played_daily(start, end).first()
+            "play_count": play_count,
         })
+
+        if play_count > 0:
+            context.update({
+                "song_stats": get_song_stats(start, end, radio.id),
+                "artist_stats": get_artist_stats(start, end, radio.id),
+                "most_played_songs": radio.most_played_songs(start, end)[:30],
+                "most_played_artists": radio.most_played_artists(start, end)[:30],
+                "most_played_daily": radio.most_played_daily(start, end).first()
+            })
+
         return context
 
 
@@ -59,35 +66,39 @@ class StatsView(TemplateView):
     template_name = 'radio/stats.html'
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
         year, month = get_year_month(self.request)
         start = date(year, month, 1)
         end = start + relativedelta(months=1)
 
-        most_played_songs = (
-            Play.objects.all()
-                        .values('artist_name', 'title')
-                        .annotate(count=Count('*'))
-                        .filter(timestamp__date__gte=start)
-                        .filter(timestamp__date__lt=end)
-                        .order_by('-count'))[:30]
+        plays = Play.objects.month(year, month)
+        play_count = plays.count()
 
-        most_played_artists = (
-            Play.objects.all()
-                        .values('artist_name')
-                        .annotate(count=Count('*'))
-                        .filter(timestamp__date__gte=start)
-                        .filter(timestamp__date__lt=end)
-                        .order_by('-count'))[:30]
-
-        context = super().get_context_data(**kwargs)
         context.update({
-            "song_stats": get_song_stats(start, end),
-            "artist_stats": get_artist_stats(start, end),
-            "most_played_songs": most_played_songs,
-            "most_played_artists": most_played_artists,
             "month": month,
             "year": year,
+            "play_count": play_count,
         })
+
+        if play_count > 0:
+            most_played_songs = (plays
+                .values('artist_name', 'title')
+                .annotate(count=Count('*'))
+                .order_by('-count'))[:30]
+
+            most_played_artists = (plays
+                .values('artist_name')
+                .annotate(count=Count('*'))
+                .order_by('-count'))[:30]
+
+            context.update({
+                "song_stats": get_song_stats(start, end),
+                "artist_stats": get_artist_stats(start, end),
+                "most_played_songs": most_played_songs,
+                "most_played_artists": most_played_artists,
+            })
+
         return context
 
 

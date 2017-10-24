@@ -1,0 +1,30 @@
+<div class="time-selectors">
+    <div class="no-wrap">
+        <div>Year</div>
+        <div class="button-group">
+            <button class="button" data-prev-year>&lsaquo;</button>
+            <button class="hollow button" data-year>{{ year }}</button>
+            <button class="button" data-next-year>&rsaquo;</button>
+        </div>
+    </div>
+    <div class="no-wrap">
+        <div>Month</div>
+        <div class="button-group">
+            <button class="button" data-prev-month>&lsaquo;</button>
+            <button class="hollow button" data-month>{{ month }}</button>
+            <button class="button" data-next-month>&rsaquo;</button>
+        </div>
+    </div>
+
+    <div class="no-wrap">
+        <div>Radio</div>
+        <div class="button-group">
+            <select data-radio>
+                <option value="">-- All --</option>
+                {% for r in radios %}
+                    <option value="{{ r.slug }}"{% if radio == r %} selected{% endif %}>{{ r.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>

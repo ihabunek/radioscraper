@@ -1,11 +1,9 @@
 import traceback
 
 from django.core.management.base import BaseCommand
-from django.conf import settings
 from django.utils import timezone as tz
 from radio.models import Radio, Play
 from radio.utils.loaders import get_current_song
-from raven import Client
 
 
 class Command(BaseCommand):

@@ -1,3 +1,6 @@
+from datetime import date
+from dateutil.relativedelta import relativedelta
+
 from django.db import models
 from django.db.models import Count
 from django.db.models.functions.datetime import TruncDay
@@ -56,11 +59,24 @@ class Radio(models.Model):
         return '<Radio "{}">'.format(self.name)
 
 
+class PlayManager(models.Manager):
+    def month(self, year, month):
+        """Returns plays within a given calendar month"""
+        start = date(year, month, 1)
+        end = start + relativedelta(months=1)
+
+        return (self.get_queryset()
+            .filter(timestamp__date__gte=start)
+            .filter(timestamp__date__lt=end))
+
+
 class Play(models.Model):
     radio = models.ForeignKey(Radio, PROTECT)
     artist_name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = PlayManager()
 
     def __str__(self):
         return '<Play "{}" by "{}">'.format(self.title, self.artist_name)
