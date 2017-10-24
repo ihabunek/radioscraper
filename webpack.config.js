@@ -1,16 +1,16 @@
-const path = require('path');
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry: {
-        "main": ['./ui/scripts/main.jsx'],
-        "plays": ['./ui/scripts/plays.jsx'],
-        "stats": ['./ui/scripts/stats.jsx'],
+        "main": ['./ui/scripts/main.js'],
+        "plays": ['./ui/scripts/plays.js'],
+        "stats": ['./ui/scripts/stats.js'],
     },
     output: {
         path: path.join(__dirname, 'ui/dist'),
-        filename: '[name].min.js'
+        filename: '[name].min.js',
     },
     module: {
         loaders: [{
@@ -20,36 +20,36 @@ module.exports = {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract(["css-loader"]),
         }, {
-            test: /\.jsx$/,
+            test: /\.js$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
             query: {
-                presets: ['env']
-            }
+                presets: ['env'],
+            },
         }, {
-          test: /\.(png|woff|woff2|eot|otf|ttf|svg)$/,
-          loader: 'file-loader',
-        }]
+            test: /\.(png|woff|woff2|eot|otf|ttf|svg)$/,
+            loader: 'file-loader',
+        }],
     },
     devtool: 'source-map',
     resolve: {
         alias: {
-            jquery: "jquery/src/jquery"
-        }
+            jquery: "jquery/src/jquery",
+        },
     },
     plugins: [
         new ExtractTextPlugin("styles.css"),
         new webpack.optimize.CommonsChunkPlugin({
-            name: "commons"
+            name: "commons",
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
-                warnings: false
-            }
+                warnings: false,
+            },
         }),
         new webpack.ProvidePlugin({
             jQuery: "jquery",
             $: "jquery",
         }),
-    ]
+    ],
 }
