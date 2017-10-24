@@ -12,6 +12,17 @@ from radio.utils.stats import get_song_stats, get_artist_stats
 class IndexView(TemplateView):
     template_name = 'radio/index.html'
 
+    def get_context_data(self, **kwargs):
+        radios = (Radio.objects.active()
+            .order_by('name')
+            .prefetch_related('first_play', 'last_play'))
+
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "radios": radios
+        })
+        return context
+
 
 def get_year_month(request):
     today = date.today()

@@ -17,12 +17,17 @@ class Radio(models.Model):
     slug = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
 
+    # Derived data, cached for performance
+    first_play = models.ForeignKey("radio.Play", blank=True, null=True, related_name="+")
+    last_play = models.ForeignKey("radio.Play", blank=True, null=True, related_name="+")
+    play_count = models.PositiveIntegerField(default=0)
+
     objects = RadioManager()
 
-    def first_play(self):
+    def get_first_play(self):
         return self.play_set.order_by('timestamp').first()
 
-    def last_play(self):
+    def get_last_play(self):
         return self.play_set.order_by('-timestamp').first()
 
     def plays(self, start=None, end=None):

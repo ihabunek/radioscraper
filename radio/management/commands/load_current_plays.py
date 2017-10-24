@@ -23,7 +23,17 @@ class Command(BaseCommand):
             self.stdout.write("Repeated play {}, skipping".format(last_play))
             return
 
-        play = Play.objects.create(radio=radio, artist_name=artist_name, title=title)
+        play = Play.objects.create(
+            radio=radio,
+            artist_name=artist_name,
+            title=title,
+        )
+
+        # Update derived data on Radio
+        radio.last_play = play
+        radio.play_count = radio.play_set.count()
+        radio.save()
+
         self.stdout.write("Added play {}".format(play))
 
     def load_song(self, radio):
