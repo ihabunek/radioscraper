@@ -1,4 +1,5 @@
 import pytest
+import re
 
 from django.urls import reverse
 from radio.models import Radio, Play
@@ -9,9 +10,14 @@ from django.utils import timezone as tz
 def radio_data():
     radio = Radio.objects.create(name="Radio One", slug="radio-one")
 
-    Play.objects.create(radio=radio, title="Foo", artist_name="Gang of four")
+    first = Play.objects.create(radio=radio, title="Foo", artist_name="Gang of four")
     Play.objects.create(radio=radio, title="Bar", artist_name="Gang of four")
-    Play.objects.create(radio=radio, title="Baz", artist_name="Gang of four")
+    last = Play.objects.create(radio=radio, title="Baz", artist_name="Gang of four")
+
+    radio.first_play = first
+    radio.last_play = last
+    radio.play_count = 3
+    radio.save()
 
     return radio
 
@@ -28,7 +34,9 @@ def test_index_view(client, radio_data):
     assert '<h5>Radio One</h5>' in content
     assert '3 plays' in content
     assert 'since {}'.format(date) in content
-    assert 'Now playing: <b>Baz</b> by <b>Gang of four</b>' in content
+    assert 'Last play:' in content
+    assert '<b>Baz</b>' in content
+    assert 'by <b>Gang of four</b>' in content
 
 
 @pytest.mark.django_db
