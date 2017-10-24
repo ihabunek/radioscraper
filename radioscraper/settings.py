@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'radio',
+    'loaders',
 ]
 
 MIDDLEWARE = [
