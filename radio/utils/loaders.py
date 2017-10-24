@@ -66,21 +66,17 @@ def _prvi(slug):
 
 
 def _radio101():
-    url = 'http://www.radio101.hr/generated/radio_playlist.json'
+    url = 'http://138.201.248.219:8006/stats'
     params = {
-        "request.preventCache": _timestamp
+        'sid': 1,
+        'json': 1,
+        '_': _timestamp(),
     }
 
     response = requests.get(url, params)
     data = response.json()
 
-    author, title = [
-        data[0]['author'],
-        data[0]['title'],
-    ]
-
-    if author and title:
-        return [author, title]
+    return split_artist_title(data['songtitle'])
 
 
 def _otvoreni():
