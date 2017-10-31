@@ -1,8 +1,9 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone as tz
 
-from radio.models import Radio, Play
+from radio.models import Radio
 from loaders.loaders import load_current_song, LoaderError
+from loaders.utils import add_play
 
 
 class Command(BaseCommand):
@@ -16,26 +17,12 @@ class Command(BaseCommand):
         parser.add_argument('radio', nargs='?', type=str)
 
     def save(self, radio, artist_name, title):
-        last_play = radio.get_last_play()
+        created, play = add_play(radio, artist_name, title)
 
-        if last_play and last_play.artist_name == artist_name and last_play.title == title:
-            self.stdout.write("Repeated play {}, skipping".format(last_play))
-            return
-
-        play = Play.objects.create(
-            radio=radio,
-            artist_name=artist_name,
-            title=title,
-        )
-
-        # Update derived data on Radio
-        if not radio.first_play:
-            radio.first_play = play
-        radio.last_play = play
-        radio.play_count = radio.play_set.count()
-        radio.save()
-
-        self.stdout.write("Added play {}".format(play))
+        if created:
+            self.stdout.write("Added play {}".format(play))
+        else:
+            self.stdout.write("Repeated play {}, skipping".format(play))
 
     def load_song(self, radio):
         try:
@@ -44,6 +31,8 @@ class Command(BaseCommand):
             if song:
                 artist_name, title = song
                 self.save(radio, artist_name, title)
+            else:
+                self.stdout.write("Looks like nothing is being played.")
 
         except LoaderError:
             self.stdout.write("Failed loading song :/")
