@@ -43,14 +43,14 @@ def create_failure(radio, failure_type, request, response, ex=None, tb=None):
         radio=radio,
         outage=outage,
         error_message=error_message,
-        stack_trace=tb,
+        stack_trace=tb or '',
         request=create_request_data(request),
         response=create_response_data(response),
     )
 
 
 def create_request_failure(radio, request, response):
-    return create_failure(radio, LoaderFailure.TYPE_REQUEST, request, response)
+    return create_failure(radio, LoaderFailure.TYPE_FETCH, request, response)
 
 
 def create_parse_failure(radio, request, response, exception, traceback):
