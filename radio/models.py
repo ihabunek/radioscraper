@@ -71,6 +71,9 @@ class Radio(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class PlayManager(models.Manager):
     def month(self, year, month):
