@@ -17,6 +17,9 @@ def add_play(radio, artist_name, title):
       - True + created Play if the play was created
       - False + the last existing Play if it's a repeat
     """
+    artist_name = artist_name.strip()
+    title = title.strip()
+
     last_play = radio.get_last_play()
 
     if last_play and last_play.artist_name == artist_name and last_play.title == title:
@@ -24,8 +27,8 @@ def add_play(radio, artist_name, title):
 
     play = Play.objects.create(
         radio=radio,
-        artist_name=artist_name.strip(),
-        title=title.strip(),
+        artist_name=artist_name,
+        title=title,
     )
 
     update_derived_data(radio, play)
