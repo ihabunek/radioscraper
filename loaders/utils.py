@@ -24,8 +24,8 @@ def add_play(radio, artist_name, title):
 
     play = Play.objects.create(
         radio=radio,
-        artist_name=artist_name,
-        title=title,
+        artist_name=artist_name.strip(),
+        title=title.strip(),
     )
 
     update_derived_data(radio, play)
