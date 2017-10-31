@@ -33,6 +33,11 @@ class Radio(models.Model):
     def get_play_count(self):
         return self.play_set.count()
 
+    def recalculate_derived_data(self):
+        self.first_play = self.get_first_play()
+        self.last_play = self.get_last_play()
+        self.play_count = self.get_play_count()
+
     def plays(self, start=None, end=None):
         qs = self.play_set
 
