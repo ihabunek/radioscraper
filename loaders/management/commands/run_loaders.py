@@ -29,6 +29,8 @@ class Command(BaseCommand):
         )
 
         # Update derived data on Radio
+        if not radio.first_play:
+            radio.first_play = play
         radio.last_play = play
         radio.play_count = radio.play_set.count()
         radio.save()
