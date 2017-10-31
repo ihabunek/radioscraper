@@ -1,0 +1,45 @@
+{% extends "radio/base.html" %}
+
+{% block title %}Failures{% endblock %}
+
+{% block content %}
+<div class="grid-container">
+    <ul class="breadcrumbs">
+        <li>Loaders</li>
+        <li>Failures</li>
+    </ul>
+
+    <h1>Loader failures</h1>
+
+    {% if failures %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Radio</th>
+                    <th>Type</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for failure in failures %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'loaders:failure-detail' failure.pk %}">
+                                {{ failure.timestamp|date:"Y-m-d H:i:s" }}
+                            </a>
+                        </td>
+                        <td>{{ failure.radio.name }}</td>
+                        <td>{{ failure.type }}</td>
+                        <td>{{ failure.error_message }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There are no failures! \o/</p>
+    {% endif %}
+
+
+</div>
+{% endblock %}

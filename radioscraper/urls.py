@@ -6,6 +6,7 @@ from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('radio.urls', namespace='radio')),
+    url('', include('loaders.urls', namespace='loaders')),
 ]
 
 if settings.DEBUG:
