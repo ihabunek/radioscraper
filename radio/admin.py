@@ -34,4 +34,4 @@ class RadioAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
     def since(self, radio):
-        return radio.first_play.timestamp
+        return radio.first_play.timestamp if radio.first_play else None
