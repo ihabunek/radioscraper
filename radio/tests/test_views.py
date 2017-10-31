@@ -1,5 +1,4 @@
 import pytest
-import re
 
 from django.urls import reverse
 from radio.models import Radio, Play
