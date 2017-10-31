@@ -52,7 +52,7 @@ class Command(BaseCommand):
         self.stdout.write("\n--- " + self.now + " " + "-" * 60)
 
         radio = options['radio']
-        qs = Radio.objects.all()
+        qs = Radio.objects.all().order_by('name')
         if radio:
             qs = qs.filter(slug=radio)
 
