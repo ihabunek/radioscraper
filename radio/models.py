@@ -65,8 +65,11 @@ class Radio(models.Model):
                     .annotate(count=Count('*'))
                     .order_by("-count"))
 
+    def __repr__(self):
+        return 'Radio (name="{}")'.format(self.name)
+
     def __str__(self):
-        return '<Radio "{}">'.format(self.name)
+        return self.name
 
 
 class PlayManager(models.Manager):
@@ -87,4 +90,7 @@ class Play(models.Model):
     objects = PlayManager()
 
     def __str__(self):
-        return '<Play "{}" by "{}">'.format(self.title, self.artist_name)
+        return '"{}" by "{}"'.format(self.title, self.artist_name)
+
+    def __repr__(self):
+        return 'Play (title="{}" artist="{}"'.format(self.title, self.artist_name)
