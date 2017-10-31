@@ -11,7 +11,8 @@ def form_request(slug):
 
 def parse_response(response):
     data = response.json()
-    return [
-        data['artist'],
-        data['song'],
-    ]
+
+    if data['artist'] and data['song']:
+        return [data['artist'], data['song']]
+
+    return None
