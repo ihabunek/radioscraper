@@ -1,0 +1,45 @@
+// Adjust styles for jQuery UI Datepicker
+
+.ui-datepicker {
+    background-color: $white;
+    border: 1px solid $black;
+
+    .ui-datepicker-header {
+        background-color: $black;
+        color: $white;
+    }
+
+    .ui-icon.ui-icon-circle-triangle-w {
+        content: '<';
+    }
+    .ui-icon.ui-icon-circle-triangle-e {
+        content: '>';
+    }
+
+    .ui-datepicker-calendar {
+        tbody > tr {
+            background-color: $white;
+        }
+        .ui-state-default {
+            background-color: $black;
+            color: $white;
+            &.ui-state-active {
+                background-color: $light-gray;
+                color: $black;
+                border: 1px solid $black;
+                &.ui-state-hover {
+                    background-color: $light-gray;
+                }
+            }
+            &.ui-state-hover {
+                background-color: $medium-gray;
+            }
+        }
+        .ui-state-disabled {
+            .ui-state-default {
+                background-color: $medium-gray;
+                color: $light-gray;
+            }
+        }
+    }
+}

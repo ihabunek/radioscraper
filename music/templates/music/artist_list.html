@@ -1,0 +1,34 @@
+{% extends "radio/base.html" %}
+
+{% load static %}
+
+{% block title %}Artists{% endblock %}
+
+{% block content %}
+<div class="grid-container" id="artists-page">
+    <h1>Artists</h1>
+
+    <form method="get">
+        <label for="search">Find artist</label>
+        <input type="text" name="q" value="{{ q }}" />
+    </form>
+
+    {% if artist_list %}
+        <p>
+            {% if is_paginated %}
+                Showing first {{ artist_list.count }} artists. Narrow down your search.
+            {% else %}
+                Found {{ artist_list.count }} artists.
+            {% endif %}
+        </p>
+
+        <ul>
+        {% for artist in artist_list %}
+            <li>
+                <a href="{% url 'music:artist-detail' artist.slug %}">{{ artist }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

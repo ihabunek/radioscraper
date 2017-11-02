@@ -8,7 +8,7 @@ clean :
 	rm -rf static/*
 
 shell :
-	python manage.py shell_plus --ipython
+	python manage.py shell_plus
 
 server :
 	python manage.py runserver
