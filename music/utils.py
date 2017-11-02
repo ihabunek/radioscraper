@@ -1,0 +1,96 @@
+import re
+
+from django.utils.text import slugify
+
+from music.models import Artist, ArtistName
+
+
+def normalize_name(name):
+    # Replace underscores with spaces
+    name = name.replace('_', ' ')
+
+    # Remove multiple whitespace with a single space
+    name = re.sub("\s+", " ", name)
+
+    # Remove text in brackets
+    name = re.sub("\(.+\)", "", name)
+    name = re.sub("\[.+\]", "", name)
+
+    # Replace "feat." and similar
+    name = re.sub("\s(ft|feat)\\.?\s.+", "", name, flags=re.IGNORECASE)
+
+    # Replace ; with & surrounded by spaces
+    name = re.sub("\s*;\s*", " & ", name)
+
+    return name.strip()
+
+
+def find_artist_by_slug(name):
+    slug = slugify(normalize_name(name))
+    return Artist.objects.filter(slug=slug).first()
+
+
+def _name_variants(name):
+    normal_name = normalize_name(name)
+
+    # First search by normalized name
+    yield normal_name
+
+    # Try to permute "&", "i", "and" so that the following names match:
+    #   * "foo & bar"
+    #   * "foo i bar"
+    #   * "foo and bar"
+    if ' & ' in normal_name:
+        yield normal_name.replace(' & ', ' and ')
+        yield normal_name.replace(' & ', ' i ')
+
+    if ' i ' in normal_name:
+        yield normal_name.replace(' i ', ' and ')
+        yield normal_name.replace(' i ', ' & ')
+
+    if ' and ' in normal_name:
+        yield normal_name.replace(' and ', ' i ')
+        yield normal_name.replace(' and ', ' & ')
+
+    # For artists with the "name surname" pattern, try reversing them
+    match = re.match("^(\w+)\s+(\w+)$", normal_name)
+    if match:
+        yield " ".join(reversed(match.groups()))
+
+
+def find_artist_by_name(name):
+    for name_variant in _name_variants(name):
+        artist_name = ArtistName.objects.filter(name__iunaccent__iexact=name_variant).first()
+        if artist_name:
+            return artist_name.artist
+
+    return None
+
+
+def find_artist(name):
+    return find_artist_by_name(name) or find_artist_by_slug(name)
+
+
+def create_artist(name):
+    normal_name = normalize_name(name)
+
+    artist = Artist.objects.create(
+        name=normal_name,
+        slug=slugify(normal_name),
+    )
+
+    ArtistName.objects.create(artist=artist, name=normal_name)
+
+    return artist
+
+
+def get_or_create_artist(name):
+    """Returns an existing artist matching the given name or creates a new one
+    if not found."""
+    artist = find_artist(name)
+
+    if artist:
+        artist.add_name(normalize_name(name))
+        return False, artist
+
+    return True, create_artist(name)

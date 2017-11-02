@@ -42,8 +42,9 @@ INSTALLED_APPS = [
 
     'radioscraper.postgres',
 
-    'radio',
     'loaders',
+    'music',
+    'radio',
 ]
 
 MIDDLEWARE = [
