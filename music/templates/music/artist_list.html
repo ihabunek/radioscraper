@@ -10,7 +10,7 @@
 
     <form method="get">
         <label for="search">Find artist</label>
-        <input type="text" name="q" value="{{ q }}" />
+        <input type="text" name="q" value="{{ q|default:"" }}" />
     </form>
 
     {% if artist_list %}

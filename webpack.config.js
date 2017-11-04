@@ -7,6 +7,7 @@ module.exports = {
         "main": ['./ui/scripts/main.js'],
         "plays": ['./ui/scripts/plays.js'],
         "stats": ['./ui/scripts/stats.js'],
+        "artist_detail": ['./ui/scripts/artist_detail.js'],
     },
     output: {
         path: path.join(__dirname, 'ui/dist'),

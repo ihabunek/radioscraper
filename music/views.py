@@ -51,11 +51,20 @@ class ArtistDetailView(DetailView):
             .prefetch_related('radio')
             .order_by('-timestamp'))[:20]
 
+    def get_chart_data(self):
+        return (self.object.play_set
+            .extra(select={'day': 'date(timestamp)'})
+            .order_by('day')
+            .values('day')
+            .annotate(count=Count("*"))
+            .values_list('day', 'count'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
             "plays": self.get_plays(),
             "radios": self.get_radios(),
             "songs": self.get_songs(),
+            "chart_data": self.get_chart_data(),
         })
         return context
