@@ -45,6 +45,7 @@ def test_find_artist_conjunctions():
     assert find_artist_by_name('Tamara Obrovac & Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac and Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac i Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac + Transhistria Electric') == artist
 
     artist.delete()
 
@@ -54,6 +55,7 @@ def test_find_artist_conjunctions():
     assert find_artist_by_name('Tamara Obrovac & Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac and Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac i Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac + Transhistria Electric') == artist
 
     artist.delete()
 
@@ -63,6 +65,7 @@ def test_find_artist_conjunctions():
     assert find_artist_by_name('Tamara Obrovac & Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac and Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac i Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac + Transhistria Electric') == artist
 
     artist.delete()
 

@@ -24,6 +24,8 @@ def normalize_name(name):
     # Replace ; with & surrounded by spaces
     name = re.sub("\s*;\s*", " & ", name)
 
+    # Replace + which is used for & sometimes
+
     return name.strip()
 
 
@@ -53,6 +55,11 @@ def _name_variants(name):
     if ' and ' in normal_name:
         yield normal_name.replace(' and ', ' i ')
         yield normal_name.replace(' and ', ' & ')
+
+    if ' + ' in normal_name:
+        yield normal_name.replace(' + ', ' and ')
+        yield normal_name.replace(' + ', ' i ')
+        yield normal_name.replace(' + ', ' & ')
 
     # For artists with the "name surname" pattern, try reversing them
     match = re.match("^(\w+)\s+(\w+)$", normal_name)
