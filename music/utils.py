@@ -1,7 +1,9 @@
 import re
 
+from django.db import transaction
 from django.utils.text import slugify
 
+from radio.models import Play
 from music.models import Artist, ArtistName
 
 
@@ -94,3 +96,33 @@ def get_or_create_artist(name):
         return False, artist
 
     return True, create_artist(name)
+
+
+class MergeError(Exception):
+    pass
+
+
+@transaction.atomic
+def merge_artists(artists, target_artist, target_name):
+    # target_rtist must not be in artists
+    if artists.filter(pk=target_artist.pk).exists():
+        raise MergeError("target_artist is in artists")
+
+    # target_name must be in one of artists
+    all_artists = artists | Artist.objects.filter(pk=target_artist.pk)
+    all_names = ArtistName.objects.filter(artist__in=all_artists)
+    if not all_names.filter(pk=target_name.pk).exists():
+        raise MergeError("target_name invalid")
+
+    # Set the prefered artist name
+    target_artist.name = target_name.name
+    target_artist.save()
+
+    # Reassign names to target artist
+    ArtistName.objects.filter(artist__in=artists).update(artist=target_artist)
+
+    # Reassign plays to target artist
+    Play.objects.filter(artist__in=artists).update(artist=target_artist)
+
+    # Delete other artists
+    artists.delete()

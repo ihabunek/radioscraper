@@ -1,7 +1,13 @@
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.db.models.aggregates import Count
-from django.views.generic import ListView, DetailView
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views.generic import View, ListView, DetailView, TemplateView
 
+from loaders.views import AdminAccessMixin
 from music.models import ArtistName, Artist
+from music.utils import merge_artists
 
 
 class ArtistListView(ListView):
@@ -68,3 +74,54 @@ class ArtistDetailView(DetailView):
             "chart_data": self.get_chart_data(),
         })
         return context
+
+
+class MergeArtistsView(AdminAccessMixin, TemplateView):
+    template_name = 'music/artist_merge.html'
+    http_method_names = ['post']
+
+    def get_artists(self):
+        artist_ids = self.request.POST.getlist('artist')
+        if not artist_ids:
+            raise ValidationError("No artists to merge given")
+        return Artist.objects.filter(pk__in=artist_ids)
+
+    def get_target_artist(self):
+        artist_id = self.request.POST.get('target_artist')
+        if not artist_id:
+            raise ValidationError("Target artist not given")
+        return Artist.objects.get(pk=artist_id)
+
+    def get_target_name(self):
+        artist_id = self.request.POST.get('target_name')
+        if not artist_id:
+            raise ValidationError("Target name not given")
+        return ArtistName.objects.get(pk=artist_id)
+
+    def merge(self, request):
+        target_artist = self.get_target_artist()
+        target_name = self.get_target_name()
+        artists = self.get_artists().exclude(pk=target_artist.pk)
+
+        merge_artists(artists, target_artist, target_name)
+        messages.info(request, "Artists merged")
+
+        url = reverse("music:artist-detail", args=[target_artist.slug])
+        return HttpResponseRedirect(url)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "artists": self.get_artists(),
+        })
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if self.request.POST.get('action') == 'Merge':
+            try:
+                return self.merge(request)
+            except ValidationError as e:
+                messages.error(request, e.message)
+
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
