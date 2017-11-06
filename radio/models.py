@@ -91,8 +91,9 @@ class PlayManager(models.Manager):
 
 class Play(models.Model):
     radio = models.ForeignKey(Radio, PROTECT)
-    artist_name = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
+    artist = models.ForeignKey('music.Artist', PROTECT, null=True)
+    artist_name = models.CharField(max_length=255, db_index=True)
+    title = models.CharField(max_length=255, db_index=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     objects = PlayManager()

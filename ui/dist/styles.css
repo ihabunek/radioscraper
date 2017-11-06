@@ -5036,6 +5036,76 @@ a.thumbnail {
   .large-flex-dir-column-reverse {
     flex-direction: column-reverse; } }
 
+.ui-datepicker {
+  background-color: #fefefe;
+  border: 1px solid #0a0a0a; }
+  .ui-datepicker .ui-datepicker-header {
+    background-color: #0a0a0a;
+    color: #fefefe; }
+  .ui-datepicker .ui-icon.ui-icon-circle-triangle-w {
+    content: '<'; }
+  .ui-datepicker .ui-icon.ui-icon-circle-triangle-e {
+    content: '>'; }
+  .ui-datepicker .ui-datepicker-calendar tbody > tr {
+    background-color: #fefefe; }
+  .ui-datepicker .ui-datepicker-calendar .ui-state-default {
+    background-color: #0a0a0a;
+    color: #fefefe; }
+    .ui-datepicker .ui-datepicker-calendar .ui-state-default.ui-state-active {
+      background-color: #e6e6e6;
+      color: #0a0a0a;
+      border: 1px solid #0a0a0a; }
+      .ui-datepicker .ui-datepicker-calendar .ui-state-default.ui-state-active.ui-state-hover {
+        background-color: #e6e6e6; }
+    .ui-datepicker .ui-datepicker-calendar .ui-state-default.ui-state-hover {
+      background-color: #434750; }
+  .ui-datepicker .ui-datepicker-calendar .ui-state-disabled .ui-state-default {
+    background-color: #434750;
+    color: #e6e6e6; }
+
+.cssload-loader {
+  display: inline-block;
+  margin: 0 auto;
+  width: 29px;
+  height: 29px;
+  position: relative;
+  border: 4px solid black;
+  animation: cssload-loader 2.3s infinite ease; }
+
+.cssload-loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: black;
+  animation: cssload-loader-inner 2.3s infinite ease-in; }
+
+@keyframes cssload-loader {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(180deg); }
+  50% {
+    transform: rotate(180deg); }
+  75% {
+    transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+@keyframes cssload-loader-inner {
+  0% {
+    height: 0%; }
+  25% {
+    height: 0%; }
+  50% {
+    height: 100%; }
+  75% {
+    height: 100%; }
+  100% {
+    height: 0%; } }
+
+#artists-page #results {
+  margin-top: 2rem; }
+
 #index-page .radio {
   border: 1px solid #0a0a0a;
   margin-bottom: 1rem;
@@ -5105,33 +5175,6 @@ table {
 
 .input-group.time-span input {
   width: 50%; }
-
-.ui-datepicker {
-  background-color: #fefefe;
-  border: 1px solid #0a0a0a; }
-  .ui-datepicker .ui-datepicker-header {
-    background-color: #0a0a0a;
-    color: #fefefe; }
-  .ui-datepicker .ui-icon.ui-icon-circle-triangle-w {
-    content: '<'; }
-  .ui-datepicker .ui-icon.ui-icon-circle-triangle-e {
-    content: '>'; }
-  .ui-datepicker .ui-datepicker-calendar tbody > tr {
-    background-color: #fefefe; }
-  .ui-datepicker .ui-datepicker-calendar .ui-state-default {
-    background-color: #0a0a0a;
-    color: #fefefe; }
-    .ui-datepicker .ui-datepicker-calendar .ui-state-default.ui-state-active {
-      background-color: #e6e6e6;
-      color: #0a0a0a;
-      border: 1px solid #0a0a0a; }
-      .ui-datepicker .ui-datepicker-calendar .ui-state-default.ui-state-active.ui-state-hover {
-        background-color: #e6e6e6; }
-    .ui-datepicker .ui-datepicker-calendar .ui-state-default.ui-state-hover {
-      background-color: #434750; }
-  .ui-datepicker .ui-datepicker-calendar .ui-state-disabled .ui-state-default {
-    background-color: #434750;
-    color: #e6e6e6; }
 
 select {
   appearance: none;

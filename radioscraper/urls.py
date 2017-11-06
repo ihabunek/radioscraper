@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('radio.urls', namespace='radio')),
     url('', include('loaders.urls', namespace='loaders')),
+    url('', include('music.urls', namespace='music')),
 ]
 
 if settings.DEBUG:

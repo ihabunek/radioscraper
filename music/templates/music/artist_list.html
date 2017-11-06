@@ -1,0 +1,45 @@
+{% extends "radio/base.html" %}
+
+{% load static %}
+
+{% block title %}Artists{% endblock %}
+
+{% block content %}
+<div class="grid-container" id="artists-page">
+    <h1>Artists</h1>
+
+    <form method="get">
+        <label for="search">Find artist</label>
+        <input type="text" name="q" value="{{ q|default:"" }}" />
+    </form>
+
+    {% if artist_list %}
+        <p>
+            {% if is_paginated %}
+                Showing first {{ artist_list.count }} artists. Narrow down your search.
+            {% else %}
+                Found {{ artist_list.count }} artists.
+            {% endif %}
+        </p>
+
+{% if user.is_superuser %}
+        <form method="post" action="{% url 'music:merge-artists' %}">
+            {% csrf_token %}
+{% endif %}
+        <ul>
+            {% for artist in artist_list %}
+                <li>
+{% if user.is_superuser %}
+                    <input type="checkbox" name="artist" value="{{ artist.pk }}" />
+{% endif %}
+                    <a href="{% url 'music:artist-detail' artist.slug %}">{{ artist }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+{% if user.is_superuser %}
+        <button type="submit" class="button">Merge Artists</button>
+    </form>
+{% endif %}
+    {% endif %}
+</div>
+{% endblock %}

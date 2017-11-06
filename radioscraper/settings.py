@@ -14,6 +14,8 @@ import dj_database_url
 import os
 from .env import ENV_BOOL, ENV_STR, ENV_LIST
 
+from radioscraper.postgres.lookups import ImmutableUnaccent  # noqa
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,8 +40,11 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
-    'radio',
+    'radioscraper.postgres',
+
     'loaders',
+    'music',
+    'radio',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +134,20 @@ STATICFILES_DIRS = [
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# The messages framework
+# https://docs.djangoproject.com/en/1.11/ref/contrib/messages/
+
+from django.contrib.messages import constants as messages  # noqa
+
+# Define custom message tags so they play well with foundation css
+MESSAGE_TAGS = {
+    messages.DEBUG: 'secondary',
+    messages.INFO: 'primary',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'alert'
+}
 
 
 if DEBUG:
