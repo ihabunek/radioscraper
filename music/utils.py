@@ -40,6 +40,12 @@ def _name_variants(name):
     # First search by normalized name
     yield normal_name
 
+    # If name starts with 'the', try removing it, otherwise try adding it
+    if len(normal_name) > 4 and normal_name.lower().startswith('the '):
+        yield normal_name[4:]
+    else:
+        yield "The {}".format(normal_name)
+
     # Try to permute "&", "i", "and" so that the following names match:
     #   * "foo & bar"
     #   * "foo i bar"

@@ -99,3 +99,19 @@ def test_find_artist_reversed():
     ArtistName.objects.create(artist=artist, name="Jones Tom")
 
     assert find_artist_by_name('Tom Jones & Elvis presley') is None
+
+
+@pytest.mark.django_db
+def test_the_article_removal():
+    artist = Artist.objects.create(name="The Queen", slug="foo")
+    ArtistName.objects.create(artist=artist, name="The Queen")
+
+    assert find_artist_by_name('Queen') == artist
+
+
+@pytest.mark.django_db
+def test_the_article_addition():
+    artist = Artist.objects.create(name="Queen", slug="foo")
+    ArtistName.objects.create(artist=artist, name="Queen")
+
+    assert find_artist_by_name('The Queen') == artist
