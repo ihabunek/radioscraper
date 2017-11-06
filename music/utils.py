@@ -46,26 +46,13 @@ def _name_variants(name):
     else:
         yield "The {}".format(normal_name)
 
-    # Try to permute "&", "i", "and" so that the following names match:
-    #   * "foo & bar"
-    #   * "foo i bar"
-    #   * "foo and bar"
-    if ' & ' in normal_name:
-        yield normal_name.replace(' & ', ' and ')
-        yield normal_name.replace(' & ', ' i ')
-
-    if ' i ' in normal_name:
-        yield normal_name.replace(' i ', ' and ')
-        yield normal_name.replace(' i ', ' & ')
-
-    if ' and ' in normal_name:
-        yield normal_name.replace(' and ', ' i ')
-        yield normal_name.replace(' and ', ' & ')
-
-    if ' + ' in normal_name:
-        yield normal_name.replace(' + ', ' and ')
-        yield normal_name.replace(' + ', ' i ')
-        yield normal_name.replace(' + ', ' & ')
+    # Try to permute common conjunctions since they're used interchangeably
+    conjunctions = [" & ", " i ", " and ", " + "]
+    for one in conjunctions:
+        if one in normal_name:
+            for other in conjunctions:
+                if other != one:
+                    yield normal_name.replace(one, other)
 
     # For artists with the "name surname" pattern, try reversing them
     match = re.match("^(\w+)\s+(\w+)$", normal_name)
