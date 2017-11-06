@@ -135,6 +135,20 @@ STATICFILES_DIRS = [
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# The messages framework
+# https://docs.djangoproject.com/en/1.11/ref/contrib/messages/
+
+from django.contrib.messages import constants as messages  # noqa
+
+# Define custom message tags so they play well with foundation css
+MESSAGE_TAGS = {
+    messages.DEBUG: 'secondary',
+    messages.INFO: 'primary',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'alert'
+}
+
 
 if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
