@@ -1,3 +1,4 @@
+from music.utils import get_or_create_artist
 from radio.models import Play
 
 
@@ -25,8 +26,13 @@ def add_play(radio, artist_name, title):
     if last_play and last_play.artist_name == artist_name and last_play.title == title:
         return False, last_play
 
+    created, artist = get_or_create_artist(artist_name)
+    if created:
+        print("Created artist '{}' based on '{}' - '{}'".format(artist, artist_name, title))
+
     play = Play.objects.create(
         radio=radio,
+        artist=artist,
         artist_name=artist_name,
         title=title,
     )
