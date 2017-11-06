@@ -59,6 +59,17 @@ def _name_variants(name):
     if match:
         yield " ".join(reversed(match.groups()))
 
+    # For artists with the "name surname" pattern, try reversing them
+    match = re.match("^(\w+)\s+(\w+)$", normal_name)
+    if match:
+        yield " ".join(reversed(match.groups()))
+
+    # Sometimes the track number gets pasted to the start of artist name so try
+    # stripping away leading numbers, dots, dashes and whitespace
+    stripped_name = re.sub('^\d+[\.\s-]*', '', normal_name).strip()
+    if stripped_name and stripped_name != normal_name:
+        yield stripped_name
+
 
 def find_artist_by_name(name):
     for name_variant in _name_variants(name):

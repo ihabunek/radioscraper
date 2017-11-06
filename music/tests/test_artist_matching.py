@@ -115,3 +115,17 @@ def test_the_article_addition():
     ArtistName.objects.create(artist=artist, name="Queen")
 
     assert find_artist_by_name('The Queen') == artist
+
+
+@pytest.mark.django_db
+def test_track_number_preceding_artist_name():
+    artist = Artist.objects.create(name="Elvis Costello", slug="foo")
+    ArtistName.objects.create(artist=artist, name="Elvis Costello")
+
+    assert find_artist_by_name('01 Elvis Costello') == artist
+    assert find_artist_by_name('01. Elvis Costello') == artist
+    assert find_artist_by_name('01.Elvis Costello') == artist
+    assert find_artist_by_name('1.Elvis Costello') == artist
+    assert find_artist_by_name('1 Elvis Costello') == artist
+    assert find_artist_by_name('01-Elvis Costello') == artist
+    assert find_artist_by_name('1-Elvis Costello') == artist
