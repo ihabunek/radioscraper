@@ -44,11 +44,6 @@ $(document).ready(() => {
         clearSearch()
     })
 
-    $('a[data-paging]').click(e => {
-        e.preventDefault()
-        searchWith({ "page": e.target.dataset.page })
-    })
-
     const dateFormat = "dd.mm.yy"
 
     const options = {

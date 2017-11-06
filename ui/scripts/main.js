@@ -6,6 +6,8 @@ import 'foundation-sites/dist/js/foundation'
 require('../styles/app.scss')
 require('jquery-ui/themes/base/datepicker.css')
 
+require('./components/paging.js')
+
 $(document).ready(() => {
     // Radio links
     $("[data-radio-link]").click(e => {
