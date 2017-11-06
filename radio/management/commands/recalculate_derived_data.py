@@ -1,5 +1,3 @@
-import traceback
-
 from django.core.management.base import BaseCommand
 from radio.models import Radio
 

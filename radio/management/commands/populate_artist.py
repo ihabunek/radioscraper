@@ -35,7 +35,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Process radios Martin and Student last, because they have the worst tag quality
-        problematic =['martin', 'student']
+        problematic = ['martin', 'student']
         best_plays = Play.objects.exclude(radio__slug__in=problematic)
         worst_plays = Play.objects.filter(radio__slug__in=problematic)
 
