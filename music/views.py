@@ -1,3 +1,5 @@
+import re
+
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db.models.aggregates import Count
@@ -33,6 +35,36 @@ class ArtistListView(ListView):
         context = super().get_context_data(**kwargs)
         context.update({
             "q": self.request.GET.get('q'),
+        })
+        return context
+
+
+class ArtistListByLetterView(ListView):
+    template_name = 'music/artist_letter.html'
+    model = Artist
+
+    def dispatch(self, request, *args, **kwargs):
+        self.letter = kwargs.get('letter')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        if re.match("^[a-z]$", self.letter):
+            return qs.filter(name__iunaccent__istartswith=self.letter)
+
+        if self.letter == '*':
+            from string import ascii_lowercase
+            for c in ascii_lowercase:
+                qs = qs.exclude(name__iunaccent__istartswith=c)
+            return qs
+
+        raise ValueError("Invalid letter, expected a-z or *")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "letter": self.letter
         })
         return context
 

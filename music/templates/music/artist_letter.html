@@ -1,0 +1,25 @@
+{% extends "radio/base.html" %}
+
+{% load static %}
+
+{% block title %}Artists{% endblock %}
+
+{% block content %}
+<div class="grid-container" id="artists-page">
+    <h1>Artists starting with {{ letter|upper }}</h1>
+
+    <div class="callout">
+        {% include "music/partial/letters.html" %}
+    </div>
+
+    {% if artist_list %}
+        {% include "music/partial/artist_list.html" %}
+
+        {% if is_paginated %}
+            {% include "radio/partial/paging.html" %}
+        {% endif %}
+    {% else %}
+        <p>No such artists found :/</p>
+    {% endif %}
+</div>
+{% endblock %}
