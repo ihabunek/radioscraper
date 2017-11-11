@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'loaders',
     'music',
     'radio',
+    'ui',
 ]
 
 MIDDLEWARE = [
