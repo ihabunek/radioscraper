@@ -8,6 +8,7 @@ urlpatterns = [
     url('', include('radio.urls', namespace='radio')),
     url('', include('loaders.urls', namespace='loaders')),
     url('', include('music.urls', namespace='music')),
+    url('', include('ui.urls', namespace='ui')),
 ]
 
 if settings.DEBUG:

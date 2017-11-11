@@ -26,7 +26,7 @@ def test_index_view(client, radio_data):
     dt = tz.now()
     date = dt.strftime('%d.%m.%Y')
 
-    response = client.get(reverse('radio:index'))
+    response = client.get(reverse('ui:index'))
     assert response.status_code == 200
 
     content = str(response.content)

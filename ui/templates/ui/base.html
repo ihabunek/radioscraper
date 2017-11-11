@@ -1,4 +1,4 @@
-{% extends "radio/superbase.html" %}
+{% extends "ui/superbase.html" %}
 
 {% block body %}
   <div class="top-bar-container">
@@ -7,7 +7,7 @@
         <div class="top-bar-left">
           <ul class="dropdown menu" data-dropdown-menu>
             <li>
-              <a href="{% url 'radio:index' %}">Radio Scraper</a>
+              <a href="{% url 'ui:index' %}">Radio Scraper</a>
             </li>
             <li class="separator">//</li>
             <li>
@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  {% include "radio/partial/messages.html" %}
+  {% include "ui/partial/messages.html" %}
 
   {% block content %}{% endblock %}
 {% endblock %}
