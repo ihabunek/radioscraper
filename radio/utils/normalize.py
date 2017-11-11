@@ -15,19 +15,19 @@ def split_artist_title(string, normalize_case=False):
     string = string.replace("_", " ").strip()
 
     # Try splitting by hyphen surrounded by whitespace
-    bits = re.split('\s+-\s+', string, 1)
+    bits = re.split('\\s+-\\s+', string, 1)
 
     # Try with only one space from any side (radio student does this)
     if len(bits) < 2:
-        bits = re.split('-\s+', string, 1)
+        bits = re.split('-\\s+', string, 1)
 
     if len(bits) < 2:
-        bits = re.split('\s+-', string, 1)
+        bits = re.split('\\s+-', string, 1)
 
     # Check for known hyphenated authors
     if len(bits) < 2:
         for artist in hyphenated_artists:
-            if re.match("^{}\s*-".format(artist), string, re.I):
+            if re.match("^{}\\s*-".format(artist), string, re.I):
                 bits = [
                     string[0:len(artist)].strip('- '),
                     string[len(artist):].strip('- '),
