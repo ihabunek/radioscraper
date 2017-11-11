@@ -12,17 +12,17 @@ def normalize_name(name):
     name = name.replace('_', ' ')
 
     # Remove multiple whitespace with a single space
-    name = re.sub("\s+", " ", name)
+    name = re.sub("\\s+", " ", name)
 
     # Remove text in brackets
-    name = re.sub("\(.+\)", "", name)
-    name = re.sub("\[.+\]", "", name)
+    name = re.sub("\\(.+\\)", "", name)
+    name = re.sub("\\[.+\\]", "", name)
 
     # Replace "feat." and similar
-    name = re.sub("\s(ft|feat)\\.?\s.+", "", name, flags=re.IGNORECASE)
+    name = re.sub("\\s(ft|feat)\\.?\\s.+", "", name, flags=re.IGNORECASE)
 
     # Replace ; with & surrounded by spaces
-    name = re.sub("\s*;\s*", " & ", name)
+    name = re.sub("\\s*;\\s*", " & ", name)
 
     # Replace + which is used for & sometimes
 
