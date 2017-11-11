@@ -18,6 +18,8 @@ class AdminAccessMixin(AccessMixin):
 class FailureListView(AdminAccessMixin, ListView):
     model = LoaderFailure
     context_object_name = 'failures'
+    paginate_by = 100
+    ordering = ['-timestamp']
 
 
 class FailureDetailView(AdminAccessMixin, DetailView):
