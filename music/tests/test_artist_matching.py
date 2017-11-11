@@ -1,7 +1,7 @@
 import pytest
 
 from music.models import Artist, ArtistName
-from music.utils import find_artist, find_artist_by_name
+from music.utils import find_artist, find_artist_by_name, _name_variants
 
 
 @pytest.mark.django_db
@@ -37,6 +37,40 @@ def test_find_artist_1():
     assert find_artist('Sija feat some guy') is None
 
 
+def test_name_variants():
+    assert list(_name_variants("Simon & Garfunkel")) == [
+        'Simon & Garfunkel',
+        'The Simon & Garfunkel',
+        'Simon i Garfunkel',
+        'Simon and Garfunkel',
+        'Simon + Garfunkel'
+    ]
+
+    assert list(_name_variants("Simon + Garfunkel")) == [
+        'Simon + Garfunkel',
+        'The Simon + Garfunkel',
+        'Simon & Garfunkel',
+        'Simon i Garfunkel',
+        'Simon and Garfunkel'
+    ]
+
+    assert list(_name_variants("Simon and Garfunkel")) == [
+        'Simon and Garfunkel',
+        'The Simon and Garfunkel',
+        'Simon & Garfunkel',
+        'Simon i Garfunkel',
+        'Simon + Garfunkel'
+    ]
+
+    assert list(_name_variants("Simon i Garfunkel")) == [
+        'Simon i Garfunkel',
+        'The Simon i Garfunkel',
+        'Simon & Garfunkel',
+        'Simon and Garfunkel',
+        'Simon + Garfunkel'
+    ]
+
+
 @pytest.mark.django_db
 def test_find_artist_conjunctions():
     artist = Artist.objects.create(name="Tamara Obrovac & Transhistria Electric", slug="foo")
@@ -44,7 +78,9 @@ def test_find_artist_conjunctions():
 
     assert find_artist_by_name('Tamara Obrovac & Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac and Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac AND Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac i Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac I Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac + Transhistria Electric') == artist
 
     artist.delete()
@@ -54,7 +90,21 @@ def test_find_artist_conjunctions():
 
     assert find_artist_by_name('Tamara Obrovac & Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac and Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac AND Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac i Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac I Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac + Transhistria Electric') == artist
+
+    artist.delete()
+
+    artist = Artist.objects.create(name="Tamara Obrovac I Transhistria Electric", slug="foo")
+    ArtistName.objects.create(artist=artist, name="Tamara Obrovac i Transhistria Electric")
+
+    assert find_artist_by_name('Tamara Obrovac & Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac and Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac AND Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac i Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac I Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac + Transhistria Electric') == artist
 
     artist.delete()
@@ -64,7 +114,9 @@ def test_find_artist_conjunctions():
 
     assert find_artist_by_name('Tamara Obrovac & Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac and Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac AND Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac i Transhistria Electric') == artist
+    assert find_artist_by_name('Tamara Obrovac I Transhistria Electric') == artist
     assert find_artist_by_name('Tamara Obrovac + Transhistria Electric') == artist
 
     artist.delete()

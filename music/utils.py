@@ -49,10 +49,10 @@ def _name_variants(name):
     # Try to permute common conjunctions since they're used interchangeably
     conjunctions = [" & ", " i ", " and ", " + "]
     for one in conjunctions:
-        if one in normal_name:
+        if re.search(re.escape(one), normal_name, flags=re.IGNORECASE):
             for other in conjunctions:
-                if other != one:
-                    yield normal_name.replace(one, other)
+                if other.lower() != one.lower():
+                    yield re.sub(re.escape(one), other, normal_name, flags=re.IGNORECASE)
 
     # For artists with the "name surname" pattern, try reversing them
     match = re.match("^(\\w+)\\s+(\\w+)$", normal_name)
