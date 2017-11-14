@@ -6,6 +6,7 @@
   "author": "Ivan Habunek <ivan@habunek.com>",
   "license": "MIT",
   "dependencies": {
+    "font-awesome": "^4.7.0",
     "foundation-sites": "^6.4.0",
     "highcharts": "^6.0.2",
     "jquery-ui": "^1.12.1",

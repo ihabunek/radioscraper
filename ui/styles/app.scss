@@ -1,5 +1,8 @@
 @import "settings";
-@import "../../node_modules/foundation-sites/scss/foundation";
+
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
+@import "~foundation-sites/scss/foundation";
 
 @include foundation-everything();
 
@@ -80,4 +83,8 @@ select {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+}
+
+.callout.admin {
+    border-color: red;
 }
