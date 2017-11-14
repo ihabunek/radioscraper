@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db.models.aggregates import Count
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import View, ListView, DetailView, TemplateView
 
 from loaders.views import AdminAccessMixin
 from music.models import ArtistName, Artist
@@ -157,3 +157,26 @@ class MergeArtistsView(AdminAccessMixin, TemplateView):
 
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
+
+
+class SetArtistNameView(AdminAccessMixin, View):
+    """
+    Sets the default artist name.
+    """
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        artist = Artist.objects.filter(pk=request.POST.get('artist')).first()
+        name = ArtistName.objects.filter(pk=request.POST.get('name')).first()
+
+        if not artist:
+            messages.error(request, "Artist not given")
+
+        if not name:
+            messages.error(request, "ArtistName not given")
+
+        if artist and name:
+            artist.name = name.name
+            artist.save()
+
+        return HttpResponseRedirect(reverse("music:artist-detail", args=[artist.slug]))

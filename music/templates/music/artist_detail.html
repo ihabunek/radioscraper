@@ -8,14 +8,47 @@
 <script type="text/javascript">
     var chartData = [
     {% for k, v in chart_data %}[{{ k|date_to_ms }}, {{ v }}],{% endfor %}
-    ]
+    ];
 </script>
 <script src="{% static 'artist_detail.min.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
 <div class="grid-container" id="artists-page">
-    <h1>{{ artist.name }}</h1>
+
+    <h1>
+        {{ artist.name }}
+        {% if user.is_superuser %}
+            <button class="button" data-open="rename-modal">Rename</button>
+        {% endif %}
+    </h1>
+
+    {% if user.is_superuser %}
+    <div id="rename-modal" class="reveal" data-reveal>
+        <h3>Choose default artist name</h3>
+
+        <form action="{% url 'music:set-artist-name' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="artist" value="{{ artist.pk }}" />
+            <ul>
+            {% for name in artist.names.all %}
+                <li>
+                    <label>
+                        <input type="radio" name="name" value="{{ name.pk }}" />
+                        {{ name.name }}
+                    </label>
+                </li>
+            {% endfor %}
+            </ul>
+
+            <button type="submit" id="merge-artists" class="button">Make default</button>
+        </form>
+
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
 
     <div class="grid-x grid-margin-x small-up-1 medium-up-2">
         <div class="small-6 cell">
