@@ -86,7 +86,7 @@ class StatsView(TemplateView):
                 "song_stats": get_song_stats(start, end),
                 "artist_stats": get_artist_stats(start, end),
                 "most_played_songs": most_played_songs,
-                "most_played_artists": get_most_played_artists(None, start, end),
+                "most_played_artists": get_most_played_artists(None, start, end)[:30],
             })
 
         return context
