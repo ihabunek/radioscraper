@@ -94,11 +94,17 @@
                         <th class="text-left">Artist</th>
                         <th>Played</th>
                     </tr>
-                    {% for play in most_played_artists %}
+                    {% for artist in most_played_artists %}
                     <tr>
                         <td>#{{ forloop.counter }}</td>
-                        <td>{{ play.artist_name }}</td>
-                        <td class="text-center">{{ play.count }}</td>
+                        <td>
+                            {% if artist.slug %}
+                            <a href="{% url 'music:artist-detail' artist.slug %}" class="">
+                                {{ artist.name }}
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">{{ artist.count }}</td>
                     </tr>
                     {% endfor %}
                 </table>

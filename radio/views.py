@@ -6,8 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, TemplateView
 
 from radio.models import Radio, Play
-from radio.utils.stats import get_song_stats, get_artist_stats
-
+from radio.utils.stats import get_song_stats, get_artist_stats, get_most_played_artists
 
 def get_year_month(request):
     today = date.today()
@@ -51,7 +50,7 @@ class RadioStatsView(TemplateView):
                 "song_stats": get_song_stats(start, end, radio.id),
                 "artist_stats": get_artist_stats(start, end, radio.id),
                 "most_played_songs": radio.most_played_songs(start, end)[:30],
-                "most_played_artists": radio.most_played_artists(start, end)[:30],
+                "most_played_artists": get_most_played_artists(radio, start, end)[:30],
                 "most_played_daily": radio.most_played_daily(start, end).first()
             })
 
@@ -83,16 +82,11 @@ class StatsView(TemplateView):
                 .annotate(count=Count('*'))
                 .order_by('-count'))[:30]
 
-            most_played_artists = (plays
-                .values('artist_name')
-                .annotate(count=Count('*'))
-                .order_by('-count'))[:30]
-
             context.update({
                 "song_stats": get_song_stats(start, end),
                 "artist_stats": get_artist_stats(start, end),
                 "most_played_songs": most_played_songs,
-                "most_played_artists": most_played_artists,
+                "most_played_artists": get_most_played_artists(None, start, end),
             })
 
         return context

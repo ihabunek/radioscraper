@@ -1,4 +1,34 @@
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 from django.db import connection
+from django.db.models import F, Count
+
+from radio.models import Play
+
+
+def get_plays(radio=None, start=None, end=None):
+    qs = Play.objects.all()
+
+    if radio:
+        qs = qs.filter(radio=radio)
+
+    if start:
+        start_dttm = datetime(start.year, start.month, start.day)
+        qs = qs.filter(timestamp__gte=start_dttm)
+
+    if end:
+        end_dttm = datetime(end.year, end.month, end.day) + relativedelta(days=1)
+        qs = qs.filter(timestamp__lt=end_dttm)
+
+    return qs
+
+
+def get_most_played_artists(radio=None, start=None, end=None):
+    return (get_plays(radio, start, end)
+        .values(pk=F('artist__pk'), name=F('artist__name'), slug=F('artist__slug'))
+        .annotate(count=Count('*'))
+        .order_by('-count'))
 
 
 def get_song_stats(start, end, radio_id=None):

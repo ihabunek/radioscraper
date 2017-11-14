@@ -64,12 +64,6 @@ class Radio(models.Model):
                     .annotate(count=Count('*'))
                     .order_by("-count"))
 
-    def most_played_artists(self, start=None, end=None):
-        return (self.plays(start, end)
-                    .values('artist_name')
-                    .annotate(count=Count('*'))
-                    .order_by("-count"))
-
     def __repr__(self):
         return 'Radio (name="{}")'.format(self.name)
 
