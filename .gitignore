@@ -1,4 +1,5 @@
-/.env
+/.envrc
+/project.env
 /_env/
 /tmp/
 /static/
