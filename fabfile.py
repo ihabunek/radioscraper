@@ -10,6 +10,7 @@ def deploy():
     with cd(PROJECT_HOME):
         run("git pull")
         run("_env/bin/pip install -r requirements.txt")
+        run("_env/bin/pip install -r requirements.prod.txt")
         run("source .env; _env/bin/python manage.py migrate")
         run("source .env; _env/bin/python manage.py collectstatic --clear --no-input")
         run("sudo service radioscraper reload")
