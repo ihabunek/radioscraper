@@ -66,7 +66,7 @@
     </form>
 
     {% if plays %}
-    <table class="hover">
+    <table class="plays-table" class="hover">
         <tr>
             <th>Time</th>
             <th>Radio</th>
@@ -82,10 +82,18 @@
                 <a data-radio="{{ play.radio.slug }}" href="#">{{ play.radio.name }}</a>
             </td>
             <td>
-                <a data-artist="{{ play.artist_name }}" href="#">{{ play.artist_name }}</a>
+                <a href="{% url 'music:artist-detail' play.artist.slug %}">
+                    {{ play.artist_name }}
+                </a>
+                <a class="filter" data-artist="{{ play.artist_name }}" href="#" title="Add artist to filter">
+                    <i class="gray fa fa-filter"></i>
+                </a>
             </td>
             <td>
-                <a data-title="{{ play.title }}" href="#">{{ play.title }}</a>
+                {{ play.title }}
+                <a class="filter" data-title="{{ play.title }}" href="#" title="Add song to filter">
+                    <i class="gray fa fa-filter"></i>
+                </a>
             </td>
         </tr>
         {% endfor %}

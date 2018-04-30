@@ -1,0 +1,12 @@
+.plays-table {
+    a.filter {
+        float: right;
+        i.fa {
+            color: $light-gray;
+        }
+    }
+    td:hover > a.filter i.fa {
+        color: $black;
+    }
+}
+

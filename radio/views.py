@@ -142,4 +142,4 @@ class PlaysView(ListView):
         if self.end:
             qs = qs.filter(timestamp__lt=self.end + relativedelta(days=1))
 
-        return qs
+        return qs.prefetch_related('artist')

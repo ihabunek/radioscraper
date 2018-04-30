@@ -21,12 +21,12 @@ const clearSearch = (fields) => {
 $(document).ready(() => {
     $('a[data-artist]').click(e => {
         e.preventDefault()
-        searchWith({ "artist_name": e.target.dataset.artist })
+        searchWith({ "artist_name": e.currentTarget.dataset.artist })
     })
 
     $('a[data-title]').click(e => {
         e.preventDefault()
-        searchWith({ "title": e.target.dataset.title })
+        searchWith({ "title": e.currentTarget.dataset.title })
     })
 
     $('a[data-radio]').click(e => {
@@ -64,12 +64,10 @@ $(document).ready(() => {
     }
 
     startDatepicker.on("change", e => {
-        console.log(getDate(e.target))
         endDatepicker.datepicker("option", "minDate", getDate(e.target))
     })
 
     endDatepicker.on("change", e => {
-        console.log(getDate(e.target))
         startDatepicker.datepicker("option", "maxDate", getDate(e.target))
     })
 })

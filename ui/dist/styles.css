@@ -7414,6 +7414,14 @@ a.thumbnail {
     background-color: #e6e6e6;
     cursor: pointer; }
 
+.plays-table a.filter {
+  float: right; }
+  .plays-table a.filter i.fa {
+    color: #e6e6e6; }
+
+.plays-table td:hover > a.filter i.fa {
+  color: #0a0a0a; }
+
 #stats-page .button.hollow {
   width: rem; }
 
