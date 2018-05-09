@@ -19,15 +19,20 @@
             <div class="radio" data-radio-link="{{ radio.slug }}" data-equalizer-watch>
                 <h5>{{ radio.name }}</h5>
                 <p>
-                    {{ radio.play_count }} plays<br />
+                    {{ radio.play_count }} plays
+                    {% if radio.first_play.timestamp %}
+                    <br />
                     since {{ radio.first_play.timestamp|date:"d.m.Y" }}
+                    {% endif %}
                 </p>
+                {% if radio.last_play %}
                 <p>
                     Last play: <br />
                     <b>{{ radio.last_play.title }}</b>
                     by <b>{{ radio.last_play.artist_name }}</b><br />
                     at <i class="gray">{{ radio.last_play.timestamp|date:"Y-m-d @ H:i" }}</i>
                 </p>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
