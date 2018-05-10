@@ -1,10 +1,7 @@
-from datetime import datetime
 from requests import Request
 from radio.utils.normalize import split_artist_title
 
-
-def _timestamp():
-    return int(datetime.now().timestamp() * 1000)
+from .common import timestamp_ms
 
 
 def form_request():
@@ -12,7 +9,7 @@ def form_request():
 
     return Request("GET", url, params={
         'the_stream': 'http://live.antenazagreb.hr:8000/;',
-        '_': _timestamp(),
+        '_': timestamp_ms(),
     })
 
 

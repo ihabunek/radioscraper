@@ -1,10 +1,7 @@
-from datetime import datetime
 from requests import Request
 from xml.etree import ElementTree
 
-
-def _timestamp():
-    return int(datetime.now().timestamp() * 1000)
+from .common import timestamp_ms
 
 
 def form_request(name):
@@ -14,7 +11,7 @@ def form_request(name):
         'mountName': name,
         'numberToFetch': 10,
         'eventType': 'track,',
-        'request.preventCache': _timestamp(),
+        'request.preventCache': timestamp_ms(),
     })
 
 
