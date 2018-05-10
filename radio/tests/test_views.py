@@ -1,17 +1,22 @@
 import pytest
 
 from django.urls import reverse
-from radio.models import Radio, Play
 from django.utils import timezone as tz
+
+from music.models import Artist
+from radio.models import Radio, Play
 
 
 @pytest.fixture
 def radio_data():
     radio = Radio.objects.create(name="Radio One", slug="radio-one")
 
-    first = Play.objects.create(radio=radio, title="Foo", artist_name="Gang of four")
-    Play.objects.create(radio=radio, title="Bar", artist_name="Gang of four")
-    last = Play.objects.create(radio=radio, title="Baz", artist_name="Gang of four")
+    artist = Artist.objects.create(name="Gang of four", slug="gang-of-four")
+
+    common = {"radio": radio, "artist": artist}
+    first = Play.objects.create(title="Foo", artist_name="Gang of four", **common)
+    Play.objects.create(title="Bar", artist_name="Gang of four", **common)
+    last = Play.objects.create(title="Baz", artist_name="Gang of four", **common)
 
     radio.first_play = first
     radio.last_play = last
