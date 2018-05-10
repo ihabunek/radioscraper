@@ -1,7 +1,7 @@
 from requests import Request
 from xml.etree import ElementTree
 
-from .common import timestamp_ms
+from . import timestamp_ms
 
 
 def form_request(name):
