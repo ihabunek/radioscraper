@@ -1,5 +1,7 @@
 {% extends "ui/base.html" %}
 
+{% load radio %}
+
 {% block title %}Failures{% endblock %}
 
 {% block content %}
@@ -31,7 +33,13 @@
                         </td>
                         <td>{{ failure.radio.name }}</td>
                         <td>{{ failure.type }}</td>
-                        <td>{{ failure.error_message }}</td>
+                        <td>
+                            {% if failure.type == 'fetch' %}
+                                HTTP {{ failure.response.status_code|http_status }}
+                            {% else %}
+                                {{ failure.error_message }}
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
