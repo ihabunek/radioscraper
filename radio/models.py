@@ -64,6 +64,14 @@ class Radio(models.Model):
                     .annotate(count=Count('*'))
                     .order_by("-count"))
 
+    @property
+    def get_current_outage(self, min_failure_count=3):
+        """Returns current Outage, if any."""
+        return (self.outages
+            .filter(end__isnull=True)
+            .filter(failure_count__gte=min_failure_count)
+            .first())
+
     def __repr__(self):
         return 'Radio (name="{}")'.format(self.name)
 

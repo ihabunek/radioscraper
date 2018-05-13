@@ -25,6 +25,7 @@
                     since {{ radio.first_play.timestamp|date:"d.m.Y" }}
                     {% endif %}
                 </p>
+
                 {% if radio.last_play %}
                 <p>
                     Last play: <br />
@@ -34,6 +35,14 @@
                 </p>
                 {% endif %}
             </div>
+            {% with outage=radio.get_current_outage %}
+            {% if outage %}
+                <div class="outage" title="Failed loading songs for this radio.">
+                    Out since:
+                    {{ outage.start|date:"Y-m-d @ H:i" }}
+                </div>
+            {% endif %}
+            {% endwith %}
         </div>
         {% endfor %}
     </div>

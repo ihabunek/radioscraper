@@ -7414,6 +7414,14 @@ a.thumbnail {
     background-color: #e6e6e6;
     cursor: pointer; }
 
+#index-page .outage {
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: smaller;
+  color: #fefefe;
+  background-color: #0a0a0a; }
+
 .plays-table a.filter {
   float: right; }
   .plays-table a.filter i.fa {
