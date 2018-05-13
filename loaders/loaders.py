@@ -64,21 +64,23 @@ def get_loader(radio_slug):
 def load_current_song(radio):
     loader = get_loader(radio.slug)
 
+    # Whether to stream the response
+    stream = getattr(loader, "stream", False)
+
     # Fetch data
     request = loader.form_request()
     session = Session()
-    response = session.send(request.prepare())
 
-    if response.status_code >= 400:
-        failure = create_request_failure(radio, request, response)
-        raise LoaderError(failure)
+    with session.send(request.prepare(), stream=stream) as response:
+        if response.status_code >= 400:
+            failure = create_request_failure(radio, request, response)
+            raise LoaderError(failure)
 
-    # Parse data
-    try:
-        song = loader.parse_response(response)
-    except Exception as ex:
-        failure = create_parse_failure(radio, request, response, ex, format_exc())
-        raise LoaderError(failure)
+        try:
+            song = loader.parse_response(response)
+        except Exception as ex:
+            failure = create_parse_failure(radio, request, response, ex, format_exc())
+            raise LoaderError(failure)
 
     # Close any open outages
     Outage.objects.filter(radio=radio, end__isnull=True).update(end=timezone.now())
