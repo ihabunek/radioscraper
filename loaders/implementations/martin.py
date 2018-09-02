@@ -33,4 +33,8 @@ def parse_response(response):
 
     artist, title = split_artist_title(match.group(1))
 
+    # Skip commercials
+    if artist == 'Radio Martin':
+        return None
+
     return artist.title(), title
