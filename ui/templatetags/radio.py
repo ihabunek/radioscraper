@@ -20,3 +20,16 @@ def http_status(code):
 def date_to_ms(date):
     """Convert date to epoch milliseconds, used for charts"""
     return int(time.mktime(date.timetuple()) * 1000)
+
+
+@register.filter()
+def human_format(num):
+    magnitude = 0
+
+    while abs(num) >= 1000:
+        magnitude += 1
+        num /= 1000.0
+
+    suffix = ['', 'K', 'M', 'G', 'T', 'P'][magnitude]
+
+    return '{:.1f}{}'.format(num, suffix).replace('.0', '')

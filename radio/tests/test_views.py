@@ -28,8 +28,7 @@ def radio_data():
 
 @pytest.mark.django_db
 def test_index_view(client, radio_data):
-    dt = tz.now()
-    date = dt.strftime('%d.%m.%Y')
+    date = tz.now()
 
     response = client.get(reverse('ui:index'))
     assert response.status_code == 200
@@ -37,7 +36,7 @@ def test_index_view(client, radio_data):
     content = str(response.content)
     assert '<h5>Radio One</h5>' in content
     assert '3 plays' in content
-    assert 'since {}'.format(date) in content
+    assert 'since {:%Y-%m-%d}'.format(date) in content
     assert 'Last play:' in content
     assert '<b>Baz</b>' in content
     assert 'by <b>Gang of four</b>' in content
