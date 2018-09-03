@@ -7,7 +7,7 @@ class Outage(models.Model):
     """
     Created when a loder fails repeatedly.
     """
-    radio = models.ForeignKey('radio.Radio', related_name='outages')
+    radio = models.ForeignKey('radio.Radio', on_delete=CASCADE, related_name='outages')
     start = models.DateTimeField()
     end = models.DateTimeField(blank=True, null=True)
     failure_count = models.PositiveIntegerField(default=0)
@@ -54,10 +54,10 @@ class LoaderFailure(models.Model):
     )
 
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
-    radio = models.ForeignKey('radio.Radio', CASCADE)
-    outage = models.ForeignKey(Outage, SET_NULL, blank=True, null=True, related_name="failures")
+    radio = models.ForeignKey('radio.Radio', on_delete=CASCADE)
+    outage = models.ForeignKey(Outage, on_delete=SET_NULL, blank=True, null=True, related_name="failures")
     timestamp = models.DateTimeField(auto_now_add=True)
-    request = models.ForeignKey(RequestData, PROTECT)
-    response = models.ForeignKey(ResponseData, PROTECT, blank=True, null=True)
+    request = models.ForeignKey(RequestData, on_delete=PROTECT)
+    response = models.ForeignKey(ResponseData, on_delete=PROTECT, blank=True, null=True)
     error_message = models.TextField(blank=True)
     stack_trace = models.TextField(blank=True)

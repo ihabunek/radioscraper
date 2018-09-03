@@ -18,8 +18,8 @@ class Radio(models.Model):
     active = models.BooleanField(default=True)
 
     # Derived data, cached for performance
-    first_play = models.ForeignKey("radio.Play", blank=True, null=True, related_name="+")
-    last_play = models.ForeignKey("radio.Play", blank=True, null=True, related_name="+")
+    first_play = models.ForeignKey("radio.Play", on_delete=PROTECT, blank=True, null=True, related_name="+")
+    last_play = models.ForeignKey("radio.Play", on_delete=PROTECT, blank=True, null=True, related_name="+")
     play_count = models.PositiveIntegerField(default=0)
 
     objects = RadioManager()
@@ -92,8 +92,8 @@ class PlayManager(models.Manager):
 
 
 class Play(models.Model):
-    radio = models.ForeignKey(Radio, PROTECT)
-    artist = models.ForeignKey('music.Artist', PROTECT, null=True)
+    radio = models.ForeignKey(Radio, on_delete=PROTECT)
+    artist = models.ForeignKey('music.Artist', on_delete=PROTECT, null=True)
     artist_name = models.CharField(max_length=255, db_index=True)
     title = models.CharField(max_length=255, db_index=True)
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
