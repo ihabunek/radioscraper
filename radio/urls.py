@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from radio import views
 
+app_name = 'radio'
 
 urlpatterns = [
     url(r'^stats/$', views.StatsView.as_view(), name='stats'),

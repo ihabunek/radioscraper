@@ -5,10 +5,10 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('', include('radio.urls', namespace='radio')),
-    url('', include('loaders.urls', namespace='loaders')),
-    url('', include('music.urls', namespace='music')),
-    url('', include('ui.urls', namespace='ui')),
+    url('', include('radio.urls')),
+    url('', include('loaders.urls')),
+    url('', include('music.urls')),
+    url('', include('ui.urls')),
 ]
 
 if settings.DEBUG:
