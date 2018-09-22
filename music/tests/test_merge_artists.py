@@ -40,6 +40,9 @@ def test_merge():
     assert not Artist.objects.filter(pk=a2.pk).exists()
     assert not Artist.objects.filter(pk=a3.pk).exists()
 
+    merged = Artist.objects.get(pk=a1.pk)
+    assert merged.play_count == 6
+
     assert r.play_set.count() == 6
     assert r.play_set.filter(artist=a1).count() == 6
 

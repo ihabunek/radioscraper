@@ -1,7 +1,8 @@
 import pytest
 
-from radio.models import Radio
 from loaders.utils import add_play
+from music.models import Artist
+from radio.models import Radio
 
 
 @pytest.mark.django_db
@@ -26,7 +27,7 @@ def test_add_play():
     assert radio.play_count == 1
 
     # Repeated song, should not create a new Play
-    created, play2 = add_play(radio, "foo", "bar")
+    created, play1 = add_play(radio, "foo", "bar")
 
     assert not created
     assert play1.artist_name == "foo"
@@ -48,3 +49,19 @@ def test_add_play():
     assert radio.first_play == play1
     assert radio.last_play == play2
     assert radio.play_count == 2
+
+    # One more song
+    created, play3 = add_play(radio, "foo", "brm")
+
+    assert created
+    assert play3.artist_name == "foo"
+    assert play3.title == "brm"
+
+    assert radio.play_set.count() == 3
+    assert radio.first_play == play1
+    assert radio.last_play == play3
+    assert radio.play_count == 3
+
+    # Check artist derived data
+    assert Artist.objects.get(slug='foo').play_count == 2
+    assert Artist.objects.get(slug='mrm').play_count == 1

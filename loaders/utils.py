@@ -1,16 +1,21 @@
+from django.db import transaction
 from music.utils import get_or_create_artist
 from radio.models import Play
 
 
-def update_derived_data(radio, current_play):
+def update_derived_data(radio, artist, play):
     if not radio.first_play:
         radio.first_play = radio.get_first_play()
 
-    radio.last_play = current_play
+    radio.last_play = play
     radio.play_count = radio.get_play_count()
     radio.save()
 
+    artist.recalculate_derived_data()
+    artist.save()
 
+
+@transaction.atomic
 def add_play(radio, artist_name, title):
     """Creates a new Play for the given radio unless it's a repeat.
 
@@ -37,6 +42,6 @@ def add_play(radio, artist_name, title):
         title=title,
     )
 
-    update_derived_data(radio, play)
+    update_derived_data(radio, artist, play)
 
     return True, play

@@ -120,15 +120,16 @@ def merge_artists(artists, target_artist, target_name):
     if not all_names.filter(pk=target_name.pk).exists():
         raise MergeError("target_name invalid")
 
-    # Set the prefered artist name
-    target_artist.name = target_name.name
-    target_artist.save()
-
     # Reassign names to target artist
     ArtistName.objects.filter(artist__in=artists).update(artist=target_artist)
 
     # Reassign plays to target artist
     Play.objects.filter(artist__in=artists).update(artist=target_artist)
+
+    # Set the prefered artist name
+    target_artist.name = target_name.name
+    target_artist.recalculate_derived_data()
+    target_artist.save()
 
     # Delete other artists
     artists.delete()

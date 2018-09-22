@@ -6,11 +6,17 @@ class Artist(models.Model):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255, unique=True, db_index=True)
 
+    # Derived data, cached for performance
+    play_count = models.IntegerField(default=0)
+
     def has_name(self, name):
         return self.names.filter(name=name).exists()
 
     def add_name(self, name):
         return ArtistName.objects.get_or_create(artist=self, name=name)
+
+    def recalculate_derived_data(self):
+        self.play_count = self.play_set.count()
 
     def __str__(self):
         return self.name
