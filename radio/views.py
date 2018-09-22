@@ -94,7 +94,7 @@ class StatsView(TemplateView):
 
 class PlaysView(ListView):
     template_name = 'radio/plays.html'
-    queryset = Play.objects.all().order_by("-timestamp").prefetch_related('radio')
+    queryset = Play.objects.all().order_by("-timestamp").prefetch_related('radio', 'artist')
     context_object_name = 'plays'
     paginate_by = 100
 
@@ -142,4 +142,4 @@ class PlaysView(ListView):
         if self.end:
             qs = qs.filter(timestamp__lt=self.end + relativedelta(days=1))
 
-        return qs.prefetch_related('artist')
+        return qs
