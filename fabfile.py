@@ -26,7 +26,7 @@ def refresh_db():
     run("pg_dump -d radioscraper --no-owner > {}".format(DUMP_FILE))
 
     # Fetch dump and restore
-    local("scp bigfish:{0} {0}".format(DUMP_FILE))
+    local("scp -C bigfish:{0} {0}".format(DUMP_FILE))
     local("psql -d radioscraper < {}".format(DUMP_FILE))
 
     # Cleanup
