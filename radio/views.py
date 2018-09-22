@@ -8,6 +8,7 @@ from django.views.generic import ListView, TemplateView
 from radio.models import Radio, Play
 from radio.utils.stats import get_song_stats, get_artist_stats, get_most_played_artists
 
+
 def get_year_month(request):
     today = date.today()
     default = [today.year, today.month]
@@ -131,10 +132,10 @@ class PlaysView(ListView):
             qs = qs.filter(radio__slug=self.radio)
 
         if self.artist_name:
-            qs = qs.filter(artist_name__unaccent__iexact=self.artist_name)
+            qs = qs.filter(artist_name__iunaccent__iexact=self.artist_name)
 
         if self.title:
-            qs = qs.filter(title__unaccent__iexact=self.title)
+            qs = qs.filter(title__iunaccent__iexact=self.title)
 
         if self.start:
             qs = qs.filter(timestamp__gte=self.start)
