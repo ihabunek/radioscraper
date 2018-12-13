@@ -8,7 +8,7 @@ def form_request():
     url = 'http://streaming.extrafm.hr/stream/now_playing.php'
 
     return Request("GET", url, params={
-        'the_stream': 'http://78.46.19.154:8110/',
+        'the_stream': 'http://streams.extrafm.hr:8110/;',
         '_': timestamp_ms(),
     })
 

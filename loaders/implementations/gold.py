@@ -8,7 +8,7 @@ def form_request():
     url = 'http://streaming.goldfm.hr/stream/now_playing.php'
 
     return Request("GET", url, params={
-        'the_stream': 'http://94.130.66.170:8068/;',
+        'the_stream': 'http://live.goldfm.hr:8068/;',
         '_': timestamp_ms(),
     })
 
