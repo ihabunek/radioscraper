@@ -1,18 +1,21 @@
-from bs4 import BeautifulSoup
 from requests import Request
+from xml.etree import ElementTree
 
 
 def form_request():
-    return Request("GET", 'http://laganini.fm/live/?station=zagreb')
+    return Request("GET", "http://laganini.fm/logs/zagreb/NowOnAir.xml")
 
 
 def parse_response(response):
-    bs = BeautifulSoup(response.text, "html.parser")
-    artist = bs.find_all('span', class_="author")
-    song = bs.find_all('span', class_="song")
+    root = ElementTree.fromstring(response.text)
+    song = root.find('.//Song')
+    title = song.attrib.get('title').strip()
 
-    if artist and song:
-        return [
-            artist[0].text.title(),
-            song[0].text.capitalize()
-        ]
+    artist = song.find('Artist')
+    artist_name = artist.get('name').strip()
+
+    if artist_name and title:
+        return (
+            artist_name.title(),
+            title,
+        )
