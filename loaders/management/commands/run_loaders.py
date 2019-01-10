@@ -1,9 +1,18 @@
+import logging
+
 from django.core.management.base import BaseCommand
 from django.utils import timezone as tz
 
 from radio.models import Radio
-from loaders.loaders import load_current_song, LoaderError
+from loaders.loaders import load_current_song
 from loaders.utils import add_play
+from concurrent.futures import ThreadPoolExecutor, TimeoutError, as_completed
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+TIMEOUT = 60
 
 
 class Command(BaseCommand):
@@ -14,36 +23,36 @@ class Command(BaseCommand):
         super(Command, self).__init__(*args, **kwargs)
 
     def add_arguments(self, parser):
+        parser.add_argument('--debug', action='store_true')
         parser.add_argument('radio', nargs='?', type=str)
 
-    def save(self, radio, artist_name, title):
-        created, play = add_play(radio, artist_name, title)
-
-        if created:
-            self.stdout.write("Added play {}".format(play))
-        else:
-            self.stdout.write("Repeated play {}, skipping".format(play))
-
-    def load_song(self, radio):
-        try:
-            self.stdout.write("\nLoading song for {}".format(radio.name))
-            song = load_current_song(radio)
-            if song:
-                artist_name, title = song
-                self.save(radio, artist_name, title)
-            else:
-                self.stdout.write("Looks like nothing is being played.")
-
-        except LoaderError:
-            self.stdout.write("Failed loading song :/")
-
     def handle(self, *args, **options):
-        self.stdout.write("\n--- " + self.now + " " + "-" * 60)
+        if options['debug']:
+            logging.getLogger().setLevel(logging.DEBUG)
+
+        logger.info("-" * 50)
+        logger.info("--- {:%Y-%m-%d %H:%M:%S} -- running loaders -------".format(tz.now()))
+        logger.info("-" * 50)
 
         radio = options['radio']
-        qs = Radio.objects.active().order_by('name')
+        radios = Radio.objects.active().order_by('name')
         if radio:
-            qs = qs.filter(slug=radio)
+            radios = radios.filter(slug=radio)
 
-        for radio in qs:
-            self.load_song(radio)
+        try:
+            with ThreadPoolExecutor() as executor:
+                futures = [executor.submit(load_current_song, radio) for radio in radios]
+                for future in as_completed(futures, timeout=TIMEOUT):
+                    self.process_loader_result(*future.result())
+        except TimeoutError:
+            logger.error("Some loaders didn't make it. :(")
+
+    def process_loader_result(self, radio, song, failure):
+        if song:
+            artist_name, title = song
+            created, play = add_play(radio, artist_name, title)
+            logger.info("{}: {} {}".format(radio.slug, play, "(repeated)" if not created else ""))
+        elif failure:
+            logger.error("{}: {} failure: {}".format(radio.slug, failure.type, failure.error_message))
+        else:
+            logger.info("{}: nothing currently playing".format(radio.slug))

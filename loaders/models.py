@@ -46,6 +46,7 @@ class LoaderFailure(models.Model):
     """
 
     # Failure
+    TYPE_CONNECT = 'connect'
     TYPE_FETCH = 'fetch'
     TYPE_PARSE = 'parse'
     TYPE_CHOICES = (

@@ -1,6 +1,10 @@
+import logging
+
 from django.db import transaction
 from music.utils import get_or_create_artist
 from radio.models import Play
+
+logger = logging.getLogger(__name__)
 
 
 def update_derived_data(radio, artist, play):
@@ -33,7 +37,7 @@ def add_play(radio, artist_name, title):
 
     created, artist = get_or_create_artist(artist_name)
     if created:
-        print("Created artist '{}' based on '{}' - '{}'".format(artist, artist_name, title))
+        logger.info("Created artist '{}' based on '{}' - '{}'".format(artist, artist_name, title))
 
     play = Play.objects.create(
         radio=radio,
