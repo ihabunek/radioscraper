@@ -2,7 +2,7 @@ from loaders.implementations.common import hrt
 
 
 def form_request():
-    return hrt.form_request('PROGRAM1')
+    return hrt.form_request('PROGRAM1AAC')
 
 
 def parse_response(response):
