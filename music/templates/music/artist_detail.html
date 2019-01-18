@@ -18,12 +18,17 @@
 
     <h1>
         {{ artist.name }}
-        {% if user.is_superuser %}
-            <button class="button" data-open="rename-modal">Rename</button>
-        {% endif %}
     </h1>
 
     {% if user.is_superuser %}
+    <div class="callout">
+        Admin actions
+        <div class="button-group">
+            <button class="button" data-open="rename-modal">Rename</button>
+            <a href="{% url 'music:artist-delete' artist.slug %}" class="button">Delete</a>
+        </div>
+    </div>
+
     <div id="rename-modal" class="reveal" data-reveal>
         <h3>Choose default artist name</h3>
 

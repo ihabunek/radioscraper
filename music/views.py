@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db.models.aggregates import Count
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import View, ListView, DetailView, TemplateView
+from django.views.generic import View, ListView, DetailView, TemplateView, DeleteView
 
 from loaders.views import AdminAccessMixin
 from music.models import ArtistName, Artist
@@ -106,6 +106,14 @@ class ArtistDetailView(DetailView):
             "chart_data": self.get_chart_data(),
         })
         return context
+
+
+class ArtistDeleteView(AdminAccessMixin, DeleteView):
+    model = Artist
+    template_name = 'music/artist_delete.html'
+
+    def get_success_url(self):
+        return reverse('music:artist-detail', args=[self.object.slug])
 
 
 class MergeArtistsView(AdminAccessMixin, TemplateView):
