@@ -47,6 +47,10 @@ def parse_response(response):
 
     artist, title = split_artist_title(match.group(1))
 
+    # Debug why comercials aren't skipped
+    logger.info("artist='{}' title='{}' comercials? {}".format(
+        artist, title, "yes" if artist == 'Radio Martin' else "no"))
+
     # Skip commercials
     if artist == 'Radio Martin':
         return None
