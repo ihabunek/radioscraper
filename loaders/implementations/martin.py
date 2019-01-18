@@ -1,7 +1,10 @@
 import re
+import logging
 
 from requests import Request
 from radio.utils.normalize import split_artist_title
+
+logger = logging.getLogger(__name__)
 
 
 stream = True
@@ -16,17 +19,28 @@ def form_request():
 
 def parse_response(response):
     # Find chunk size, metadata is included after each chunk
-    length = int(response.headers.get('icy-metaint'))
+    offset = int(response.headers.get('icy-metaint'))
+
+    # Check sane offset value (usually 16k)
+    logger.info("icy-metaint: {}".format(offset))
+    if not (1 < offset < 64 * 1024):
+        logger.error("invalid icy-metaint value: {}")
+        return
 
     # Skip first chunk
-    response.raw.read(length)
+    response.raw.read(offset)
 
     # Determine length of meta data from first byte
-    meta_length = response.raw.read(1)[0] * 16
+    length = response.raw.read(1)[0] * 16
+
+    # Check sane length value (usually 32)
+    logger.info("meta length: {}".format(length))
+    if not (1 < length < 128):
+        logger.error("invalid meta length: {}".format(length))
+        return
 
     # Read and decode metadata
-    meta = response.raw.read(meta_length).decode("utf-8")
-
+    meta = response.raw.read(length).decode("utf-8")
     match = re.search("StreamTitle='(.+)';", meta)
     if not match:
         raise ValueError("Meta data not found")
