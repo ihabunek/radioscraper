@@ -43,7 +43,8 @@ def parse_response(response):
     meta = response.raw.read(length).decode("utf-8")
     match = re.search("StreamTitle='(.+)';", meta)
     if not match:
-        raise ValueError("Meta data not found")
+        logger.error("metadata not found in: '{}'")
+        return
 
     artist, title = split_artist_title(match.group(1))
 

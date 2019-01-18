@@ -1,16 +1,12 @@
 import logging
 
+from concurrent.futures import ThreadPoolExecutor, TimeoutError, as_completed
 from django.core.management.base import BaseCommand
-from django.utils import timezone as tz
-
-from radio.models import Radio
 from loaders.loaders import load_current_song
 from loaders.utils import add_play
-from concurrent.futures import ThreadPoolExecutor, TimeoutError, as_completed
+from radio.models import Radio
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
 
 TIMEOUT = 60
 
@@ -18,21 +14,11 @@ TIMEOUT = 60
 class Command(BaseCommand):
     help = 'For each defined radio, loads the current playing song and saves it to the database.'
 
-    def __init__(self, *args, **kwargs):
-        self.now = "{:%Y-%m-%d %H:%M:%S}".format(tz.now())
-        super(Command, self).__init__(*args, **kwargs)
-
     def add_arguments(self, parser):
-        parser.add_argument('--debug', action='store_true')
         parser.add_argument('radio', nargs='?', type=str)
 
     def handle(self, *args, **options):
-        if options['debug']:
-            logging.getLogger().setLevel(logging.DEBUG)
-
-        logger.info("-" * 50)
-        logger.info("--- {:%Y-%m-%d %H:%M:%S} -- running loaders -------".format(tz.now()))
-        logger.info("-" * 50)
+        logger.info("### RUNNING LOADERS ###")
 
         radio = options['radio']
         radios = Radio.objects.active().order_by('name')
@@ -41,11 +27,16 @@ class Command(BaseCommand):
 
         try:
             with ThreadPoolExecutor() as executor:
-                futures = [executor.submit(load_current_song, radio) for radio in radios]
-                for future in as_completed(futures, timeout=TIMEOUT):
-                    self.process_loader_result(*future.result())
+                self.dispatch(executor, radios)
         except TimeoutError:
-            logger.error("Some loaders didn't make it. :(")
+            logger.exception("Some loaders didn't make it. :(")
+
+        logger.info("### DONE ###")
+
+    def dispatch(self, executor, radios):
+        futures = [executor.submit(load_current_song, radio) for radio in radios]
+        for future in as_completed(futures, timeout=TIMEOUT):
+            self.process_loader_result(*future.result())
 
     def process_loader_result(self, radio, song, failure):
         if song:

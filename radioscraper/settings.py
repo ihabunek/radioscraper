@@ -151,6 +151,48 @@ MESSAGE_TAGS = {
 }
 
 
+# Logging
+# https://docs.djangoproject.com/en/1.11/topics/logging/
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(process)d %(levelname)s %(name)s %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'debug_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '{}/loaders.log'.format(BASE_DIR),
+            'formatter': 'verbose',
+        },
+        'error_file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': '{}/errors.log'.format(BASE_DIR),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'loaders': {
+            'handlers': ['console', 'debug_file', 'error_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
 if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         'JQUERY_URL': '',
