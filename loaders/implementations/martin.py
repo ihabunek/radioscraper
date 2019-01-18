@@ -49,11 +49,10 @@ def parse_response(response):
 
     # Debug why comercials aren't skipped
     logger.info("meta='{}'".format(meta))
-    logger.info("artist='{}' title='{}' comercials? {}".format(
-        artist, title, "yes" if artist == 'Radio Martin' else "no"))
 
     # Skip commercials
-    if artist == 'Radio Martin':
+    if artist.lower() == 'radio martin':
+        logger.info("Skipping commercials")
         return None
 
     return artist.title(), title
