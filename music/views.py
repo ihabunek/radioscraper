@@ -113,7 +113,7 @@ class ArtistDeleteView(AdminAccessMixin, DeleteView):
     template_name = 'music/artist_delete.html'
 
     def get_success_url(self):
-        return reverse('music:artist-detail', args=[self.object.slug])
+        return reverse('music:artist-list')
 
 
 class MergeArtistsView(AdminAccessMixin, TemplateView):
