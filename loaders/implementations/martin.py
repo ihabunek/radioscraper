@@ -22,7 +22,6 @@ def parse_response(response):
     offset = int(response.headers.get('icy-metaint'))
 
     # Check sane offset value (usually 16k)
-    logger.info("icy-metaint: {}".format(offset))
     if not (1 < offset < 64 * 1024):
         logger.error("invalid icy-metaint value: {}")
         return
@@ -34,7 +33,6 @@ def parse_response(response):
     length = response.raw.read(1)[0] * 16
 
     # Check sane length value (usually 32)
-    logger.info("meta length: {}".format(length))
     if not (1 < length < 128):
         logger.error("invalid meta length: {}".format(length))
         return
@@ -48,12 +46,8 @@ def parse_response(response):
 
     artist, title = split_artist_title(match.group(1))
 
-    # Debug why comercials aren't skipped
-    logger.info("meta='{}'".format(meta))
-
     # Skip commercials
     if artist.lower() == 'radio martin':
-        logger.info("Skipping commercials")
         return None
 
     return artist.title(), title
