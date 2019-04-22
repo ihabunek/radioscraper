@@ -4368,8 +4368,7 @@ a {
   text-decoration: underline;
   cursor: pointer; }
   a:hover, a:focus {
-    color: black;
-    text-decoration: none; }
+    color: black; }
   a img {
     border: 0; }
 
@@ -7455,23 +7454,21 @@ a.thumbnail {
 .not-wide {
   width: max-content; }
 
-.top-bar-container {
-  background-color: #0a0a0a; }
-  .top-bar-container .top-bar {
-    color: #fefefe;
-    padding: 1rem 1rem 1rem 0;
-    margin-bottom: 2rem; }
-    .top-bar-container .top-bar .menu li a {
-      color: #fefefe;
-      background-color: #0a0a0a;
-      text-transform: uppercase;
-      font-size: 20px; }
-    .top-bar-container .top-bar .menu li.separator {
-      color: #aaa;
-      padding: 0.4rem 0.5rem;
-      font-size: 20px; }
-    .top-bar-container .top-bar .menu li:first-child a {
-      padding-left: 0; }
+header {
+  color: #fefefe;
+  background-color: #0a0a0a;
+  padding: 1rem 0;
+  margin-bottom: 1rem; }
+  header h1 {
+    font-size: 1.4rem; }
+    header h1 a {
+      text-decoration: none; }
+  header a, header a:visited, header a:hover {
+    color: inherit;
+    text-transform: uppercase; }
+  header span.separator {
+    color: gray;
+    padding: 0.4rem 0.5rem; }
 
 .button {
   font-family: Consolas, "Liberation Mono", Courier, monospace;

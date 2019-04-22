@@ -1,31 +1,18 @@
 {% extends "ui/superbase.html" %}
 
 {% block body %}
-  <div class="top-bar-container">
+  <header>
     <div class="grid-container">
-      <div class="top-bar">
-        <div class="top-bar-left">
-          <ul class="dropdown menu" data-dropdown-menu>
-            <li>
-              <a href="{% url 'ui:index' %}">Radio Scraper</a>
-            </li>
-            <li class="separator">//</li>
-            <li>
-              <a href="{% url 'radio:plays' %}">Plays</a>
-            </li>
-            <li class="separator">//</li>
-            <li>
-              <a href="{% url 'radio:stats' %}">Stats</a>
-            </li>
-            <li class="separator">//</li>
-            <li>
-              <a href="{% url 'music:artist-list' %}">Artists</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <h1>
+        <a href="{% url 'ui:index' %}">Radio Scraper</a>
+      </h1>
+      <a href="{% url 'radio:plays' %}">Plays</a>
+      <span class="separator">//</span>
+      <a href="{% url 'radio:stats' %}">Stats</a>
+      <span class="separator">//</span>
+      <a href="{% url 'music:artist-list' %}">Artists</a>
     </div>
-  </div>
+  </header>
 
   {% include "ui/partial/messages.html" %}
 
