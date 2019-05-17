@@ -5,7 +5,9 @@ from .common import timestamp_ms
 
 
 def form_request():
-    return Request("GET", 'http://138.201.248.219:8006/stats', params={
+    url = "https://zet.pluginsandthemes.ro/http://live.radio101.hr:9531/stats"
+    headers = {"Origin": "http://radio101.hr"}
+    return Request("GET", url, headers=headers, params={
         'sid': 1,
         'json': 1,
         '_': timestamp_ms(),
