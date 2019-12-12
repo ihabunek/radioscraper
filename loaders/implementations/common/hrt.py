@@ -6,11 +6,10 @@ from . import timestamp_ms
 
 def form_request(name):
     url = "http://np.tritondigital.com/public/nowplaying"
-
     return Request("GET", url, params={
         'mountName': name,
         'numberToFetch': 10,
-        'eventType': 'track,',
+        'eventType': 'track',
         'request.preventCache': timestamp_ms(),
     })
 
