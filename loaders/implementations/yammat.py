@@ -1,8 +1,5 @@
+import bs4
 import requests
-
-from datetime import datetime
-
-from radio.utils.normalize import split_artist_title
 
 
 # TODO: Make parsing multiple requests more robust, this is not optimal
@@ -10,6 +7,7 @@ def get_nonce():
     response = requests.get("https://yammat.fm/wp-admin/admin-ajax.php?action=get_nonce")
     response.raise_for_status()
     return response.json()["afp_nonce"]
+
 
 def form_request():
     return requests.Request("POST", "https://yammat.fm/wp-admin/admin-ajax.php", data={
