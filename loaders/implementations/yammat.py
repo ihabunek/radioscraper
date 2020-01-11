@@ -1,19 +1,36 @@
+import requests
+
 from datetime import datetime
-from requests import Request
 
 from radio.utils.normalize import split_artist_title
 
 
+# TODO: Make parsing multiple requests more robust, this is not optimal
+def get_nonce():
+    response = requests.get("https://yammat.fm/wp-admin/admin-ajax.php?action=get_nonce")
+    response.raise_for_status()
+    return response.json()["afp_nonce"]
+
 def form_request():
-    return Request("GET", 'http://192.240.102.133:12430/played', params={
-        'sid': 1,
-        'type': 'json',
-        '_': datetime.now().timestamp(),
+    return requests.Request("POST", "https://yammat.fm/wp-admin/admin-ajax.php", data={
+        "action": "ajax_update_sidebar_songs",
+        "afp_nonce": get_nonce(),
     })
 
 
 def parse_response(response):
     data = response.json()
-    artist_title = data[0]['title']
+    playing = data["html"]["current_desktop"]
 
-    return split_artist_title(artist_title)
+    soup = bs4.BeautifulSoup(playing, 'html.parser')
+    spans = [span.text.strip() for span in soup.find_all('span')]
+
+    if len(spans) != 2:
+        raise Exception("Can't find artist and title from: {}".format(spans))
+
+    artist, title = spans
+
+    if artist == "" or title == "":
+        return None
+
+    return spans
