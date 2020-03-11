@@ -58,9 +58,13 @@ def create_failure(radio, failure_type, request, response, stream, ex, tb):
         outage=outage,
         error_message=error_message,
         stack_trace=tb or '',
-        request=create_request_data(request),
+        request=create_request_data(request) if request else None,
         response=create_response_data(response, stream) if response else None,
     )
+
+
+def create_other_failure(radio, ex, tb):
+    return create_failure(radio, LoaderFailure.TYPE_OTHER, None, None, None, ex, tb)
 
 
 def create_connect_failure(radio, request, ex, tb):
@@ -91,6 +95,21 @@ def load_current_song(radio, timeout=20):
     """
     loader = get_loader(radio.slug)
     stream = getattr(loader, "stream", False)  # Whether to stream the response
+
+    # Hacky way to fit loaders which don't have a request/response cycle
+    # TODO: This needs to be cleaned up at some point
+    if hasattr(loader, "load"):
+        try:
+            song = loader.load()
+        except Exception as ex:
+            failure = create_other_failure(radio, ex, format_exc())
+            return radio, None, failure
+
+        # Close any open outages
+        Outage.objects.filter(radio=radio, end__isnull=True).update(end=timezone.now())
+
+        return radio, song, None
+
     request = loader.form_request()
 
     with Session() as session:

@@ -48,9 +48,13 @@ class LoaderFailure(models.Model):
     # Failure
     TYPE_CONNECT = 'connect'
     TYPE_FETCH = 'fetch'
+    TYPE_OTHER = 'other'
     TYPE_PARSE = 'parse'
+
     TYPE_CHOICES = (
+        (TYPE_CONNECT, "Connect"),
         (TYPE_FETCH, "Fetch"),
+        (TYPE_OTHER, "Other"),
         (TYPE_PARSE, "Parse"),
     )
 
@@ -58,7 +62,7 @@ class LoaderFailure(models.Model):
     radio = models.ForeignKey('radio.Radio', on_delete=CASCADE)
     outage = models.ForeignKey(Outage, on_delete=SET_NULL, blank=True, null=True, related_name="failures")
     timestamp = models.DateTimeField(auto_now_add=True)
-    request = models.ForeignKey(RequestData, on_delete=PROTECT)
+    request = models.ForeignKey(RequestData, on_delete=PROTECT, blank=True, null=True)
     response = models.ForeignKey(ResponseData, on_delete=PROTECT, blank=True, null=True)
     error_message = models.TextField(blank=True)
     stack_trace = models.TextField(blank=True)

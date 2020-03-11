@@ -1,17 +1,24 @@
-from bs4 import BeautifulSoup
-from requests import Request
+import json
+
+from websocket import create_connection
+
+WS_URL = "wss://s-usc1c-nss-279.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
 
 
-def form_request():
-    return Request("GET", "http://www.otvoreni.hr/player/")
+# Reverse engineered from: www.otvoreni.hr/media-player/
+def load():
+    ws = create_connection(WS_URL)
+    ws.recv()
 
+    ws.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/songs","h":""}}}')
+    data = ws.recv()
+    ws.close()
 
-def parse_response(response):
-    bs = BeautifulSoup(response.text, "html.parser")
-    artist = bs.find(id="song-artist")
-    song = bs.find(id="song-track")
+    data = json.loads(data)
+    plays = data["d"]["b"]["d"]["8807"]
+    key = list(plays)[-1]
 
-    return [
-        artist.text.title(),
-        song.text.capitalize()
-    ]
+    return (
+        plays[key]["artist"].title(),
+        plays[key]["title"].capitalize()
+    )
