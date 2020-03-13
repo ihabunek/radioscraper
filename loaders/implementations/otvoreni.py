@@ -2,7 +2,7 @@ import json
 
 from websocket import create_connection
 
-WS_URL = "wss://s-usc1c-nss-279.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
+# WS_URL = "wss://s-usc1c-nss-279.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
 WS_URL = "wss://s-usc1c-nss-277.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
 
 
@@ -17,7 +17,7 @@ def load():
 
     data = json.loads(data)
     plays = data["d"]["b"]["d"]["8807"]
-    key = list(plays)[-1]
+    key = max(list(plays))
 
     return (
         plays[key]["artist"].title(),
