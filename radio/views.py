@@ -101,7 +101,7 @@ class PlaysView(ListView):
 
     def _parse_date(self, value):
         try:
-            return datetime.strptime(value, "%d.%m.%Y")
+            return datetime.strptime(value, "%Y-%m-%d")
         except:
             return None
 

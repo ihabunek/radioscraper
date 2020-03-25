@@ -133,6 +133,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ui/dist'),
 ]
 
+print(STATICFILES_DIRS)
+
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -194,9 +196,6 @@ LOGGING = {
 
 
 if DEBUG:
-    DEBUG_TOOLBAR_CONFIG = {
-        'JQUERY_URL': '',
-    }
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
     INTERNAL_IPS = ['127.0.0.1']

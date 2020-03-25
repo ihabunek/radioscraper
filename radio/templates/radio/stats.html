@@ -9,111 +9,110 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid-container" id="stats-page">
-    <h1>Stats</h1>
+<div class="container">
+  <h1>Stats</h1>
 
-    {% include "radio/partial/time_radio_selector.html" %}
+  {% include "radio/partial/time_radio_selector.html" %}
 
-    {% if play_count > 0 %}
+  {% if play_count > 0 %}
+    <h2>Song stats</h2>
 
-        <h4>Song stats</h4>
+    <table class="table">
+      <tr>
+        <th>Radio</th>
+        <th>Distinct songs</th>
+        <th class="text-center" colspan="2">Played once</th>
+        <th class="text-center" colspan="2">Played multiple</th>
+        <th>Repeated on average</th>
+      </tr>
+      {% for stats in song_stats %}
+        <tr>
+          <td>{{ stats.radio_name }}</td>
+          <td>{{ stats.distinct_count }}</td>
+          <td>{{ stats.single_play_count }}</td>
+          <td>({{ stats.single_play_perc|floatformat }}%)</td>
+          <td>{{ stats.repeated_count }}</td>
+          <td>({{ stats.repeated_perc|floatformat }}%)</td>
+          <td>{{ stats.avg_repetitions|floatformat }}</td>
+        </tr>
+      {% endfor %}
+    </table>
 
-        <table class="song-stats-table hover">
-            <tr>
-                <th>Radio</th>
-                <th>Distinct songs</th>
-                <th class="text-center" colspan="2">Played once</th>
-                <th class="text-center" colspan="2">Played multiple</th>
-                <th>Repeated on average</th>
-            </tr>
-            {% for stats in song_stats %}
-                <tr>
-                    <td>{{ stats.radio_name }}</td>
-                    <td>{{ stats.distinct_count }}</td>
-                    <td>{{ stats.single_play_count }}</td>
-                    <td>{{ stats.single_play_perc|floatformat }}%</td>
-                    <td>{{ stats.repeated_count }}</td>
-                    <td>{{ stats.repeated_perc|floatformat }}%</td>
-                    <td>{{ stats.avg_repetitions|floatformat }}</td>
-                </tr>
-            {% endfor %}
+    <h2>Artist stats</h2>
+
+    <table class="table">
+      <tr>
+        <th>Radio</th>
+        <th>Distinct artists</th>
+        <th colspan="2">Played once</th>
+        <th colspan="2">Played multiple</th>
+        <th>Repeated on average</th>
+      </tr>
+      {% for stats in artist_stats %}
+        <tr>
+          <td>{{ stats.radio_name }}</td>
+          <td>{{ stats.distinct_count }}</td>
+          <td>{{ stats.single_play_count }}</td>
+          <td>({{ stats.single_play_perc|floatformat }}%)</td>
+          <td>{{ stats.repeated_count }}</td>
+          <td>({{ stats.repeated_perc|floatformat }}%)</td>
+          <td>{{ stats.avg_repetitions|floatformat }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <div class="columns">
+      {% if most_played_songs %}
+      <div class="column">
+        <h2>Top 30 songs</h2>
+
+        <table class="table">
+          <tr>
+            <th>Rank</th>
+            <th class="text-left">Song</th>
+            <th>Played</th>
+          </tr>
+          {% for play in most_played_songs %}
+          <tr>
+            <td>#{{ forloop.counter }}</td>
+            <td>{{ play.artist_name }} - {{ play.title }}</td>
+            <td class="text-center">{{ play.count }}</td>
+          </tr>
+          {% endfor %}
         </table>
+      </div>
+      {% endif %}
 
-        <h4>Artist stats</h4>
+      {% if most_played_artists %}
+      <div class="column">
+        <h2>Top 30 artists</h2>
 
-        <table class="artist-stats-table hover">
-            <tr>
-                <th>Radio</th>
-                <th>Distinct artists</th>
-                <th class="text-center" colspan="2">Played once</th>
-                <th class="text-center" colspan="2">Played multiple</th>
-                <th>Repeated on average</th>
-            </tr>
-            {% for stats in artist_stats %}
-                <tr>
-                    <td>{{ stats.radio_name }}</td>
-                    <td>{{ stats.distinct_count }}</td>
-                    <td>{{ stats.single_play_count }}</td>
-                    <td>{{ stats.single_play_perc|floatformat }}%</td>
-                    <td>{{ stats.repeated_count }}</td>
-                    <td>{{ stats.repeated_perc|floatformat }}%</td>
-                    <td>{{ stats.avg_repetitions|floatformat }}</td>
-                </tr>
-            {% endfor %}
+        <table class="table">
+          <tr>
+            <th>Rank</th>
+            <th class="text-left">Artist</th>
+            <th>Played</th>
+          </tr>
+          {% for artist in most_played_artists %}
+          <tr>
+            <td>#{{ forloop.counter }}</td>
+            <td>
+              {% if artist.slug %}
+              <a href="{% url 'music:artist-detail' artist.slug %}" class="">
+                {{ artist.name }}
+              </a>
+              {% endif %}
+            </td>
+            <td class="text-center">{{ artist.count }}</td>
+          </tr>
+          {% endfor %}
         </table>
+      </div>
+      {% endif %}
 
-        <div class="grid-x grid-margin-x">
-            {% if most_played_songs %}
-            <div class="small-12 large-7 cell">
-                <h3>Top 30 songs</h3>
-
-                <table class="hover">
-                    <tr>
-                        <th>Rank</th>
-                        <th class="text-left">Song</th>
-                        <th>Played</th>
-                    </tr>
-                    {% for play in most_played_songs %}
-                    <tr>
-                        <td>#{{ forloop.counter }}</td>
-                        <td>{{ play.artist_name }} - {{ play.title }}</td>
-                        <td class="text-center">{{ play.count }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-            {% endif %}
-
-            {% if most_played_artists %}
-            <div class="small-12 large-5 cell">
-                <h3>Top 30 artists</h3>
-
-                <table class="hover">
-                    <tr>
-                        <th>Rank</th>
-                        <th class="text-left">Artist</th>
-                        <th>Played</th>
-                    </tr>
-                    {% for artist in most_played_artists %}
-                    <tr>
-                        <td>#{{ forloop.counter }}</td>
-                        <td>
-                            {% if artist.slug %}
-                            <a href="{% url 'music:artist-detail' artist.slug %}" class="">
-                                {{ artist.name }}
-                            </a>
-                            {% endif %}
-                        </td>
-                        <td class="text-center">{{ artist.count }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-            {% endif %}
-
-        </div>
-    {% else %}
-        <p class="callout warning">No data exists for this period.</p>
-    {% endif %}
+    </div>
+  {% else %}
+    <p class="callout warning">No data exists for this period.</p>
+  {% endif %}
 </div>
 {% endblock %}

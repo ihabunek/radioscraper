@@ -1,0 +1,38 @@
+.button {
+  background-color: $black;
+  border-radius: 0;
+  border: 1px solid transparent;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.9rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+  padding: 0.75em 0.9em;
+  text-decoration: none;
+
+  &[disabled] {
+    background-color: $medium-gray;
+  }
+
+  &.hollow {
+    border: 1px solid $black;
+    color: $black;
+    background-color: transparent;
+  }
+}
+
+.button-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+
+  .button {
+    margin: 0;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    font-size: 0.9rem;
+    flex: 0 0 auto;
+  }
+}

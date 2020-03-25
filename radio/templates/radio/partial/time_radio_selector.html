@@ -1,30 +1,48 @@
-<div class="time-selectors">
-    <div class="no-wrap">
-        <div>Year</div>
-        <div class="button-group">
-            <button class="button" data-prev-year>&lsaquo;</button>
-            <button class="hollow button" data-year>{{ year }}</button>
-            <button class="button" data-next-year>&rsaquo;</button>
-        </div>
-    </div>
-    <div class="no-wrap">
-        <div>Month</div>
-        <div class="button-group">
-            <button class="button" data-prev-month>&lsaquo;</button>
-            <button class="hollow button" data-month>{{ month }}</button>
-            <button class="button" data-next-month>&rsaquo;</button>
-        </div>
+<form id="radio-select-form">
+  <input type="hidden" name="month" value="{{ month }}" />
+  <input type="hidden" name="year" value="{{ year }}" />
+
+  <div class="columns">
+    <div class="column is-narrow no-wrap">
+      <div>Year</div>
+      <div class="button-group">
+        <button class="button" type="submit" name="action" value="prev-year">&lsaquo;</button>
+        <button class="hollow button">{{ year }}</button>
+        <button class="button" type="submit" name="action" value="next-year">&rsaquo;</button>
+      </div>
     </div>
 
-    <div class="no-wrap">
-        <div>Radio</div>
-        <div class="button-group">
-            <select data-radio>
-                <option value="">-- All --</option>
-                {% for r in radios %}
-                    <option value="{{ r.slug }}"{% if radio == r %} selected{% endif %}>{{ r.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
+    <div class="column is-narrow no-wrap">
+      <div>Month</div>
+      <div class="button-group">
+        <button class="button" type="submit" name="action" value="prev-month">&lsaquo;</button>
+        <button class="hollow button">{{ month }}</button>
+        <button class="button" type="submit" name="action" value="next-month">&rsaquo;</button>
+      </div>
     </div>
-</div>
+
+    <div class="column is-narrow no-wrap">
+      <div>Radio</div>
+      <div class="button-group">
+        <select id="radio-select" name="radio">
+          <option value="">-- All --</option>
+          {% for r in radios %}
+            <option value="{{ r.slug }}"{% if radio == r %} selected{% endif %}>{{ r.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script type="text/javascript">
+(function() {
+  const form = document.getElementById("radio-select-form");
+  const select = document.getElementById("radio-select");
+
+  select.addEventListener("change", function (e) {
+    e.preventDefault();
+    form.submit();
+  });
+})();
+</script>

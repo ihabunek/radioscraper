@@ -5,48 +5,46 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div id="index-page" class="grid-container">
-    <h1>Radio scraper</h1>
+<div id="index-page" class="container">
+  <h1>Radio scraper</h1>
 
-    <p>Collecting radio playlists for no particular reason.</p>
+  <p>Collecting radio playlists for no particular reason.</p>
 
-    <p>
-        <a href="{% url 'radio:plays' %}">List plays</a> ·
-        <a href="{% url 'radio:stats' %}">Statistics</a>
-    </p>
+  <p>
+    <a href="{% url 'radio:plays' %}">List plays</a> ·
+    <a href="{% url 'radio:stats' %}">Statistics</a>
+  </p>
 
-    <div class="grid-x grid-margin-x small-up-1 medium-up-2 large-up-4" data-equalizer>
-        {% for radio in radios %}
-        <div class="cell">
-            <div class="radio" data-radio-link="{{ radio.slug }}" data-equalizer-watch>
-                <h5>{{ radio.name }}</h5>
-                <p>
-                    {{ radio.play_count|human_format }} plays
-                    {% if radio.first_play.timestamp %}
-                    <br />
-                    since {{ radio.first_play.timestamp|date:"Y-m-d" }}
-                    {% endif %}
-                </p>
+  <div class="radio-grid">
+    {% for radio in radios %}
+      <a href="{% url 'radio:plays' %}?radio={{ radio.slug }}" class="radio">
+        <h5>{{ radio.name }}</h5>
+        <p>
+          {{ radio.play_count|human_format }} plays
+          {% if radio.first_play.timestamp %}
+          <br />
+          since {{ radio.first_play.timestamp|date:"Y-m-d" }}
+          {% endif %}
+        </p>
 
-                {% if radio.last_play %}
-                <p>
-                    Last play: <br />
-                    <b>{{ radio.last_play.title }}</b>
-                    by <b>{{ radio.last_play.artist_name }}</b><br />
-                    at <i class="gray">{{ radio.last_play.timestamp|date:"Y-m-d @ H:i" }}</i>
-                </p>
-                {% endif %}
-            </div>
-            {% with outage=radio.get_current_outage %}
-            {% if outage %}
-                <div class="outage" title="Failed loading songs for this radio.">
-                    Out since:
-                    {{ outage.start|date:"Y-m-d @ H:i" }}
-                </div>
-            {% endif %}
-            {% endwith %}
-        </div>
-        {% endfor %}
-    </div>
+        {% if radio.last_play %}
+        <p>
+          Last play: <br />
+          <b>{{ radio.last_play.title }}</b>
+          by <b>{{ radio.last_play.artist_name }}</b><br />
+          at <i class="gray">{{ radio.last_play.timestamp|date:"Y-m-d @ H:i" }}</i>
+        </p>
+        {% endif %}
+        {% with outage=radio.get_current_outage %}
+        {% if outage %}
+          <div class="outage" title="Failed loading songs for this radio.">
+            Out since:
+            {{ outage.start|date:"Y-m-d @ H:i" }}
+          </div>
+        {% endif %}
+        {% endwith %}
+      </a>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

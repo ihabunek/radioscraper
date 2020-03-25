@@ -1,0 +1,20 @@
+
+ul.pagination {
+  margin: 2rem auto;
+  max-width: 600px;
+  border: 1px dashed red;
+  display: flex;
+  justify-content: space-between;
+
+  .pagination-previous a::before {
+    display: inline-block;
+    margin-right: 0.5rem;
+    content: '\AB';
+  }
+
+  .pagination-next a::after {
+    display: inline-block;
+    margin-left: 0.5rem;
+    content: '\BB';
+  }
+}

@@ -1,86 +1,191 @@
-@import "settings";
+$font-family: Consolas, 'Liberation Mono', Courier, monospace;
 
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
-@import "~foundation-sites/scss/foundation";
+$black: #0a0a0a;
+$white: #fefefe;
+$off-white: whitesmoke;
+$light-gray: #e6e6e6;
+$medium-gray: #434750;
+$dark-gray: #293133;
 
-@include foundation-everything();
+@import "reset";
 
-@import "components/datepicker";
-@import "components/loader";
-@import "pages/artists";
-@import "pages/index";
-@import "pages/plays";
-@import "pages/stats";
+@import "components/button";
+@import "components/form";
+@import "components/pagination";
+@import "components/radio_grid";
 
-.no-wrap {
-    white-space: nowrap;
+// @import "pages/artists";
+// @import "pages/index";
+// @import "pages/plays";
+// @import "pages/stats";
+
+html {
+  font-family: $font-family;
 }
 
-.no-margin {
-    margin: 0;
+h1, h2, h3, h4, h5 {
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
 }
 
-.not-wide {
-    width: max-content;
+h1 { font-size: 1.75rem }
+h2 { font-size: 1.25rem }
+h3 { font-size: 1.1875rem }
+h4 { font-size: 1.125rem }
+h5 { font-size: 1rem }
+
+
+// h1 { font-size: 1.5rem }
+// h2 { font-size: 1.25rem }
+// h3 { font-size: 1.1875rem }
+// h4 { font-size: 1.125rem }
+// h5 { font-size: 1rem }
+
+// @media print, screen and (min-width: 40em) {
+//   h1 { font-size: 2.5rem }
+//   h2 { font-size: 2.125rem }
+//   h3 { font-size: 1.875rem }
+//   h4 { font-size: 1.5rem }
+//   h5 { font-size: 1.1875rem }
+//   h6 { font-size: 1rem;  }
+// }
+
+a {
+  color: black;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+// HELPERS
+
+.no-wrap { white-space: nowrap }
+.no-margin { margin: 0 }
+
+.text-center { text-align: center }
+.text-left { text-align: left }
+.text-right { text-align: right }
+
+// COMPONENTS
+
+.container {
+  margin: 0 auto;
+  padding: 0 1rem;
+  max-width: 75rem;
+}
+
+.columns {
+  display: block;
+
+  @media print, screen and (min-width: 40em) {
+    display: flex;
+  }
+
+  .column {
+    flex-grow: 1;
+    margin-right: 1rem;
+
+    &.is-narrow {
+      flex-grow: 0;
+    }
+
+    &:last-child {
+      margin-right: 0rem;
+    }
+  }
+}
+
+.callout {
+  border: 1px solid $black;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 header {
-    color: $white;
-    background-color: $black;
-    padding: 1rem 0;
-    margin-bottom: 1rem;
+  color: $white;
+  background-color: $black;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
 
-    h1 {
-        font-size: 1.4rem;
-        a {
-            text-decoration: none;
-        }
+  h1 {
+    font-size: 1.4rem;
+    a {
+      text-decoration: none;
     }
+  }
 
-    a, a:visited, a:hover {
-        color: inherit;
-        text-transform: uppercase;
-    }
+  a, a:visited, a:hover {
+    color: inherit;
+    text-transform: uppercase;
+  }
 
-    span.separator {
-        color: gray;
-        padding: 0.4rem 0.5rem;
-    }
+  span.separator {
+    color: gray;
+    padding: 0.4rem 0.5rem;
+  }
 }
 
-.button {
-    font-family: $font-family-monospace;
-    text-decoration: none;
+footer {
+  color: $white;
+  background-color: $black;
+  padding: 2rem 0;
+  margin-top: 2rem;
+  text-align: center;
+
+  a, a:visited, a:hover {
+    color: inherit;
+  }
+
+  .separator {
+    padding: 0.4rem 0.5rem;
+  }
 }
 
-table {
-    font-size: .9rem;
+table.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .9rem;
+  border: 1px solid $off-white;
+  margin-bottom: 1rem;
 
-    th {
-        text-align: left;
-    }
+  td, th {
+    padding: .5rem .5rem;
+    text-align: left;
+  }
+  thead > tr,
+  tbody > tr:nth-child(even) {
+    background-color: $off-white;
+  }
 }
 
-.search-plays-form {
-    .input-group-label, .button {
-       width: 6rem;
-    }
-}
+// .button {
+//   font-family: $font-family;
+//   text-decoration: none;
+// }
 
-.input-group.time-span {
-    input {
-        width: 50%
-    }
-}
+// .search-plays-form {
+//   .input-group-label, .button {
+//      width: 6rem;
+//   }
+// }
 
-// Don't render select controls, they are drawn by foundation
-select {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-}
+// .input-group.time-span {
+//   input {
+//     width: 50%
+//   }
+// }
 
-.callout.admin {
-    border-color: red;
-}
+// // Don't render select controls, they are drawn by foundation
+// select {
+//   appearance: none;
+//   -moz-appearance: none;
+//   -webkit-appearance: none;
+// }
+
+// .callout.admin {
+//   border-color: red;
+// }
