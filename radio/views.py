@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.views.generic import ListView, TemplateView, RedirectView
 
 from radio.models import Radio, Play
+from music.models import ArtistName
 from radio.utils.stats import get_song_stats, get_artist_stats, get_most_played_artists
 
 
@@ -219,7 +220,18 @@ class PlaysView(ListView):
             qs = qs.filter(radio__slug=self.radio)
 
         if self.artist_name:
-            qs = qs.filter(artist_name__iunaccent__iexact=self.artist_name)
+            # Removing ordering makes the query faster.
+            # Using `.first()` adds ordering, so don't use it.
+            artist_names = (
+                ArtistName.objects
+                .filter(name__iunaccent__iexact=self.artist_name)
+                .order_by()
+            )[:1]
+
+            if artist_names:
+                qs = qs.filter(artist_id=artist_names[0].artist_id)
+            else:
+                qs = qs.none()
 
         if self.title:
             qs = qs.filter(title__iunaccent__iexact=self.title)
