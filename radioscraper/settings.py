@@ -133,8 +133,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ui/dist'),
 ]
 
-print(STATICFILES_DIRS)
-
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 

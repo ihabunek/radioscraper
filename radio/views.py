@@ -1,9 +1,11 @@
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
+from urllib.parse import urlencode
 
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, TemplateView
+from django.urls import reverse
+from django.views.generic import ListView, TemplateView, RedirectView
 
 from radio.models import Radio, Play
 from radio.utils.stats import get_song_stats, get_artist_stats, get_most_played_artists
@@ -23,6 +25,48 @@ def get_year_month(request):
         return default
 
     return [year, month]
+
+
+def stats_url(path, year, month, radio=None):
+    if month < 1:
+        month = 12
+        year = year - 1
+
+    if month > 12:
+        month = 1
+        year = year + 1
+
+    today = date.today()
+    if year < 2017 or year > today.year or (year == today.year and month > today.month):
+        return None
+
+    query = urlencode({
+        "year": year,
+        "month": month,
+        "radio": radio,
+    })
+
+    return "{}?{}".format(path, query)
+
+
+def prev_next_links(path, year, month, radio=None):
+    return {
+        "prev_month": stats_url(path, year, month - 1, radio),
+        "next_month": stats_url(path, year, month + 1, radio),
+        "prev_year": stats_url(path, year - 1, month, radio),
+        "next_year": stats_url(path, year + 1, month, radio),
+    }
+
+
+class StatsRedirectView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        year, month = get_year_month(self.request)
+        radio = self.request.GET.get("radio", "").strip()
+
+        return "{}?{}".format(
+            reverse("radio:stats", args=[radio] if radio else []),
+            urlencode({"year": year, "month": month})
+        )
 
 
 class RadioStatsView(TemplateView):
@@ -45,6 +89,10 @@ class RadioStatsView(TemplateView):
             "year": year,
             "play_count": play_count,
         })
+
+        context.update(
+            prev_next_links(self.request.path, year, month, radio.slug)
+        )
 
         if play_count > 0:
             context.update({
@@ -76,6 +124,10 @@ class StatsView(TemplateView):
             "year": year,
             "play_count": play_count,
         })
+
+        context.update(
+            prev_next_links(self.request.path, year, month)
+        )
 
         if play_count > 0:
             most_played_songs = (plays

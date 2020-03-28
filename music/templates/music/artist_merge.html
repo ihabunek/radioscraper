@@ -6,60 +6,60 @@
 
 {% block head %}
 <style type="text/css">
-    .table-top td { vertical-align: top }
+  .table-top td { vertical-align: top }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Merge artists</h1>
+  <h1>Merge artists</h1>
 
-    <p>Pick the artist to merge into, and the desired default name.</p>
+  <p>Pick the artist to merge into, and the desired default name.</p>
 
-    <form method="post">
-        {% csrf_token %}
+  <form method="post">
+    {% csrf_token %}
+    {% for artist in artists %}
+      <input type="hidden" name="artist" value="{{ artist.pk }}" />
+    {% endfor %}
+    <table class="table table-top">
+      <thead>
+        <tr>
+          <th>Artist</th>
+          <th>Slug</th>
+          <th>Plays</th>
+          <th>Name alternatives</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for artist in artists %}
-            <input type="hidden" name="artist" value="{{ artist.pk }}" />
+        <tr>
+          <td>
+            <label>
+              <input type="radio" name="target_artist" value="{{ artist.pk }}" />
+              {{ artist.name }}
+            </label>
+          </td>
+          <td>
+            {{ artist.slug }}
+          </td>
+          <td>
+            {{ artist.play_set.count }}
+          </td>
+          <td>
+            {% for name in artist.names.all %}
+              <label>
+                <input type="radio" name="target_name" value="{{ name.pk }}" />
+                {{ name.name }}<br />
+              </label>
+            {% endfor %}
+          </td>
+          <td></td>
+        </tr>
         {% endfor %}
-        <table class="table-top">
-            <thead>
-                <tr>
-                    <th>Artist</th>
-                    <th>Slug</th>
-                    <th>Plays</th>
-                    <th>Name alternatives</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for artist in artists %}
-                <tr>
-                    <td>
-                        <label>
-                            <input type="radio" name="target_artist" value="{{ artist.pk }}" />
-                            {{ artist.name }}
-                        </label>
-                    </td>
-                    <td>
-                        {{ artist.slug }}
-                    </td>
-                    <td>
-                        {{ artist.play_set.count }}
-                    </td>
-                    <td>
-                        {% for name in artist.names.all %}
-                            <label>
-                                <input type="radio" name="target_name" value="{{ name.pk }}" />
-                                {{ name.name }}<br />
-                            </label>
-                        {% endfor %}
-                    </td>
-                    <td></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+      </tbody>
+    </table>
 
-        <input type="submit" name="action" value="Merge" class="button" />
-    </form>
+    <input type="submit" name="action" value="Merge" class="button" />
+  </form>
 </div>
 {% endblock %}

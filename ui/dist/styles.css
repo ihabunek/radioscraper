@@ -104,7 +104,8 @@ img:not([alt]) {
   padding: 0.75em 0.9em;
   text-decoration: none; }
   .button[disabled] {
-    background-color: #434750; }
+    background-color: #434750;
+    cursor: not-allowed; }
   .button.hollow {
     border: 1px solid #0a0a0a;
     color: #0a0a0a;
@@ -121,6 +122,9 @@ img:not([alt]) {
     margin-bottom: 1px;
     font-size: 0.9rem;
     flex: 0 0 auto; }
+
+form {
+  margin-bottom: 1rem; }
 
 form.horizontal .form-row {
   display: flex;

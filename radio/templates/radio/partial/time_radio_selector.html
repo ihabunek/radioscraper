@@ -1,39 +1,62 @@
-<form id="radio-select-form">
-  <input type="hidden" name="month" value="{{ month }}" />
-  <input type="hidden" name="year" value="{{ year }}" />
 
   <div class="columns">
     <div class="column is-narrow no-wrap">
       <div>Year</div>
       <div class="button-group">
-        <button class="button" type="submit" name="action" value="prev-year">&lsaquo;</button>
+        {% if prev_year %}
+          <a href="{{ prev_year }}" class="button">&lsaquo;</a>
+        {% else %}
+          <button class="button" disabled>&lsaquo;</button>
+        {% endif %}
         <button class="hollow button">{{ year }}</button>
-        <button class="button" type="submit" name="action" value="next-year">&rsaquo;</button>
+        {% if next_year %}
+          <a href="{{ next_year }}" class="button">&rsaquo;</a>
+        {% else %}
+          <button class="button" disabled>&rsaquo;</button>
+        {% endif %}
       </div>
     </div>
 
     <div class="column is-narrow no-wrap">
       <div>Month</div>
       <div class="button-group">
-        <button class="button" type="submit" name="action" value="prev-month">&lsaquo;</button>
+        {% if prev_month %}
+          <a href="{{ prev_month }}" class="button">&lsaquo;</a>
+        {% else %}
+          <button class="button" disabled>&lsaquo;</button>
+        {% endif %}
         <button class="hollow button">{{ month }}</button>
-        <button class="button" type="submit" name="action" value="next-month">&rsaquo;</button>
+        {% if next_month %}
+          <a href="{{ next_month }}" class="button">&rsaquo;</a>
+        {% else %}
+          <button class="button" disabled>&rsaquo;</button>
+        {% endif %}
       </div>
     </div>
 
-    <div class="column is-narrow no-wrap">
-      <div>Radio</div>
-      <div class="button-group">
-        <select id="radio-select" name="radio">
-          <option value="">-- All --</option>
-          {% for r in radios %}
-            <option value="{{ r.slug }}"{% if radio == r %} selected{% endif %}>{{ r.name }}</option>
-          {% endfor %}
-        </select>
+    <form id="radio-select-form" action="{% url 'radio:stats-redirect' %}">
+      <input type="hidden" name="month" value="{{ month }}" />
+      <input type="hidden" name="year" value="{{ year }}" />
+
+      <div class="column is-narrow no-wrap">
+        <div>Radio</div>
+        <div class="button-group">
+          <select id="radio-select" name="radio">
+            <option value="">-- All --</option>
+            {% for r in radios %}
+              <option value="{{ r.slug }}"{% if radio == r %} selected{% endif %}>{{ r.name }}</option>
+            {% endfor %}
+          </select>
+
+          <noscript>
+            <button class="button" type="submit" style="margin-left: .5rem">
+              Go
+            </button>
+          </noscript>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
-</form>
 
 <script type="text/javascript">
 (function() {
