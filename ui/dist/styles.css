@@ -155,6 +155,47 @@ select {
   height: 2.4rem;
   padding: 0 0.5rem; }
 
+body {
+  min-width: 320px;
+  overflow: hidden; }
+
+header {
+  color: #fefefe;
+  background-color: #0a0a0a;
+  padding-top: 1rem;
+  height: 100px; }
+  header h1 {
+    font-size: 1.4rem; }
+    header h1 a {
+      text-decoration: none; }
+  header a, header a:visited, header a:hover {
+    color: inherit;
+    text-transform: uppercase; }
+  header span.separator {
+    color: gray;
+    padding: 0.4rem 0.5rem; }
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fefefe;
+  background-color: #0a0a0a;
+  text-align: center;
+  height: 120px; }
+  footer a, footer a:visited, footer a:hover {
+    color: inherit; }
+  footer .separator {
+    padding: 0.4rem 0.5rem; }
+  @media print, screen and (min-width: 640px) {
+    footer {
+      height: 80px; } }
+main {
+  padding: 1rem 0;
+  min-height: calc(100vh - 220px); }
+  @media print, screen and (min-width: 640px) {
+    main {
+      min-height: calc(100vh - 180px); } }
 ul.pagination {
   margin: 2rem auto;
   max-width: 600px;
@@ -199,6 +240,19 @@ ul.pagination {
       text-align: center;
       padding: 0.2rem 0; }
 
+table.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .9rem;
+  border: 1px solid whitesmoke;
+  margin-bottom: 1rem; }
+  table.table td, table.table th {
+    padding: .5rem .5rem;
+    text-align: left; }
+  table.table thead > tr,
+  table.table tbody > tr:nth-child(even) {
+    background-color: whitesmoke; }
+
 html {
   font-family: Consolas, "Liberation Mono", Courier, monospace; }
 
@@ -229,6 +283,10 @@ a {
 
 p {
   margin-bottom: 1rem; }
+
+@media print, screen and (min-width: 640px) {
+  .show-mobile-only {
+    display: none; } }
 
 .no-wrap {
   white-space: nowrap; }
@@ -267,43 +325,3 @@ p {
   border: 1px solid #0a0a0a;
   padding: 1rem;
   margin-bottom: 1rem; }
-
-header {
-  color: #fefefe;
-  background-color: #0a0a0a;
-  padding: 1rem 0;
-  margin-bottom: 1rem; }
-  header h1 {
-    font-size: 1.4rem; }
-    header h1 a {
-      text-decoration: none; }
-  header a, header a:visited, header a:hover {
-    color: inherit;
-    text-transform: uppercase; }
-  header span.separator {
-    color: gray;
-    padding: 0.4rem 0.5rem; }
-
-footer {
-  color: #fefefe;
-  background-color: #0a0a0a;
-  padding: 2rem 0;
-  margin-top: 2rem;
-  text-align: center; }
-  footer a, footer a:visited, footer a:hover {
-    color: inherit; }
-  footer .separator {
-    padding: 0.4rem 0.5rem; }
-
-table.table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: .9rem;
-  border: 1px solid whitesmoke;
-  margin-bottom: 1rem; }
-  table.table td, table.table th {
-    padding: .5rem .5rem;
-    text-align: left; }
-  table.table thead > tr,
-  table.table tbody > tr:nth-child(even) {
-    background-color: whitesmoke; }

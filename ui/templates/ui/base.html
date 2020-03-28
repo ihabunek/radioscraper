@@ -14,14 +14,17 @@
     </div>
   </header>
 
-  {% include "ui/partial/messages.html" %}
-
-  {% block content %}{% endblock %}
+  <main>
+    {% include "ui/partial/messages.html" %}
+    {% block content %}{% endblock %}
+  </main>
 
   <footer>
-    <div class="container">
+    <div>
       Radioscraper is <a href="https://github.com/ihabunek/radioscraper/">open source</a>
+      <br class="show-mobile-only" />
       <span class="separator">♥</span>
+      <br class="show-mobile-only" />
       Authored by <a href="https://twitter.com/ihabunek">@ihabunek</a>
     </div>
   </footer>

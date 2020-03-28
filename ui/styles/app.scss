@@ -1,23 +1,24 @@
 $font-family: Consolas, 'Liberation Mono', Courier, monospace;
 
-$black: #0a0a0a;
 $white: #fefefe;
 $off-white: whitesmoke;
 $light-gray: #e6e6e6;
 $medium-gray: #434750;
 $dark-gray: #293133;
+$black: #0a0a0a;
+
+$break-mobile: 640px;
 
 @import "reset";
 
 @import "components/button";
 @import "components/form";
+@import "components/layout";
 @import "components/pagination";
 @import "components/radio_grid";
+@import "components/table";
 
-// @import "pages/artists";
-// @import "pages/index";
-// @import "pages/plays";
-// @import "pages/stats";
+// Typography
 
 html {
   font-family: $font-family;
@@ -37,22 +38,6 @@ h3 { font-size: 1.1875rem }
 h4 { font-size: 1.125rem }
 h5 { font-size: 1rem }
 
-
-// h1 { font-size: 1.5rem }
-// h2 { font-size: 1.25rem }
-// h3 { font-size: 1.1875rem }
-// h4 { font-size: 1.125rem }
-// h5 { font-size: 1rem }
-
-// @media print, screen and (min-width: 40em) {
-//   h1 { font-size: 2.5rem }
-//   h2 { font-size: 2.125rem }
-//   h3 { font-size: 1.875rem }
-//   h4 { font-size: 1.5rem }
-//   h5 { font-size: 1.1875rem }
-//   h6 { font-size: 1rem;  }
-// }
-
 a {
   color: black;
 }
@@ -61,7 +46,15 @@ p {
   margin-bottom: 1rem;
 }
 
-// HELPERS
+// Responsive
+
+@media print, screen and (min-width: $break-mobile) {
+  .show-mobile-only {
+    display: none;
+  }
+}
+
+// Helpers
 
 .no-wrap { white-space: nowrap }
 .no-margin { margin: 0 }
@@ -70,7 +63,7 @@ p {
 .text-left { text-align: left }
 .text-right { text-align: right }
 
-// COMPONENTS
+// Components
 
 .container {
   margin: 0 auto;
@@ -104,88 +97,3 @@ p {
   padding: 1rem;
   margin-bottom: 1rem;
 }
-
-header {
-  color: $white;
-  background-color: $black;
-  padding: 1rem 0;
-  margin-bottom: 1rem;
-
-  h1 {
-    font-size: 1.4rem;
-    a {
-      text-decoration: none;
-    }
-  }
-
-  a, a:visited, a:hover {
-    color: inherit;
-    text-transform: uppercase;
-  }
-
-  span.separator {
-    color: gray;
-    padding: 0.4rem 0.5rem;
-  }
-}
-
-footer {
-  color: $white;
-  background-color: $black;
-  padding: 2rem 0;
-  margin-top: 2rem;
-  text-align: center;
-
-  a, a:visited, a:hover {
-    color: inherit;
-  }
-
-  .separator {
-    padding: 0.4rem 0.5rem;
-  }
-}
-
-table.table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: .9rem;
-  border: 1px solid $off-white;
-  margin-bottom: 1rem;
-
-  td, th {
-    padding: .5rem .5rem;
-    text-align: left;
-  }
-  thead > tr,
-  tbody > tr:nth-child(even) {
-    background-color: $off-white;
-  }
-}
-
-// .button {
-//   font-family: $font-family;
-//   text-decoration: none;
-// }
-
-// .search-plays-form {
-//   .input-group-label, .button {
-//      width: 6rem;
-//   }
-// }
-
-// .input-group.time-span {
-//   input {
-//     width: 50%
-//   }
-// }
-
-// // Don't render select controls, they are drawn by foundation
-// select {
-//   appearance: none;
-//   -moz-appearance: none;
-//   -webkit-appearance: none;
-// }
-
-// .callout.admin {
-//   border-color: red;
-// }
