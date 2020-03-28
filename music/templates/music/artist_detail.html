@@ -150,5 +150,6 @@
     </tbody>
   </table>
 
+  <a href="{% url 'radio:plays' %}?artist_name={{ artist.name|urlencode }}" class="button">See more &raquo;</a>
 </div>
 {% endblock %}
