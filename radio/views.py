@@ -147,9 +147,8 @@ class StatsView(TemplateView):
 
 class PlaysView(ListView):
     template_name = 'radio/plays.html'
-    queryset = Play.objects.all().order_by("-timestamp").prefetch_related('radio', 'artist')
-    context_object_name = 'plays'
-    paginate_by = 100
+    model = Play
+    limit = 100
 
     def _parse_date(self, value):
         try:
@@ -163,22 +162,58 @@ class PlaysView(ListView):
         self.radio = self.request.GET.get('radio')
         self.start = self._parse_date(self.request.GET.get('start'))
         self.end = self._parse_date(self.request.GET.get('end'))
+        self.from_id = self.request.GET.get('from_id')
 
         return super(PlaysView, self).dispatch(*args, **kwargs)
 
+    def get_next_link(self, plays):
+        if len(plays) < self.limit:
+            return {}
+
+        query = self.request.GET.copy()
+        query["from_id"] = plays[-1].id - 1
+
+        return "{}?{}".format(self.request.path, urlencode(query))
+
+    def get_first_link(self):
+        query = self.request.GET.copy()
+        query.pop("from_id", None)
+
+        return "{}?{}".format(self.request.path, urlencode(query))
+
     def get_context_data(self, **kwargs):
         context = super(PlaysView, self).get_context_data(**kwargs)
+
+        plays = list(context["object_list"])
+
+        if len(plays) > self.limit:
+            plays = plays[:self.limit]
+            next_link = self.get_next_link(plays)
+        else:
+            next_link = None
+
         context.update({
+            'plays': plays,
             'radio': self.radio,
             'artist_name': self.artist_name,
             'title': self.title,
             'start': self.start,
             'end': self.end,
+            'first_link': self.get_first_link(),
+            'next_link': next_link,
         })
         return context
 
     def get_queryset(self):
-        qs = super(PlaysView, self).get_queryset()
+        qs = (
+            Play.objects
+            .order_by("-id")
+            .select_related('artist')
+            .prefetch_related('radio')
+        )
+
+        if self.from_id:
+            qs = qs.filter(id__lte=self.from_id)
 
         if self.radio:
             qs = qs.filter(radio__slug=self.radio)
@@ -195,4 +230,5 @@ class PlaysView(ListView):
         if self.end:
             qs = qs.filter(timestamp__lt=self.end + relativedelta(days=1))
 
-        return qs
+        # One extra record is fetched to see if there is a next page
+        return qs[:self.limit + 1]

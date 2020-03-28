@@ -318,18 +318,21 @@ p {
   padding: 0 1rem;
   max-width: 75rem; }
 
-.columns {
+.columns.is-mobile {
+  display: flex; }
+
+.columns:not(.is-mobile) {
   display: block; }
   @media print, screen and (min-width: 40em) {
-    .columns {
+    .columns:not(.is-mobile) {
       display: flex; } }
-  .columns .column {
-    flex-grow: 1;
-    margin-right: 1rem; }
-    .columns .column.is-narrow {
-      flex-grow: 0; }
-    .columns .column:last-child {
-      margin-right: 0rem; }
+.columns .column {
+  flex-grow: 1;
+  margin-right: 1rem; }
+  .columns .column.is-narrow {
+    flex-grow: 0; }
+  .columns .column:last-child {
+    margin-right: 0rem; }
 
 .callout {
   border: 1px solid #0a0a0a;

@@ -80,6 +80,15 @@
   <h5>No plays matching given search parameters.</h5>
   {% endif %}
 
-  {% include "radio/partial/paging.html" %}
+  <div class="columns is-mobile">
+    <div class="column">
+      <a href="{{ first_link }}" class="button">&laquo; First</a>
+    </div>
+    <div class="column text-right">
+      {% if next_link %}
+        <a href="{{ next_link }}" class="button">Next &rsaquo;</a>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}

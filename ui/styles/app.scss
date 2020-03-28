@@ -72,10 +72,17 @@ p {
 }
 
 .columns {
-  display: block;
 
-  @media print, screen and (min-width: 40em) {
+  &.is-mobile {
     display: flex;
+  }
+
+  &:not(.is-mobile) {
+    display: block;
+
+    @media print, screen and (min-width: 40em) {
+      display: flex;
+    }
   }
 
   .column {
