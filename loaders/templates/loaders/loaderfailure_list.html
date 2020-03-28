@@ -6,49 +6,49 @@
 
 {% block content %}
 <div class="container">
-    <ul class="breadcrumbs">
-        <li>Loaders</li>
-        <li>Failures</li>
-    </ul>
+  <ul class="breadcrumbs">
+    <li>Loaders</li>
+    <li>Failures</li>
+  </ul>
 
-    <h1>Loader failures</h1>
+  <h1>Loader failures</h1>
 
-    {% if failures %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Radio</th>
-                    <th>Type</th>
-                    <th>Error</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for failure in failures %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'loaders:failure-detail' failure.pk %}">
-                                {{ failure.timestamp|date:"Y-m-d H:i:s" }}
-                            </a>
-                        </td>
-                        <td>{{ failure.radio.name }}</td>
-                        <td>{{ failure.type }}</td>
-                        <td>
-                            {% if failure.type == 'fetch' %}
-                                HTTP {{ failure.response.status_code|http_status }}
-                            {% else %}
-                                {{ failure.error_message }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>There are no failures! \o/</p>
-    {% endif %}
+  {% if failures %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Radio</th>
+          <th>Type</th>
+          <th>Error</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for failure in failures %}
+          <tr>
+            <td>
+              <a href="{% url 'loaders:failure-detail' failure.pk %}">
+                {{ failure.timestamp|date:"Y-m-d H:i:s" }}
+              </a>
+            </td>
+            <td>{{ failure.radio.name }}</td>
+            <td>{{ failure.type }}</td>
+            <td>
+              {% if failure.type == 'fetch' %}
+                HTTP {{ failure.response.status_code|http_status }}
+              {% else %}
+                {{ failure.error_message }}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no failures! \o/</p>
+  {% endif %}
 
-    {% include "ui/pagination.html" %}
+  {% include "ui/partial/pagination.html" %}
 
 </div>
 {% endblock %}

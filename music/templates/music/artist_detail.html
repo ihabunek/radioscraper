@@ -4,6 +4,14 @@
 
 {% block title %}{{ artist.name }}{% endblock %}
 
+{% block head %}
+<style type="text/css">
+#plays-chart {
+  margin: 2rem 0;
+}
+</style>
+{% endblock %}
+
 {% block script %}
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
@@ -44,7 +52,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container" id="artists-page">
+<div class="container">
 
   <h1>{{ artist.name }}</h1>
 
@@ -52,12 +60,9 @@
   <div class="callout">
     <h3>Admin actions</h3>
     <div class="button-group">
-      <button class="button" data-open="rename-modal">Rename</button>
       <a href="{% url 'music:artist-delete' artist.slug %}" class="button">Delete</a>
     </div>
-  </div>
 
-  <div id="rename-modal" class="reveal" data-reveal>
     <h3>Choose default artist name</h3>
 
     <form action="{% url 'music:set-artist-name' %}" method="post">
@@ -74,12 +79,8 @@
       {% endfor %}
       </ul>
 
-      <button type="submit" id="merge-artists" class="button">Make default</button>
+      <button type="submit" class="button no-margin">Make default</button>
     </form>
-
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
   {% endif %}
 

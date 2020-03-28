@@ -198,10 +198,11 @@ main {
       min-height: calc(100vh - 180px); } }
 ul.pagination {
   margin: 2rem auto;
-  max-width: 600px;
-  border: 1px dashed red;
   display: flex;
-  justify-content: space-between; }
+  justify-content: center;
+  white-space: nowrap; }
+  ul.pagination li {
+    margin: 0 0.5rem; }
   ul.pagination .pagination-previous a::before {
     display: inline-block;
     margin-right: 0.5rem;
@@ -210,6 +211,16 @@ ul.pagination {
     display: inline-block;
     margin-left: 0.5rem;
     content: '\BB'; }
+  ul.pagination a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #fefefe;
+    background-color: #0a0a0a; }
+  ul.pagination .current,
+  ul.pagination .ellipsis {
+    display: block;
+    padding: 0.5rem 1rem;
+    border: 1px solid black; }
 
 .radio-grid {
   display: grid;
