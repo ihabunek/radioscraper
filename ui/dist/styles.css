@@ -157,7 +157,7 @@ select {
 
 body {
   min-width: 320px;
-  overflow: hidden; }
+  overflow-x: hidden; }
 
 header {
   color: #fefefe;
@@ -252,7 +252,17 @@ table.table {
   table.table thead > tr,
   table.table tbody > tr:nth-child(even) {
     background-color: whitesmoke; }
-
+  @media print, screen and (max-width: 640px) {
+    table.table.collapsible thead {
+      display: none; }
+    table.table.collapsible tbody td {
+      display: block;
+      width: 100%;
+      padding: 0 0 0 1rem; }
+      table.table.collapsible tbody td:first-child {
+        padding-top: 0.5rem; }
+      table.table.collapsible tbody td:last-child {
+        padding-bottom: 0.5rem; } }
 html {
   font-family: Consolas, "Liberation Mono", Courier, monospace; }
 

@@ -48,34 +48,33 @@
   </form>
 
   {% if plays %}
-  <table class="table">
-    <tr>
-      <th>Time</th>
-      <th>Radio</th>
-      <th>Artist</th>
-      <th>Title</th>
-    </tr>
-    {% for play in plays %}
-    <tr>
-      <td class="no-wrap">
-        {{ play.timestamp|date:"d.m.Y @ H:i" }}
-      </td>
-      <td class="no-wrap">
-        <a href="{% url 'radio:stats' play.radio.slug %}">{{ play.radio.name }}</a>
-      </td>
-      <td>
-        <a href="{% url 'music:artist-detail' play.artist.slug %}">
-          {{ play.artist_name }}
-        </a>
-      </td>
-      <td>
-        {{ play.title }}
-        <a class="filter" data-title="{{ play.title }}" href="#" title="Add song to filter">
-          <i class="gray fa fa-filter"></i>
-        </a>
-      </td>
-    </tr>
-    {% endfor %}
+  <table id="plays-table" class="collapsible table">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Radio</th>
+        <th>Artist</th>
+        <th>Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for play in plays %}
+        <tr>
+          <td class="no-wrap">
+            {{ play.timestamp|date:"d.m.Y @ H:i" }}
+          </td>
+          <td class="no-wrap">
+            <a href="{% url 'radio:stats' play.radio.slug %}">{{ play.radio.name }}</a>
+          </td>
+          <td>
+            <a href="{% url 'music:artist-detail' play.artist.slug %}">{{ play.artist_name }}</a><span class="show-mobile-only">:</span>
+          </td>
+          <td>
+            {{ play.title }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
   </table>
   {% else %}
   <h5>No plays matching given search parameters.</h5>
