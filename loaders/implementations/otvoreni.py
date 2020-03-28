@@ -3,7 +3,8 @@ import json
 from websocket import create_connection
 
 # WS_URL = "wss://s-usc1c-nss-279.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
-WS_URL = "wss://s-usc1c-nss-277.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
+# WS_URL = "wss://s-usc1c-nss-277.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
+WS_URL = "wss://s-usc1c-nss-276.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
 
 
 # Reverse engineered from: www.otvoreni.hr/media-player/
