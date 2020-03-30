@@ -1,5 +1,4 @@
 from datetime import datetime, date
-from dateutil.relativedelta import relativedelta
 from urllib.parse import urlencode
 
 from django.db.models import Count
@@ -10,6 +9,9 @@ from django.views.generic import ListView, TemplateView, RedirectView
 from radio.models import Radio, Play
 from music.models import ArtistName
 from radio.utils.stats import get_song_stats, get_artist_stats, get_most_played_artists
+
+from radioscraper.utils.datetime import day_start, day_end
+from radioscraper.utils.datetime import month_start, month_end
 
 
 def get_year_month(request):
@@ -80,8 +82,9 @@ class RadioStatsView(TemplateView):
         radio = get_object_or_404(Radio, slug=slug)
 
         year, month = get_year_month(self.request)
-        start = date(year, month, 1)
-        end = start + relativedelta(months=1)
+        start = month_start(year, month)
+        end = month_end(year, month)
+
         play_count = radio.plays(start, end).count()
 
         context.update({
@@ -114,8 +117,8 @@ class StatsView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         year, month = get_year_month(self.request)
-        start = date(year, month, 1)
-        end = start + relativedelta(months=1)
+        start = month_start(year, month)
+        end = month_end(year, month)
 
         plays = Play.objects.month(year, month)
         play_count = plays.count()
@@ -237,10 +240,10 @@ class PlaysView(ListView):
             qs = qs.filter(title__iunaccent__iexact=self.title)
 
         if self.start:
-            qs = qs.filter(timestamp__gte=self.start)
+            qs = qs.filter(timestamp__gte=day_start(self.start))
 
         if self.end:
-            qs = qs.filter(timestamp__lt=self.end + relativedelta(days=1))
+            qs = qs.filter(timestamp__lt=day_end(self.start))
 
         # One extra record is fetched to see if there is a next page
         return qs[:self.limit + 1]
