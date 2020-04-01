@@ -94,3 +94,9 @@ tail -f /var/log/radioscraper/error.log | sed 's/#012/\n\t/g'
        missingok
 }
 ```
+
+**`crontab -e`**
+
+```
+* * * * * /home/ihabunek/.virtualenvs/radioscraper/bin/python /home/ihabunek/projects/radioscraper/manage.py run_loaders
+```
