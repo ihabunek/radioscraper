@@ -1,19 +1,26 @@
 import dj_database_url
 import os
-from .env import ENV_BOOL, ENV_STR, ENV_LIST
 
 from radioscraper.postgres.lookups import ImmutableUnaccent  # noqa
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(SETTINGS_DIR))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ENV_STR('SECRET_KEY', None)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ENV_BOOL('DEBUG', False)
+def ensure_secret_key_file():
+    """Checks that secret.py exists in settings dir. If not, creates one
+    with a random generated SECRET_KEY setting."""
+    secret_path = os.path.join(SETTINGS_DIR, 'secret.py')
+    if not os.path.exists(secret_path):
+        from django.core.management.utils import get_random_secret_key
+        secret_key = get_random_secret_key()
+        with open(secret_path, 'w') as f:
+            f.write("SECRET_KEY = " + repr(secret_key) + "\n")
 
-ALLOWED_HOSTS = ENV_LIST('ALLOWED_HOSTS', ',', [])
+
+ensure_secret_key_file()
+from .secret import SECRET_KEY  # noqa
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,8 +59,6 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
-            'debug': DEBUG,
-            'string_if_invalid': '<< MISSING VARIABLE "%s" >>' if DEBUG else '',
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -121,50 +126,3 @@ STATICFILES_DIRS = [
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-# Logging
-# https://docs.djangoproject.com/en/3.0/topics/logging/
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '%(asctime)s %(process)d %(levelname)s %(name)s %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'handlers': {
-        'debug_file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '{}/loaders.log'.format(BASE_DIR),
-            'formatter': 'verbose',
-        },
-        'error_file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': '{}/errors.log'.format(BASE_DIR),
-            'formatter': 'verbose',
-        },
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'loaders': {
-            'handlers': ['console', 'debug_file', 'error_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
-
-
-if DEBUG:
-    INSTALLED_APPS += ['debug_toolbar']
-    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
-    INTERNAL_IPS = ['127.0.0.1']

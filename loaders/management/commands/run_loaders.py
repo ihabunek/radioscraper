@@ -18,7 +18,7 @@ class Command(BaseCommand):
         parser.add_argument('radio', nargs='?', type=str)
 
     def handle(self, *args, **options):
-        logger.info("### RUNNING LOADERS ###")
+        logger.info("--- RUNNING LOADERS -------------------------------------")
 
         radio = options['radio']
         radios = Radio.objects.active().order_by('name')
@@ -31,7 +31,8 @@ class Command(BaseCommand):
         except TimeoutError:
             logger.exception("Some loaders didn't make it. :(")
 
-        logger.info("### DONE ###")
+        logger.info("--- DONE ------------------------------------------------")
+        logger.info("")
 
     def dispatch(self, executor, radios):
         futures = [executor.submit(load_current_song, radio) for radio in radios]

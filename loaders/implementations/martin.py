@@ -23,7 +23,7 @@ def parse_response(response):
 
     # Check sane offset value (usually 16k)
     if not (1 < offset < 64 * 1024):
-        logger.error("invalid icy-metaint value: {}")
+        logger.error(f"invalid icy-metaint value: {offset}")
         return
 
     # Skip first chunk
