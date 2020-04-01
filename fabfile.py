@@ -2,17 +2,20 @@ from fabric.api import run, cd, env, local
 
 env.hosts = ['www.radioscraper.com']
 
-PROJECT_HOME = '/home/ihabunek/projects/radioscraper'
+PROJECT_HOME = "/home/ihabunek/projects/radioscraper"
 DUMP_FILE = "/tmp/radioscraper-$(date +%Y-%m-%d).sql"
+VIRTUAL_ENV = "/home/ihabunek/.virtualenvs/radioscraper/"
+PYTHON = f"{VIRTUAL_ENV}/bin/python"
+PIP = f"{VIRTUAL_ENV}/bin/pip"
 
 
 def deploy():
     with cd(PROJECT_HOME):
         run("git pull")
-        run("_env/bin/pip install -r requirements.txt")
-        run("_env/bin/pip install -r requirements.prod.txt")
-        run("source .env; _env/bin/python manage.py migrate")
-        run("source .env; _env/bin/python manage.py collectstatic --clear --no-input")
+        run(f"{PIP} install -r requirements.txt")
+        run(f"{PIP} install -r requirements.prod.txt")
+        run(f"{PYTHON} manage.py migrate")
+        run(f"{PYTHON} manage.py collectstatic --clear --no-input")
         run("sudo service radioscraper reload")
 
 
