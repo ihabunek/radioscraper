@@ -1,12 +1,11 @@
 language: python
 
 python:
-  - "3.6"
   - "3.7"
   - "3.8"
 
-addons:
-  postgresql: "9.5"
+services:
+  - postgresql
 
 install:
   - pip install -r requirements.txt
@@ -14,8 +13,7 @@ install:
 
 env:
   global:
-    - SECRET_KEY=hunter1
-    - DATABASE_URL='postgres://postgres@localhost:5432/radioscraper_test'
+    - DJANGO_SETTINGS_MODULE=radioscraper.settings.test
 
 before_script:
   - createdb -U postgres radioscraper_test
