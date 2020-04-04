@@ -1,12 +1,11 @@
-from requests import Request
+from radioscraper.utils import http
+
 from xml.etree import ElementTree
 
 
-def form_request():
-    return Request("GET", "http://laganini.fm/logs/zagreb/NowOnAir.xml")
+def load():
+    response = http.get("http://laganini.fm/logs/zagreb/NowOnAir.xml")
 
-
-def parse_response(response):
     root = ElementTree.fromstring(response.text)
     song = root.find('.//Song')
     title = song.attrib.get('title').strip()

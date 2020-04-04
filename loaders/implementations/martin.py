@@ -1,30 +1,23 @@
 import re
 import logging
 
-from requests import Request
 from radio.utils.normalize import split_artist_title
+from radioscraper.utils import http
 
 logger = logging.getLogger(__name__)
 
 
-stream = True
-
-
-def form_request():
+def load():
     url = "http://genf196.server4you.de:8585/"
     headers = {"Icy-MetaData": "1"}
+    response = http.get(url, headers=headers, stream=True)
 
-    return Request("GET", url, headers=headers)
-
-
-def parse_response(response):
     # Find chunk size, metadata is included after each chunk
     offset = int(response.headers.get('icy-metaint'))
 
     # Check sane offset value (usually 16k)
     if not (1 < offset < 64 * 1024):
-        logger.error(f"invalid icy-metaint value: {offset}")
-        return
+        raise Exception(f"invalid icy-metaint value: {offset}")
 
     # Skip first chunk
     response.raw.read(offset)
@@ -34,17 +27,19 @@ def parse_response(response):
 
     # Check sane length value (usually 32)
     if not (1 < length < 128):
-        logger.error("invalid meta length: {}".format(length))
-        return
+        raise Exception(f"invalid meta length: {length}")
 
     # Read and decode metadata
     meta = response.raw.read(length).decode("utf-8")
     match = re.search("StreamTitle='(.+)';", meta)
     if not match:
-        logger.error("metadata not found in: '{}'")
-        return
+        raise Exception("metadata not found in: {meta}")
 
-    artist, title = split_artist_title(match.group(1))
+    parts = split_artist_title(match.group(1))
+    if parts is None:
+        return None
+
+    artist, title = parts
 
     # Skip commercials
     if artist.lower() == 'zabavni radio' and title.lower() == 'reklame':

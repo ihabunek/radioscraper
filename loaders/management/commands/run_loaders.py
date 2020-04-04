@@ -45,6 +45,6 @@ class Command(BaseCommand):
             created, play = add_play(radio, artist_name, title)
             logger.info("{}: {} {}".format(radio.slug, play, "(repeated)" if not created else ""))
         elif failure:
-            logger.error("{}: {} failure: {}".format(radio.slug, failure.type, failure.error_message))
+            logger.error(f"{radio.slug}: {failure.error_message}")
         else:
             logger.info("{}: nothing currently playing".format(radio.slug))

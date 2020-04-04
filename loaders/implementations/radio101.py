@@ -1,19 +1,18 @@
-from requests import Request
 from radio.utils.normalize import split_artist_title
+from radioscraper.utils import http
 
 from .common import timestamp_ms
 
 
-def form_request():
+def load():
     url = "https://zet.pluginsandthemes.ro/http://live.radio101.hr:9531/stats"
     headers = {"Origin": "http://radio101.hr"}
-    return Request("GET", url, headers=headers, params={
+    response = http.get(url, headers=headers, params={
         'sid': 1,
         'json': 1,
         '_': timestamp_ms(),
     })
 
+    songtitle = response.json()['songtitle']
 
-def parse_response(response):
-    data = response.json()
-    return split_artist_title(data['songtitle'])
+    return split_artist_title(songtitle)

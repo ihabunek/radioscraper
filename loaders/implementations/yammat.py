@@ -1,22 +1,18 @@
 import bs4
-import requests
+from radioscraper.utils import http
+
+ADMIN_URL = "https://yammat.fm/wp-admin/admin-ajax.php"
 
 
-# TODO: Make parsing multiple requests more robust, this is not optimal
-def get_nonce():
-    response = requests.get("https://yammat.fm/wp-admin/admin-ajax.php?action=get_nonce")
-    response.raise_for_status()
-    return response.json()["afp_nonce"]
+def load():
+    response = http.get(ADMIN_URL, params={"action": "get_nonce"})
+    nonce = response.json()["afp_nonce"]
 
-
-def form_request():
-    return requests.Request("POST", "https://yammat.fm/wp-admin/admin-ajax.php", data={
+    response = http.post(ADMIN_URL, data={
         "action": "ajax_update_sidebar_songs",
-        "afp_nonce": get_nonce(),
+        "afp_nonce": nonce
     })
 
-
-def parse_response(response):
     data = response.json()
     playing = data["html"]["current_desktop"]
 
@@ -28,7 +24,7 @@ def parse_response(response):
 
     artist, title = spans
 
-    if artist == "" or title == "":
+    if not artist or not title:
         return None
 
     return spans

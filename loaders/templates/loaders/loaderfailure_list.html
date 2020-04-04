@@ -19,7 +19,6 @@
         <tr>
           <th>Timestamp</th>
           <th>Radio</th>
-          <th>Type</th>
           <th>Error</th>
         </tr>
       </thead>
@@ -32,9 +31,8 @@
               </a>
             </td>
             <td>{{ failure.radio.name }}</td>
-            <td>{{ failure.type }}</td>
             <td>
-              {% if failure.type == 'fetch' %}
+              {% if failure.response %}
                 HTTP {{ failure.response.status_code|http_status }}
               {% else %}
                 {{ failure.error_message }}

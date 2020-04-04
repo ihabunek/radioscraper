@@ -17,11 +17,7 @@ class RequestData(models.Model):
     """
     Holds HTTP request data.
     """
-    METHOD_GET = 'GET'
-    METHOD_POST = 'POST'
-    METHOD_CHOICES = [(x, x) for x in [METHOD_GET, METHOD_POST]]
-
-    method = models.CharField(max_length=10, choices=METHOD_CHOICES)
+    method = models.CharField(max_length=10)
     url = models.CharField(max_length=1000)
     post_data = JSONField(blank=True, null=True)
 
@@ -44,21 +40,6 @@ class LoaderFailure(models.Model):
     """
     Contains the exception info which caused a loader to fail.
     """
-
-    # Failure
-    TYPE_CONNECT = 'connect'
-    TYPE_FETCH = 'fetch'
-    TYPE_OTHER = 'other'
-    TYPE_PARSE = 'parse'
-
-    TYPE_CHOICES = (
-        (TYPE_CONNECT, "Connect"),
-        (TYPE_FETCH, "Fetch"),
-        (TYPE_OTHER, "Other"),
-        (TYPE_PARSE, "Parse"),
-    )
-
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     radio = models.ForeignKey('radio.Radio', on_delete=CASCADE)
     outage = models.ForeignKey(Outage, on_delete=SET_NULL, blank=True, null=True, related_name="failures")
     timestamp = models.DateTimeField(auto_now_add=True)
