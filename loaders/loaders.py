@@ -1,3 +1,5 @@
+import sys
+
 from django.utils import timezone
 from importlib import import_module
 from traceback import format_exc
@@ -75,18 +77,18 @@ def load_current_song(radio, timeout=20):
     Loads currently playing song by the given radio.
 
     Returns a tuple of:
-    - radio   - the given radio object, used to resolve futures
-    - song    - the song playing as a tuple (artist_name, song_title),
-                or None if failed to fetch or if nothing is currently playing
-    - failure - if failed, a Failure object describing the issue
+    - radio    - the given radio object, used to resolve futures
+    - song     - the song playing as a tuple (artist_name, song_title),
+                 or None if failed to fetch or if nothing is currently playing
+    - exc_info - if failed, the exception info
     """
     loader = get_loader(radio.slug)
 
     try:
         song = loader.load()
     except Exception as ex:
-        failure = create_failure(radio, ex, format_exc())
-        return radio, None, failure
+        create_failure(radio, ex, format_exc())
+        return radio, None, sys.exc_info()
 
     # Close any open outages
     Outage.objects.filter(radio=radio, end__isnull=True).update(end=timezone.now())

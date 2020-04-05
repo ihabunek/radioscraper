@@ -39,12 +39,12 @@ class Command(BaseCommand):
         for future in as_completed(futures, timeout=TIMEOUT):
             self.process_loader_result(*future.result())
 
-    def process_loader_result(self, radio, song, failure):
+    def process_loader_result(self, radio, song, exc_info):
         if song:
             artist_name, title = song
             created, play = add_play(radio, artist_name, title)
             logger.info("{}: {} {}".format(radio.slug, play, "(repeated)" if not created else ""))
-        elif failure:
-            logger.error(f"{radio.slug}: {failure.error_message}")
+        elif exc_info:
+            logger.error(f"{radio.slug} failed", exc_info=exc_info)
         else:
             logger.info("{}: nothing currently playing".format(radio.slug))
