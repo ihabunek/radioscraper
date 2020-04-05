@@ -18,10 +18,14 @@ def load(name):
     root = ElementTree.fromstring(response.text)
 
     for item in root.findall('nowplaying-info'):
-        timestamp, title, artist = [i.text for i in item.findall('property')]
+        artist = item.find("property[@name='track_artist_name']").text
+        title = item.find("property[@name='cue_title']").text
 
-        if title != 'HRVATSKI RADIO':  # returned when no song is playing
-            return [
-                artist.strip().title(),
-                title.strip().capitalize()
-            ]
+        # Returned when no song is playing
+        if title.lower() == 'hrvatski radio':
+            continue
+
+        return [
+            artist.strip().title(),
+            title.strip().capitalize()
+        ]
