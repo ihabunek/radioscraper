@@ -1,28 +1,15 @@
-import json
-
-from websocket import create_connection
-
-# WS_URL = "wss://s-usc1c-nss-279.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
-# WS_URL = "wss://s-usc1c-nss-277.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
-# WS_URL = "wss://s-usc1c-nss-276.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
-# WS_URL = "wss://s-usc1c-nss-275.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
-WS_URL = "wss://s-usc1c-nss-274.firebaseio.com/.ws?v=5&ns=otvoreni-radio-player"
+from radioscraper.utils import http
 
 
-# Reverse engineered from: www.otvoreni.hr/media-player/
 def load():
-    ws = create_connection(WS_URL)
-    ws.recv()
+    url = "https://otvoreni-radio-player.firebaseio.com/songs/.json"
+    response = http.get(url).json()
 
-    ws.send('{"t":"d","d":{"r":2,"a":"q","b":{"p":"/songs","h":""}}}')
-    data = ws.recv()
-    ws.close()
-
-    data = json.loads(data)
-    plays = data["d"]["b"]["d"]["8807"]
-    key = max(list(plays))
+    plays = response["8807"]
+    latest_timestamp = max(plays, key=int)
+    play = plays[latest_timestamp]
 
     return (
-        plays[key]["artist"].title(),
-        plays[key]["title"].capitalize()
+        play["artist"].title(),
+        play["title"].capitalize()
     )
