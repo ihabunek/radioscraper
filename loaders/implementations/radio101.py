@@ -5,7 +5,7 @@ from .common import timestamp_ms
 
 
 def load():
-    url = "https://zet.pluginsandthemes.ro/http://live.radio101.hr:9531/stats"
+    url = "http://live.radio101.hr:9531/stats"
     headers = {"Origin": "http://radio101.hr"}
     response = http.get(url, headers=headers, params={
         'sid': 1,
