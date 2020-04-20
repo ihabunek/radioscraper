@@ -12,4 +12,4 @@ def load():
         '_': timestamp_ms(),
     })
 
-    return split_artist_title(response.text)
+    return split_artist_title(response.text, normalize_case=True)
