@@ -243,7 +243,7 @@ class PlaysView(ListView):
             qs = qs.filter(timestamp__gte=day_start(self.start))
 
         if self.end:
-            qs = qs.filter(timestamp__lt=day_end(self.start))
+            qs = qs.filter(timestamp__lt=day_end(self.end))
 
         # One extra record is fetched to see if there is a next page
         return qs[:self.limit + 1]
