@@ -1,21 +1,20 @@
 from xml.etree import ElementTree
 
-from radioscraper.utils import http
-
 from . import timestamp_ms
 
 
-def load(name):
+async def load(session, name):
     url = "http://np.tritondigital.com/public/nowplaying"
 
-    response = http.get(url, params={
+    response = await session.get(url, params={
         'mountName': name,
         'numberToFetch': 10,
         'eventType': 'track',
         'request.preventCache': timestamp_ms(),
     })
 
-    root = ElementTree.fromstring(response.text)
+    contents = await response.text()
+    root = ElementTree.fromstring(contents)
 
     for item in root.findall('nowplaying-info'):
         artist = item.find("property[@name='track_artist_name']").text

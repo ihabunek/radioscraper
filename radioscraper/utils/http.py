@@ -13,7 +13,7 @@ def get(*args, **kwargs):
     return response
 
 
-def post(*args, **kwargs):
+async def post(*args, **kwargs):
     if "timeout" not in kwargs:
         kwargs["timeout"] = DEFAULT_TIMEOUT
 

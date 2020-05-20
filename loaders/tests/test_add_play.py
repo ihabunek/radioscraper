@@ -1,6 +1,6 @@
 import pytest
 
-from loaders.utils import add_play
+from radio.context import add_play
 from music.models import Artist
 from radio.models import Radio
 

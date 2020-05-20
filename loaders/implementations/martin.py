@@ -1,37 +1,35 @@
 import re
-import logging
 
 from radio.utils.normalize import split_artist_title
-from radioscraper.utils import http
-
-logger = logging.getLogger(__name__)
 
 
-def load():
+async def load(session):
     url = "http://genf196.server4you.de:8585/"
     headers = {"Icy-MetaData": "1"}
-    response = http.get(url, headers=headers, stream=True)
 
-    # Find chunk size, metadata is included after each chunk
-    offset = int(response.headers.get('icy-metaint'))
+    async with session.get(url, headers=headers) as response:
+        # Find chunk size, metadata is included after each chunk
+        offset = int(response.headers.get('icy-metaint'))
 
-    # Check sane offset value (usually 16k)
-    if not (1 < offset < 64 * 1024):
-        raise Exception(f"invalid icy-metaint value: {offset}")
+        # Check sane offset value (usually 16k)
+        if not (1 < offset < 64 * 1024):
+            raise Exception(f"invalid icy-metaint value: {offset}")
 
-    # Skip first chunk
-    response.raw.read(offset)
+        # Skip first chunk
+        await response.content.readexactly(offset)
 
-    # Determine length of meta data from first byte
-    length = response.raw.read(1)[0] * 16
+        # Determine length of meta data from first byte
+        b = await response.content.readexactly(1)
+        length = b[0] * 16
 
-    # Check sane length value (usually 32)
-    if not (1 < length < 128):
-        raise Exception(f"invalid meta length: {length}")
+        # Check sane length value (usually 32)
+        if not (1 < length < 128):
+            raise Exception(f"invalid meta length: {length}")
 
-    # Read and decode metadata
-    meta = response.raw.read(length).decode("utf-8")
-    match = re.search("StreamTitle='(.+)';", meta)
+        # Read and decode metadata
+        meta = await response.content.readexactly(length)
+
+    match = re.search("StreamTitle='(.+)';", meta.decode("utf-8"))
     if not match:
         raise Exception("metadata not found in: {meta}")
 

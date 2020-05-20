@@ -1,21 +1,21 @@
 import bs4
-from radioscraper.utils import http
 
 ADMIN_URL = "https://yammat.fm/wp-admin/admin-ajax.php"
 
 
-def load():
-    response = http.get(ADMIN_URL, params={"action": "get_nonce"})
-    nonce = response.json()["afp_nonce"]
+async def load(session):
+    response = await session.get(ADMIN_URL, params={"action": "get_nonce"})
+    response.raise_for_status()
+    data = await response.json()
 
-    response = http.post(ADMIN_URL, data={
+    response = await session.post(ADMIN_URL, data={
         "action": "ajax_update_sidebar_songs",
-        "afp_nonce": nonce
+        "afp_nonce": data["afp_nonce"]
     })
+    response.raise_for_status()
+    data = await response.json()
 
-    data = response.json()
     playing = data["html"]["current_desktop"]
-
     soup = bs4.BeautifulSoup(playing, 'html.parser')
     spans = [span.text.strip() for span in soup.find_all('span')]
 

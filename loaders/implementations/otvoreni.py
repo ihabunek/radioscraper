@@ -1,11 +1,9 @@
-from radioscraper.utils import http
-
-
-def load():
+async def load(session):
     url = "https://otvoreni-radio-player.firebaseio.com/songs/.json"
-    response = http.get(url).json()
+    response = await session.get(url)
+    contents = await response.json()
 
-    plays = response["8807"]
+    plays = contents["8807"]
     latest_timestamp = max(plays, key=int)
     play = plays[latest_timestamp]
 
