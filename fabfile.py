@@ -1,13 +1,13 @@
+from datetime import date
 from fabric.api import run, cd, env, local
 
 env.hosts = ['www.radioscraper.com']
 
 PROJECT_HOME = "/home/ihabunek/projects/radioscraper"
-DUMP_FILE = "/tmp/radioscraper-$(date +%Y-%m-%d).sql"
+DUMP_FILE = f"/tmp/radioscraper-{date.today()}.sql"
 VIRTUAL_ENV = "/home/ihabunek/.virtualenvs/radioscraper/"
 PYTHON = f"{VIRTUAL_ENV}/bin/python"
 PIP = f"{VIRTUAL_ENV}/bin/pip"
-
 
 def deploy():
     with cd(PROJECT_HOME):
@@ -20,19 +20,22 @@ def deploy():
 
 
 def refresh_db():
+    print("\nThis command will drop the local radioscraper database.")
+    response = input("Are you sure you want to proceed? [y/N] ")
+    if response != "y":
+        print("Aborted")
+        return
 
     # Make dump on host and fetch it
-    run("rm -f {}".format(DUMP_FILE))
-    run("pg_dump -d radioscraper --no-owner > {}".format(DUMP_FILE))
-    run("gzip {}".format(DUMP_FILE))
-    local("scp -C bigfish:{0}.gz {0}.gz".format(DUMP_FILE))
-    local("gunzip {0}.gz".format(DUMP_FILE))
+    run(f"rm -f {DUMP_FILE}")
+    run(f"pg_dump -d radioscraper --format custom --no-owner > {DUMP_FILE}")
+    local(f"scp -C bezdomni:{DUMP_FILE} {DUMP_FILE}")
 
     # Recreate the database locally
     local("dropdb --if-exists radioscraper")
     local("createdb radioscraper")
-    local("psql -d radioscraper < {}".format(DUMP_FILE))
+    local(f"pg_restore -d radioscraper {DUMP_FILE}")
 
     # Cleanup
-    run("rm -f {}".format(DUMP_FILE))
-    local("rm -f {}".format(DUMP_FILE))
+    run(f"rm -f {DUMP_FILE}")
+    local(f"rm -f {DUMP_FILE}")
