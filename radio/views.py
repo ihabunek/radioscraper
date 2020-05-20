@@ -78,7 +78,7 @@ class RadioStatsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        slug = self.kwargs.get('radio_slug')
+        slug = self.kwargs.get('slug')
         radio = get_object_or_404(Radio, slug=slug)
 
         year, month = get_year_month(self.request)

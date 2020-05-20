@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 from loaders import views
 
 app_name = 'loaders'
 
 urlpatterns = [
-    url(r'^failures/$', views.FailureListView.as_view(), name='failure-list'),
-    url(r'^failures/(?P<pk>[\d]+)/$', views.FailureDetailView.as_view(), name='failure-detail'),
+    path('failures/', views.FailureListView.as_view(), name='failure-list'),
+    path('failures/<int:pk>/$', views.FailureDetailView.as_view(), name='failure-detail'),
 ]

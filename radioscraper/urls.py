@@ -1,18 +1,18 @@
-from django.conf.urls import url, include
+from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url('', include('radio.urls')),
-    url('', include('loaders.urls')),
-    url('', include('music.urls')),
-    url('', include('ui.urls')),
+    path('admin/', admin.site.urls),
+    path('', include('loaders.urls')),
+    path('', include('music.urls')),
+    path('', include('radio.urls')),
+    path('', include('ui.urls')),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        path('__debug__/', include(debug_toolbar.urls)),
     ]
