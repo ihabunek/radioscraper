@@ -1,6 +1,5 @@
 from django.db import models
-from django.db.models.deletion import CASCADE, PROTECT, SET_NULL
-from django.contrib.postgres.fields.jsonb import JSONField
+from django.db.models.deletion import CASCADE, SET_NULL
 
 
 class Outage(models.Model):

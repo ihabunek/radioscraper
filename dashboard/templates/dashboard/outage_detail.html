@@ -1,0 +1,42 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Outage #{{ outage.pk }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Outage #{{ outage.pk }}</h1>
+
+  <p>
+    Radio: {{ outage.radio }}<br />
+    Start: {{ outage.start }}<br />
+    Failures: {{ outage.failure_count }}<br />
+    End:
+    {% if outage.end %}
+      {{ outage.end }}
+    {% else %}
+      <em>Ongoing</em>
+    {% endif %}
+  </p>
+
+  <h2>Failures</h2>
+
+  {% if has_more %}
+    <p><em>Showing last 20 failures</em></p>
+  {% endif %}
+
+  <table class="table">
+    <tbody>
+      {% for failure in failures %}
+        <tr>
+          <td>
+            <a href="{% url 'dashboard:failure-detail' failure.pk %}">
+              {{ failure.timestamp }}
+            </a>
+          </td>
+          <td>{{ failure.error_message }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

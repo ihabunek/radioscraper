@@ -1,0 +1,17 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Failure #{{ failure.pk }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Failure #{{ failure.pk }}</h1>
+
+  <p>
+    Radio: {{ failure.radio }}<br />
+    Timestamp: {{ failure.timestamp }}<br />
+  </p>
+
+  <h3>{{ failure.error_message }}</h3>
+
+  <pre>{{ failure.stack_trace }}</pre>
+{% endblock %}

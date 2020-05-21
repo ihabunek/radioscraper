@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'radioscraper.postgres',
 
+    'dashboard',
     'loaders',
     'music',
     'radio',
