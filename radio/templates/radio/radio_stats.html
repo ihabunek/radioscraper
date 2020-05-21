@@ -45,7 +45,7 @@
             <td>
               {% with mrp=most_played_daily %}
                 {{ mrp.artist_name }} - {{ mrp.title }}<br />
-                <small>played {{ mrp.count }} times on {{ mrp.day|date }}</small>
+                <small>played {{ mrp.count }} times on {{ mrp.day.date }}</small>
               {% endwith %}
             </td>
           </tr>

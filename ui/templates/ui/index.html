@@ -23,7 +23,7 @@
           {{ radio.play_count|human_format }} plays
           {% if radio.first_play.timestamp %}
           <br />
-          since {{ radio.first_play.timestamp|date:"Y-m-d" }}
+          since {{ radio.first_play.timestamp.date }}
           {% endif %}
         </p>
 
@@ -32,14 +32,13 @@
           Last play: <br />
           <b>{{ radio.last_play.title }}</b>
           by <b>{{ radio.last_play.artist_name }}</b><br />
-          at <i class="gray">{{ radio.last_play.timestamp|date:"Y-m-d @ H:i" }}</i>
+          at <i class="gray">{{ radio.last_play.timestamp }}</i>
         </p>
         {% endif %}
         {% with outage=radio.get_current_outage %}
         {% if outage %}
           <div class="outage" title="Failed loading songs for this radio.">
-            Out since:
-            {{ outage.start|date:"Y-m-d @ H:i" }}
+            <em>Out since {{ outage.start }}</em>
           </div>
         {% endif %}
         {% endwith %}
