@@ -36,7 +36,7 @@ def test_index_view(client, radio_data):
     content = str(response.content)
     assert '<h5>Radio One</h5>' in content
     assert '3 plays' in content
-    assert 'since {:%Y-%m-%d}'.format(date) in content
+    assert 'since {:%d.%m.%Y}'.format(date) in content
     assert 'Last play:' in content
     assert '<b>Baz</b>' in content
     assert 'by <b>Gang of four</b>' in content
@@ -48,7 +48,7 @@ def test_stats_views(client, radio_data):
     response = client.get(reverse('radio:stats'))
     assert response.status_code == 200
 
-    response = client.get(reverse('radio:stats', kwargs={"radio_slug": "radio-one"}))
+    response = client.get(reverse('radio:stats', args=["radio-one"]))
     assert response.status_code == 200
 
 
