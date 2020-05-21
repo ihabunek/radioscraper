@@ -12,4 +12,4 @@ async def load(session):
     })
     contents = await response.text()
 
-    return split_artist_title(contents)
+    return split_artist_title(contents, normalize_case=True)
