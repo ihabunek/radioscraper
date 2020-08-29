@@ -160,13 +160,19 @@ class PlaysView(ListView):
         except:
             return None
 
+    def _parse_int(self, value):
+        try:
+            return int(value)
+        except:
+            return None
+
     def dispatch(self, *args, **kwargs):
         self.artist_name = self.request.GET.get('artist_name')
         self.title = self.request.GET.get('title')
         self.radio = self.request.GET.get('radio')
         self.start = self._parse_date(self.request.GET.get('start'))
         self.end = self._parse_date(self.request.GET.get('end'))
-        self.from_id = self.request.GET.get('from_id')
+        self.from_id = self._parse_int(self.request.GET.get('from_id'))
 
         return super(PlaysView, self).dispatch(*args, **kwargs)
 
