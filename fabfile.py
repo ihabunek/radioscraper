@@ -9,9 +9,10 @@ VIRTUAL_ENV = "/home/ihabunek/.virtualenvs/radioscraper/"
 PYTHON = f"{VIRTUAL_ENV}/bin/python"
 PIP = f"{VIRTUAL_ENV}/bin/pip"
 
+
 def deploy():
     with cd(PROJECT_HOME):
-        run("git pull")
+        run("git pull --ff-only")
         run(f"{PIP} install -r requirements.txt")
         run(f"{PIP} install -r requirements.prod.txt")
         run(f"{PYTHON} manage.py migrate")
