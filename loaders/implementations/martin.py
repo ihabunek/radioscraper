@@ -29,9 +29,10 @@ async def load(session):
         # Read and decode metadata
         meta = await response.content.readexactly(length)
 
-    match = re.search("StreamTitle='(.+)';", meta.decode("utf-8"))
+    meta = meta.decode("utf-8")
+    match = re.search("StreamTitle='(.+)';", meta)
     if not match:
-        raise Exception("metadata not found in: {meta}")
+        raise Exception(f"metadata not found in: {meta}")
 
     parts = split_artist_title(match.group(1))
     if parts is None:
