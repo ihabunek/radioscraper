@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block script %}
-<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/8.2/highcharts.js"></script>
 <script type="text/javascript">
   const chartData = [{% for k, v in chart_data %}[{{ k|date_to_ms }}, {{ v }}],{% endfor %}];
 
