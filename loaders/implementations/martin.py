@@ -4,6 +4,11 @@ from radio.utils.normalize import split_artist_title
 
 
 async def load(session):
+    # Old stream turned off, new stream is not up yet
+    # Stop loading until this is resolved
+    # https://stream.zabavni.hr/zabavni.html
+    return None
+
     url = "http://genf196.server4you.de:8585/"
     headers = {"Icy-MetaData": "1"}
 
