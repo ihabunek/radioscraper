@@ -42,7 +42,14 @@ def split_artist_title(string, normalize_case=False):
     if len(bits) < 2:
         return None
 
+    artist = bits[0].strip()
+    title = bits[1].strip()
+
+    # Both artist and title must be non-empty
+    if not artist or not title:
+        return None
+
     if normalize_case:
-        return [bits[0].title(), bits[1].capitalize()]
+        return [artist.title(), title.capitalize()]
 
     return bits

@@ -36,3 +36,13 @@ def test_split_artist_title_normalize_case():
 
     for k, v in expected.items():
         assert split_artist_title(k, normalize_case=True) == v
+
+
+def test_empty():
+    assert split_artist_title("") is None
+    assert split_artist_title("    ") is None
+    assert split_artist_title("-") is None
+    assert split_artist_title("  -  ") is None
+    assert split_artist_title("foo") is None
+    assert split_artist_title("foo -  ") is None
+    assert split_artist_title("- foo") is None
