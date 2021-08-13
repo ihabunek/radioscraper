@@ -1,0 +1,41 @@
+form {
+  margin-bottom: 1rem;
+}
+
+form.horizontal {
+  .form-row {
+    display: flex;
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+
+    flex-grow: 1;
+    max-width: 10rem;
+
+    border: 1px solid $medium-gray;
+    border-right: none;
+    padding: 0 1rem;
+  }
+
+  input,
+  select {
+    flex-grow: 1;
+
+    background-color: $white;
+    border-radius: 0;
+    border: 1px solid $medium-gray;
+    height: 2.2rem;
+    padding: 0 0.5rem;
+  }
+}
+
+select {
+  background-color: $white;
+  border-radius: 0;
+  border: 1px solid $medium-gray;
+  height: 2.4rem;
+  padding: 0 0.5rem;
+}

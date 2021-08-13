@@ -2,7 +2,7 @@
 
 {% block body %}
   <header>
-    <div class="grid-container">
+    <div class="container">
       <h1>
         <a href="{% url 'ui:index' %}">Radio Scraper</a>
       </h1>
@@ -11,10 +11,25 @@
       <a href="{% url 'radio:stats' %}">Stats</a>
       <span class="separator">//</span>
       <a href="{% url 'music:artist-list' %}">Artists</a>
+      {% if user.is_authenticated %}
+        <span class="separator">//</span>
+        <a href="{% url 'dashboard:index' %}">Dashboard</a>
+      {% endif %}
     </div>
   </header>
 
-  {% include "ui/partial/messages.html" %}
+  <main>
+    {% include "ui/partial/messages.html" %}
+    {% block content %}{% endblock %}
+  </main>
 
-  {% block content %}{% endblock %}
+  <footer>
+    <div>
+      Radioscraper is <a href="https://github.com/ihabunek/radioscraper/">open source</a>
+      <br class="show-mobile-only" />
+      <span class="separator">♥</span>
+      <br class="show-mobile-only" />
+      Authored by <a href="https://twitter.com/ihabunek">@ihabunek</a>
+    </div>
+  </footer>
 {% endblock %}

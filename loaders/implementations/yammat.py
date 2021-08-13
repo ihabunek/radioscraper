@@ -1,19 +1,30 @@
-from datetime import datetime
-from requests import Request
+import bs4
 
-from radio.utils.normalize import split_artist_title
+ADMIN_URL = "https://yammat.fm/wp-admin/admin-ajax.php"
 
 
-def form_request():
-    return Request("GET", 'http://192.240.102.133:12430/played', params={
-        'sid': 1,
-        'type': 'json',
-        '_': datetime.now().timestamp(),
+async def load(session):
+    response = await session.get(ADMIN_URL, params={"action": "get_nonce"})
+    response.raise_for_status()
+    data = await response.json()
+
+    response = await session.post(ADMIN_URL, data={
+        "action": "ajax_update_sidebar_songs",
+        "afp_nonce": data["afp_nonce"]
     })
+    response.raise_for_status()
+    data = await response.json()
 
+    playing = data["html"]["current_desktop"]
+    soup = bs4.BeautifulSoup(playing, 'html.parser')
+    spans = [span.text.strip() for span in soup.find_all('span')]
 
-def parse_response(response):
-    data = response.json()
-    artist_title = data[0]['title']
+    if len(spans) != 2:
+        raise Exception("Can't find artist and title from: {}".format(spans))
 
-    return split_artist_title(artist_title)
+    artist, title = spans
+
+    if not artist or not title:
+        return None
+
+    return spans

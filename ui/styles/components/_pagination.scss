@@ -1,0 +1,36 @@
+ul.pagination {
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+
+  li {
+    margin: 0 0.5rem;
+  }
+
+  .pagination-previous a::before {
+    display: inline-block;
+    margin-right: 0.5rem;
+    content: '\AB';
+  }
+
+  .pagination-next a::after {
+    display: inline-block;
+    margin-left: 0.5rem;
+    content: '\BB';
+  }
+
+  a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: $white;
+    background-color: $black;
+  }
+
+  .current,
+  .ellipsis {
+    display: block;
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+  }
+}

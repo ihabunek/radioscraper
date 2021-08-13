@@ -1,10 +1,8 @@
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-
 from django.db import connection
 from django.db.models import F, Count
 
 from radio.models import Play
+from radioscraper.utils.datetime import day_start, day_end
 
 
 def get_plays(radio=None, start=None, end=None):
@@ -14,12 +12,10 @@ def get_plays(radio=None, start=None, end=None):
         qs = qs.filter(radio=radio)
 
     if start:
-        start_dttm = datetime(start.year, start.month, start.day)
-        qs = qs.filter(timestamp__gte=start_dttm)
+        qs = qs.filter(timestamp__gte=day_start(start))
 
     if end:
-        end_dttm = datetime(end.year, end.month, end.day) + relativedelta(days=1)
-        qs = qs.filter(timestamp__lt=end_dttm)
+        qs = qs.filter(timestamp__lt=day_end(end))
 
     return qs
 

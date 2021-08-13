@@ -43,3 +43,60 @@ ListenStream=[::]:8000
 [Install]
 WantedBy=sockets.target
 ```
+
+**`/etc/rsyslog.d/radioscraper.conf`**
+
+```
+local6.*    -/var/log/radioscraper/app.log
+local6.err  -/var/log/radioscraper/error.log
+local7.*    -/var/log/radioscraper/loaders.log
+```
+
+Exlude local6 & local 7 facilities from catch-alls in `/etc/rsyslog.conf` by adding `local6.none` and `local7.none` to the filter:
+
+```
+auth,authpriv.*         /var/log/auth.log
+*.*;auth,authpriv.none;\
+    local7.none;\
+    local6.none     -/var/log/syslog
+
+...
+
+*.=debug;\
+    auth,authpriv.none;\
+    news.none;mail.none;\
+    local7.none;\
+    local6.none     -/var/log/debug
+*.=info;*.=notice;*.=warn;\
+    auth,authpriv.none;\
+    cron,daemon.none;\
+    mail,news.none;\
+    local7.none;\
+    local6.none     -/var/log/messages
+```
+
+Pro tip, for breaking multiline stack traces:
+
+```
+tail -f /var/log/radioscraper/error.log | sed 's/#012/\n\t/g'
+```
+
+**`/etc/logrotate.d/radioscraper`**
+
+```
+/var/log/radioscraper/*.log {
+       monthly
+       rotate 12
+       copytruncate
+       delaycompress
+       compress
+       notifempty
+       missingok
+}
+```
+
+**`crontab -e`**
+
+```
+* * * * * /home/ihabunek/.virtualenvs/radioscraper/bin/python /home/ihabunek/projects/radioscraper/manage.py run_loaders
+```

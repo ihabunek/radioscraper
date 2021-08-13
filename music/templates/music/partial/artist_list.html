@@ -1,20 +1,20 @@
 {% if user.is_superuser %}
-    <form method="post" action="{% url 'music:merge-artists' %}">
-        {% csrf_token %}
+  <form method="post" action="{% url 'music:merge-artists' %}">
+    {% csrf_token %}
 {% endif %}
-    <ul>
-        {% for artist in artist_list %}
-        {% if artist.slug %}
-            <li>
+  <ul>
+    {% for artist in artist_list %}
+    {% if artist.slug %}
+      <li>
 {% if user.is_superuser %}
-                <input type="checkbox" name="artist" value="{{ artist.pk }}" />
+        <input type="checkbox" name="artist" value="{{ artist.pk }}" />
 {% endif %}
-                <a href="{% url 'music:artist-detail' artist.slug %}">{{ artist }}</a>
-            </li>
-        {% endif %}
-        {% endfor %}
-    </ul>
+        <a href="{% url 'music:artist-detail' artist.slug %}">{{ artist }}</a>
+      </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
 {% if user.is_superuser %}
-    <button type="submit" class="button">Merge Artists</button>
+  <button type="submit" class="button">Merge Artists</button>
 </form>
 {% endif %}

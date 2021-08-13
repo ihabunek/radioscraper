@@ -1,28 +1,30 @@
-from requests import Request
 from xml.etree import ElementTree
 
 from . import timestamp_ms
 
 
-def form_request(name):
+async def load(session, name):
     url = "http://np.tritondigital.com/public/nowplaying"
 
-    return Request("GET", url, params={
+    response = await session.get(url, params={
         'mountName': name,
         'numberToFetch': 10,
-        'eventType': 'track,',
+        'eventType': 'track',
         'request.preventCache': timestamp_ms(),
     })
 
-
-def parse_response(response):
-    root = ElementTree.fromstring(response.text)
+    contents = await response.text()
+    root = ElementTree.fromstring(contents)
 
     for item in root.findall('nowplaying-info'):
-        timestamp, title, artist = [i.text for i in item.findall('property')]
+        artist = item.find("property[@name='track_artist_name']").text
+        title = item.find("property[@name='cue_title']").text
 
-        if title != 'HRVATSKI RADIO':  # returned when no song is playing
-            return [
-                artist.strip().title(),
-                title.strip().capitalize()
-            ]
+        # Returned when no song is playing
+        if title.lower() == 'hrvatski radio':
+            continue
+
+        return [
+            artist.strip().title(),
+            title.strip().capitalize()
+        ]

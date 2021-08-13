@@ -1,13 +1,11 @@
-from requests import Request
 from xml.etree import ElementTree
 
 
-def form_request():
-    return Request("GET", "http://laganini.fm/logs/zagreb/NowOnAir.xml")
+async def load(session):
+    response = await session.get("http://laganini.fm/logs/zagreb/NowOnAir.xml")
+    contents = await response.text()
 
-
-def parse_response(response):
-    root = ElementTree.fromstring(response.text)
+    root = ElementTree.fromstring(contents)
     song = root.find('.//Song')
     title = song.attrib.get('title').strip()
 

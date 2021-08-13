@@ -1,10 +1,10 @@
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-
 from django.db import models
 from django.db.models import Count
-from django.db.models.functions.datetime import TruncDay
 from django.db.models.deletion import PROTECT
+from django.db.models.functions.datetime import TruncDay
+
+from radioscraper.utils.datetime import day_start, day_end
+from radioscraper.utils.datetime import month_start, month_end
 
 
 class RadioManager(models.Manager):
@@ -42,12 +42,10 @@ class Radio(models.Model):
         qs = self.play_set
 
         if start:
-            start_dttm = datetime(start.year, start.month, start.day)
-            qs = qs.filter(timestamp__gte=start_dttm)
+            qs = qs.filter(timestamp__gte=day_start(start))
 
         if end:
-            end_dttm = datetime(end.year, end.month, end.day) + relativedelta(days=1)
-            qs = qs.filter(timestamp__lt=end_dttm)
+            qs = qs.filter(timestamp__lt=day_end(end))
 
         return qs
 
@@ -85,10 +83,10 @@ class Radio(models.Model):
 class PlayManager(models.Manager):
     def month(self, year, month):
         """Returns plays within a given calendar month"""
-        start = datetime(year, month, 1)
-        end = start + relativedelta(months=1)
-
-        return self.get_queryset().filter(timestamp__gte=start, timestamp__lt=end)
+        return self.get_queryset().filter(
+            timestamp__gte=month_start(year, month),
+            timestamp__lt=month_end(year, month)
+        )
 
 
 class Play(models.Model):

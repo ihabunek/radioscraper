@@ -5,26 +5,26 @@
 {% block title %}Artists{% endblock %}
 
 {% block content %}
-<div class="grid-container" id="artists-page">
-    <h1>Artists</h1>
+<div class="container">
+  <h1>Artists</h1>
 
-    <form method="get">
-        <label for="search">Find artist</label>
-        <input type="text" name="q" value="{{ q|default:"" }}" />
-    </form>
+  <form method="get">
+    <label for="search">Find artist</label>
+    <input type="text" name="q" value="{{ q|default:"" }}" />
+  </form>
 
-    {% if artist_list %}
-        <p>
-            {% if is_paginated %}
-                Showing first {{ artist_list.count }} artists. Narrow down your search.
-            {% else %}
-                Found {{ artist_list.count }} artists.
-            {% endif %}
-        </p>
-        {% include "music/partial/artist_list.html" %}
-    {% else %}
-        <h3>Artists starting with...</h3>
-        {% include "music/partial/letters.html" %}
-    {% endif %}
+  {% if artist_list %}
+    <p>
+      {% if is_paginated %}
+        Showing first {{ artist_list.count }} artists. Narrow down your search.
+      {% else %}
+        Found {{ artist_list.count }} artists.
+      {% endif %}
+    </p>
+    {% include "music/partial/artist_list.html" %}
+  {% else %}
+    <h3>Artists starting with...</h3>
+    {% include "music/partial/letters.html" %}
+  {% endif %}
 </div>
 {% endblock %}

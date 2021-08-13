@@ -1,0 +1,62 @@
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+header {
+  color: $white;
+  background-color: $black;
+  padding-top: 1rem;
+  height: 100px;
+
+  h1 {
+    font-size: 1.4rem;
+    a {
+      text-decoration: none;
+    }
+  }
+
+  a, a:visited, a:hover {
+    color: inherit;
+    text-transform: uppercase;
+  }
+
+  span.separator {
+    color: gray;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: $white;
+  background-color: $black;
+  text-align: center;
+
+  a, a:visited, a:hover {
+    color: inherit;
+  }
+
+  .separator {
+    padding: 0.4rem 0.5rem;
+  }
+
+  height: 120px;
+
+  @media print, screen and (min-width: $break-mobile) {
+    height: 80px;
+  }
+}
+
+main {
+  padding: 1rem 0;
+
+  // Push footer to bottom of the screen
+  min-height: calc(100vh - 220px);
+
+  @media print, screen and (min-width: $break-mobile) {
+    min-height: calc(100vh - 180px);
+  }
+}

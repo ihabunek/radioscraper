@@ -1,0 +1,40 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Dashboard</h1>
+
+  <p>Welcome dear admin!</p>
+
+  {% if active_outages %}
+    <h3>Active outages</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Since</th>
+          <th>Radio</th>
+          <th>Failures</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for outage in active_outages %}
+          <tr>
+            <td>
+              <a href="{% url 'dashboard:outage-detail' outage.pk %}">
+                {{ outage.start }}
+              </a>
+            </td>
+            <td>{{ outage.radio }}</td>
+            <td>{{ outage.failure_count }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no active outages. \m/</p>
+  {% endif %}
+</div>
+{% endblock %}

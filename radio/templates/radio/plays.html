@@ -4,104 +4,91 @@
 
 {% block title %}Plays{% endblock %}
 
-{% block script %}
-<script src="{% static 'plays.min.js' %}" type="text/javascript"></script>
-{% endblock %}
-
 {% block content %}
-<div class="grid-container">
-    <form class="search-plays-form" action=".">
-        <div class="grid-x">
-            <div class="small-12 large-6 cell">
+<div class="container">
+  <form class="horizontal" action=".">
+    <div class="form-row">
+      <label for="start">From</label>
+      <input type="date" id="start" name="start" value="{{ start|date:'Y-m-d' }}" />
+    </div>
 
-                <!-- Pick date range -->
-                <div class="input-group time-span">
-                    <span class="input-group-label">Date</span>
-                    <input class="input-group-field" type="text" name="start" placeholder="Start" value="{{ start|date:'d.m.Y' }}" />
-                    <input class="input-group-field" type="text" name="end" placeholder="End" value="{{ end|date:'d.m.Y' }}" />
-                    <div class="input-group-button">
-                        <button data-clear-field="start,end" class="button">&times;</button>
-                    </div>
-                </div>
+    <div class="form-row">
+      <label for="start">Until</label>
+      <input type="date" id="end" name="end" value="{{ end|date:'Y-m-d' }}" />
+    </div>
 
-                <!-- Pick radio -->
-                <div class="input-group">
-                    <span class="input-group-label">Radio</span>
-                    <select data-radio-select name="radio" class="input-group-field">
-                        <option value=""{% if not radio %} selected{% endif %}>--- All ---</option>
-                        {% for r in radios %}
-                            <option value="{{ r.slug }}" {% if r.slug == radio %}selected{% endif %}>
-                                {{ r.name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <div class="input-group-button">
-                        <button data-clear-field="radio" class="button">&times;</button>
-                    </div>
-                </div>
-
-                <!-- Search artist -->
-                <div class="input-group">
-                    <span class="input-group-label">Artist</span>
-                    <input name="artist_name" class="input-group-field" type="text" value="{{ artist_name|default:"" }}" placeholder="Search by artist">
-                    <div class="input-group-button">
-                        <button data-clear-field="artist_name" class="button">&times;</button>
-                    </div>
-                </div>
-
-                <!-- Search title -->
-                <div class="input-group">
-                    <span class="input-group-label">Title</span>
-                    <input name="title" class="input-group-field" type="text" value="{{ title|default:"" }}" placeholder="Search by title">
-                    <div class="input-group-button">
-                        <button data-clear-field="title" class="button">&times;</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="button-group">
-            <button class="button" type="submit">Search</button>
-            <button class="button" data-clear-all>Clear</button>
-        </div>
-    </form>
-
-    {% if plays %}
-    <table class="plays-table" class="hover">
-        <tr>
-            <th>Time</th>
-            <th>Radio</th>
-            <th>Artist</th>
-            <th>Title</th>
-        </tr>
-        {% for play in plays %}
-        <tr>
-            <td class="no-wrap">
-                {{ play.timestamp|date:"d.m.Y @ H:i" }}
-            </td>
-            <td class="no-wrap">
-                <a data-radio="{{ play.radio.slug }}" href="#">{{ play.radio.name }}</a>
-            </td>
-            <td>
-                <a href="{% url 'music:artist-detail' play.artist.slug %}">
-                    {{ play.artist_name }}
-                </a>
-                <a class="filter" data-artist="{{ play.artist_name }}" href="#" title="Add artist to filter">
-                    <i class="gray fa fa-filter"></i>
-                </a>
-            </td>
-            <td>
-                {{ play.title }}
-                <a class="filter" data-title="{{ play.title }}" href="#" title="Add song to filter">
-                    <i class="gray fa fa-filter"></i>
-                </a>
-            </td>
-        </tr>
+    <div class="form-row">
+      <label>Radio</label>
+      <select data-radio-select name="radio" class="input-group-field">
+        <option value=""{% if not radio %} selected{% endif %}>
+          --- All ---
+        </option>
+        {% for r in radios %}
+          <option value="{{ r.slug }}" {% if r.slug == radio %}selected{% endif %}>
+            {{ r.name }}
+          </option>
         {% endfor %}
-    </table>
-    {% else %}
-    <h5>No plays matching given search parameters found.</h5>
-    {% endif %}
+      </select>
+    </div>
 
-    {% include "radio/partial/paging.html" %}
+    <div class="form-row">
+      <label>Artist</label>
+      <input name="artist_name" type="search" value="{{ artist_name|default:"" }}" placeholder="Search by artist">
+    </div>
+
+    <div class="form-row">
+      <label>Title</label>
+      <input name="title" type="search" value="{{ title|default:"" }}" placeholder="Search by title">
+    </div>
+
+    <div>
+      <button class="button" type="submit">Search</button>
+      <a href="{{ request.path }}" class="button">Clear</a>
+    </div>
+  </form>
+
+  {% if plays %}
+  <table id="plays-table" class="collapsible table">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Radio</th>
+        <th>Artist</th>
+        <th>Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for play in plays %}
+        <tr>
+          <td class="no-wrap">
+            {{ play.timestamp }}
+          </td>
+          <td class="no-wrap">
+            <a href="{% url 'radio:stats' play.radio.slug %}">{{ play.radio.name }}</a>
+          </td>
+          <td>
+            <a href="{% url 'music:artist-detail' play.artist.slug %}">{{ play.artist_name }}</a><span class="show-mobile-only">:</span>
+          </td>
+          <td>
+            {{ play.title }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h5>No plays matching given search parameters.</h5>
+  {% endif %}
+
+  <div class="columns is-mobile">
+    <div class="column">
+      <a href="{{ first_link }}" class="button">&laquo; First</a>
+    </div>
+    <div class="column text-right">
+      {% if next_link %}
+        <a href="{{ next_link }}" class="button">Next &rsaquo;</a>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}

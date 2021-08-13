@@ -1,9 +1,3 @@
-default :
-	node_modules/.bin/webpack
-
-watch :
-	node_modules/.bin/webpack --watch
-
 clean :
 	rm -rf static/*
 
@@ -15,3 +9,11 @@ server :
 
 test :
 	pytest -s
+
+css:
+	sassc ui/styles/app.scss ui/dist/styles.css
+
+css-watch: css
+	@while true; do \
+		inotifywait -qre close_write ui/styles; make css; \
+	done

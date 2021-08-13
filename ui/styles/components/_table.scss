@@ -1,0 +1,39 @@
+table.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .9rem;
+  border: 1px solid $off-white;
+  margin-bottom: 1rem;
+
+  td, th {
+    padding: .5rem .5rem;
+    text-align: left;
+  }
+
+  thead > tr,
+  tbody > tr:nth-child(even) {
+    background-color: $off-white;
+  }
+
+  &.collapsible {
+    @media print, screen and (max-width: $break-mobile) {
+      thead {
+        display: none;
+      }
+
+      tbody td {
+        display: block;
+        width: 100%;
+        padding: 0 0 0 1rem;
+
+        &:first-child {
+          padding-top: 0.5rem;
+        }
+
+        &:last-child {
+          padding-bottom: 0.5rem;
+        }
+      }
+    }
+  }
+}

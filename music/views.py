@@ -7,9 +7,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import View, ListView, DetailView, TemplateView, DeleteView
 
-from loaders.views import AdminAccessMixin
 from music.models import ArtistName, Artist
 from music.utils import merge_artists
+from radioscraper.mixins import UserIsStaffMixin
 
 
 class ArtistListView(ListView):
@@ -108,7 +108,7 @@ class ArtistDetailView(DetailView):
         return context
 
 
-class ArtistDeleteView(AdminAccessMixin, DeleteView):
+class ArtistDeleteView(UserIsStaffMixin, DeleteView):
     model = Artist
     template_name = 'music/artist_delete.html'
 
@@ -116,7 +116,7 @@ class ArtistDeleteView(AdminAccessMixin, DeleteView):
         return reverse('music:artist-list')
 
 
-class MergeArtistsView(AdminAccessMixin, TemplateView):
+class MergeArtistsView(UserIsStaffMixin, TemplateView):
     template_name = 'music/artist_merge.html'
     http_method_names = ['post']
 
@@ -167,7 +167,7 @@ class MergeArtistsView(AdminAccessMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class SetArtistNameView(AdminAccessMixin, View):
+class SetArtistNameView(UserIsStaffMixin, View):
     """
     Sets the default artist name.
     """

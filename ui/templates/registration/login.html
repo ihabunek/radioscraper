@@ -1,0 +1,17 @@
+{% extends "ui/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Login</h1>
+
+  <p>Admins only!</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="button">Login</button>
+  </form>
+</div>
+{% endblock %}

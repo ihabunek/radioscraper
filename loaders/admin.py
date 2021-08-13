@@ -18,11 +18,10 @@ class OutageAdmin(admin.ModelAdmin):
 class LoaderFailureAdmin(admin.ModelAdmin):
     list_display = (
         'timestamp',
-        'type',
         'radio_name',
         'error_message',
     )
-    list_filter = ('type', 'radio',)
+    list_filter = ('radio',)
     ordering = ('-timestamp',)
 
     def radio_name(self, failure):
