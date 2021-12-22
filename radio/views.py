@@ -215,6 +215,8 @@ class PlaysView(ListView):
         return context
 
     def get_queryset(self):
+        radio = Radio.objects.get(slug=self.radio) if self.radio else None
+
         qs = (
             Play.objects
             .order_by("-id")
@@ -225,8 +227,8 @@ class PlaysView(ListView):
         if self.from_id:
             qs = qs.filter(id__lte=self.from_id)
 
-        if self.radio:
-            qs = qs.filter(radio__slug=self.radio)
+        if radio:
+            qs = qs.filter(radio=radio)
 
         if self.artist_name:
             # Removing ordering makes the query faster.
