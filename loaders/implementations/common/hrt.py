@@ -4,7 +4,7 @@ from . import timestamp_ms
 
 
 async def load(session, name):
-    url = "http://np.tritondigital.com/public/nowplaying"
+    url = "https://np.tritondigital.com/public/nowplaying"
 
     response = await session.get(url, params={
         'mountName': name,
