@@ -22,7 +22,7 @@ async def load(session, name):
 
         # Returned when no song is playing
         if title.lower() == 'hrvatski radio':
-            continue
+            return None
 
         return [
             artist.strip().title(),
