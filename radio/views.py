@@ -215,7 +215,7 @@ class PlaysView(ListView):
         return context
 
     def get_queryset(self):
-        radio = Radio.objects.get(slug=self.radio) if self.radio else None
+        radio = Radio.objects.filter(slug=self.radio).first() if self.radio else None
 
         qs = (
             Play.objects
