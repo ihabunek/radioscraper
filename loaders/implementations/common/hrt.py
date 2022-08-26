@@ -4,7 +4,7 @@ from . import timestamp_ms
 
 
 async def load(session, name):
-    url = "http://np.tritondigital.com/public/nowplaying"
+    url = "https://np.tritondigital.com/public/nowplaying"
 
     response = await session.get(url, params={
         'mountName': name,
@@ -22,7 +22,7 @@ async def load(session, name):
 
         # Returned when no song is playing
         if title.lower() == 'hrvatski radio':
-            continue
+            return None
 
         return [
             artist.strip().title(),

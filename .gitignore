@@ -10,3 +10,4 @@
 /*.log
 __pycache__/
 *.pyc
+/pyrightconfig.json

@@ -1,6 +1,6 @@
 import bs4
 
-ADMIN_URL = "https://yammat.fm/wp-admin/admin-ajax.php"
+ADMIN_URL = "https://www.yammat.fm/wp-admin/admin-ajax.php"
 
 
 async def load(session):
