@@ -15,4 +15,8 @@ async def load(session):
 
     artist, title = split_artist_title(contents)
 
+    # Skip commercials
+    if title == 'Reklame' and artist.title() == 'Zabavni Radio':
+        return None
+        
     return artist.title(), title
