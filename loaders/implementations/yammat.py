@@ -35,4 +35,7 @@ async def load(session):
     if artist == "NO" and title == "UPDATE":
         return None
 
+    if artist.startswith("SELO MOJE MALO") or artist.startswith("VIJESTI DANA"):
+        return None
+
     return artist, title
