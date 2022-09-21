@@ -12,6 +12,6 @@ async def load(session):
         if song.find("Expire") is not None:
             title = song.attrib["title"]
             artist_node = song.find("Artist")
-            if artist_node:
+            if artist_node is not None:
                 artist = artist_node.attrib["name"]
                 return [artist, title]
