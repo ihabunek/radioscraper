@@ -6,7 +6,7 @@ from .common import timestamp_ms
 async def load(session):
     url = "https://stream.zabavni.hr/now_playing.php"
     params = {
-        "the_stream": "https://test1.secure.com.hr:8585/;",
+        "the_stream": "https://genf196.server4you.de:8585;",
         "_": timestamp_ms()
     }
 
