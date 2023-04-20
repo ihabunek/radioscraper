@@ -33,12 +33,24 @@
       background-color: $off-white;
     }
 
-    .outage {
-      font-size: 0.8rem;
-      background-color: $light-gray;
-      margin: -0.5rem;
-      text-align: center;
-      padding: 0.2rem 0;
+    &.outage {
+      background: repeating-linear-gradient(
+        -45deg,
+        $off-white,
+        $off-white 20px,
+        white 20px,
+        white 40px
+      );
+
+      &:hover {
+        background: repeating-linear-gradient(
+          -45deg,
+          $light-gray,
+          $light-gray 20px,
+          $off-white 20px,
+          $off-white 40px
+        );
+      }
     }
   }
 }

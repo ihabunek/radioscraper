@@ -36,7 +36,7 @@ h1 { font-size: 1.75rem }
 h2 { font-size: 1.25rem }
 h3 { font-size: 1.1875rem }
 h4 { font-size: 1.125rem }
-h5 { font-size: 1rem }
+h5 { font-size: 1rem; font-weight: bold; }
 
 a {
   color: black;
@@ -62,6 +62,8 @@ p {
 .text-center { text-align: center }
 .text-left { text-align: left }
 .text-right { text-align: right }
+.text-small { font-size: 0.8rem }
+.text-gray { color: $medium-gray }
 
 // Components
 
