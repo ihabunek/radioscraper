@@ -203,6 +203,9 @@ ul.pagination {
       grid-template-columns: repeat(4, 1fr);
       grid-gap: 2rem; } }
   .radio-grid .radio {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: 1px solid #0a0a0a;
     padding: 1rem;
     text-decoration: none; }

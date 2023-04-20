@@ -17,6 +17,10 @@
   }
 
   .radio {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     border: 1px solid #0a0a0a;
     padding: 1rem;
     text-decoration: none;
