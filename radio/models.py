@@ -1,3 +1,7 @@
+import pytz
+
+from datetime import datetime, timedelta
+
 from django.db import models
 from django.db.models import Count
 from django.db.models.deletion import PROTECT
@@ -63,12 +67,12 @@ class Radio(models.Model):
                     .order_by("-count"))
 
     @property
-    def get_current_outage(self, min_failure_count=3):
-        """Returns current Outage, if any."""
-        return (self.outages
-            .filter(end__isnull=True)
-            .filter(failure_count__gte=min_failure_count)
-            .first())
+    def show_outage(self):
+        if self.last_play:
+            last = self.last_play.timestamp
+            limit = datetime.now(pytz.UTC) - timedelta(days=1)
+            return last < limit
+        return False
 
     def __repr__(self):
         return 'Radio (name="{}")'.format(self.name)
