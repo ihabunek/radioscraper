@@ -8,4 +8,6 @@ python-dateutil~=2.8.1
 # Async
 aiodns~=3.0.0
 aiohttp~=3.8.1
-cchardet~=2.1.6
+
+# Optional speedup for aiohttp, but does not support Python 3.10+
+# cchardet~=2.1.6
