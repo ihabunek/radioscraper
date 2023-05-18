@@ -11,8 +11,12 @@ class IndexView(TemplateView):
             .order_by('name')
             .prefetch_related('first_play', 'last_play'))
 
+        online_radios = [r for r in radios if not r.offline]
+        offline_radios = [r for r in radios if r.offline]
+
         context = super().get_context_data(**kwargs)
         context.update({
-            "radios": radios
+            "online_radios": online_radios,
+            "offline_radios": offline_radios,
         })
         return context

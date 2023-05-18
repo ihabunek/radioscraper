@@ -20,6 +20,7 @@ class Radio(models.Model):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
+    offline = models.BooleanField(default=False)
 
     # Derived data, cached for performance
     first_play = models.ForeignKey("radio.Play", on_delete=PROTECT, blank=True, null=True, related_name="+")

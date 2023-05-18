@@ -1,0 +1,26 @@
+{% load radio %}
+<div class="radio-grid">
+  {% for radio in radios %}
+    <a href="{% url 'radio:plays' %}?radio={{ radio.slug }}" class="radio {% if radio.show_outage %}outage{% endif %}">
+      <div>
+        <h5>{{ radio.name }}</h5>
+        <p class="text-gray">
+          {{ radio.play_count|human_format }} plays
+          {% if radio.first_play.timestamp %}
+          <br />
+          since {{ radio.first_play.timestamp.date }}
+          {% endif %}
+        </p>
+
+        {% if radio.last_play %}
+        <p>
+          <b>{{ radio.last_play.artist_name }}:</b><br />
+          {{ radio.last_play.title }}<br />
+        </p>
+
+        <p class="no-margin text-gray"><em>{{ radio.last_play.timestamp }}</em></p>
+        {% endif %}
+      </div>
+    </a>
+  {% endfor %}
+</div>
