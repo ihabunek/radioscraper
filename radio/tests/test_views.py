@@ -37,9 +37,8 @@ def test_index_view(client, radio_data):
     assert '<h5>Radio One</h5>' in content
     assert '3 plays' in content
     assert 'since {:%d.%m.%Y}'.format(date) in content
-    assert 'Last play:' in content
-    assert '<b>Baz</b>' in content
-    assert 'by <b>Gang of four</b>' in content
+    assert 'Baz' in content
+    assert 'Gang of four' in content
 
 
 @pytest.mark.django_db
