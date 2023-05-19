@@ -8,8 +8,8 @@ async def load(session: ClientSession):
 
     # Strip UTF-8 BOM and decode
     data = json.loads(contents.decode("utf-8-sig"))
-    artist = data["artist"]
-    title = data["title"]
+    artist = data["rs_artist"]
+    title = data["rs_title"]
 
     if artist == "RADIO 1":
         return None
