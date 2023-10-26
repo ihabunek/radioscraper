@@ -4,6 +4,7 @@ django-extensions~=3.2.1
 django~=4.2.1
 psycopg2-binary~=2.9.6
 python-dateutil~=2.8.2
+pytz
 
 # Async
 aiodns~=3.0.0
