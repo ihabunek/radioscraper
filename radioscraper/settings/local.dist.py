@@ -22,3 +22,13 @@ DATABASES = {
 # EMAIL_HOST_USER = ""
 # EMAIL_HOST_PASSWORD = ""
 # EMAIL_SUBJECT_PREFIX = "[Radioscraper]"
+
+# Setup Sentry
+# https://docs.sentry.io/platforms/python/integrations/django/
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn="...",
+    environment="...",
+    traces_sample_rate=0.1,
+)
