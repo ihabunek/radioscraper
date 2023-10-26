@@ -11,13 +11,17 @@ PIP = f"{VIRTUAL_ENV}/bin/pip"
 
 @task
 def deploy(c):
+    # Fail early if sudo password is not valid
+    c.sudo("echo")
+
     with c.cd(PROJECT_HOME):
         c.run("git pull --ff-only")
         c.run(f"{PIP} install -r requirements.txt")
         c.run(f"{PIP} install -r requirements.prod.txt")
         c.run(f"{PYTHON} manage.py migrate")
         c.run(f"{PYTHON} manage.py collectstatic --clear --no-input")
-        c.sudo("sudo service radioscraper reload")
+
+    c.sudo("sudo service radioscraper reload")
 
 
 @task

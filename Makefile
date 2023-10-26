@@ -17,3 +17,6 @@ css-watch: css
 	@while true; do \
 		inotifywait -qre close_write ui/styles; make css; \
 	done
+
+deploy:
+	fab -H bezdomni --prompt-for-sudo-password deploy
