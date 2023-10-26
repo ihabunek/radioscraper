@@ -65,3 +65,11 @@ def test_add_play():
     # Check artist derived data
     assert Artist.objects.get(slug='foo').play_count == 2
     assert Artist.objects.get(slug='mrm').play_count == 1
+
+
+@pytest.mark.django_db
+def test_artist_slug_must_not_be_empty():
+    radio = Radio.objects.create(name="Radio One", slug="radio-one")
+    with pytest.raises(ValueError) as exinfo:
+        add_play(radio, "-", "-")
+    assert str(exinfo.value).startswith("Cannot create artist")

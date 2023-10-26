@@ -81,14 +81,13 @@ def find_artist(name):
 
 def create_artist(name):
     normal_name = normalize_name(name)
+    slug = slugify(normal_name)
 
-    artist = Artist.objects.create(
-        name=normal_name,
-        slug=slugify(normal_name),
-    )
+    if not slug:
+        raise ValueError(f"Cannot create artist: name '{name}' results in an empty slug.")
 
+    artist = Artist.objects.create(name=normal_name, slug=slug)
     ArtistName.objects.create(artist=artist, name=normal_name)
-
     return artist
 
 
