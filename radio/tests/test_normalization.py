@@ -17,7 +17,6 @@ def test_split_artist_title():
     }
 
     for k, v in expected.items():
-        print(split_artist_title(k), v)
         assert split_artist_title(k) == v
 
 
