@@ -1,4 +1,5 @@
 import re
+from typing import Optional, Tuple
 
 # A list of artists which feature a hyphen in their name
 hyphenated_artists = [
@@ -10,7 +11,7 @@ hyphenated_artists = [
 ]
 
 
-def split_artist_title(string, normalize_case=False):
+def split_artist_title(string, normalize_case=False) -> Optional[Tuple[str, str]]:
     # Remove whitespace and underscores
     string = string.replace("_", " ").strip()
 
@@ -50,6 +51,6 @@ def split_artist_title(string, normalize_case=False):
         return None
 
     if normalize_case:
-        return [artist.title(), title.capitalize()]
+        return artist.title(), title.capitalize()
 
-    return bits
+    return bits[0], bits[1]
