@@ -1,14 +1,8 @@
-beautifulsoup4~=4.12.2
-dj-database-url~=2.0.0
-django-extensions~=3.2.1
-django~=4.2.1
-psycopg2-binary~=2.9.6
-python-dateutil~=2.8.2
+aiohttp[speedups]~=3.9
+beautifulsoup4~=4.12
+dj-database-url~=2.0
+django-extensions~=3.2
+django~=4.2
+psycopg2-binary~=2.9
+python-dateutil~=2.8
 pytz
-
-# Async
-aiodns~=3.2.0
-aiohttp~=3.9.5
-
-# Optional speedup for aiohttp, but does not support Python 3.10+
-# cchardet~=2.1.6
