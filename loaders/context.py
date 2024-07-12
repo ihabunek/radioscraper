@@ -8,6 +8,8 @@ from django.utils import timezone
 from importlib import import_module
 from traceback import format_exception
 
+import sentry_sdk
+
 from loaders.models import LoaderFailure, Outage
 from radio.models import Radio
 from radio.context import add_play
@@ -56,7 +58,9 @@ def process_loader_result(radio, song, exc_info):
     if song:
         artist, title = song
         if not artist or not title:
-            logger.error(f"{radio.slug} loader returned artist={artist}, title={title}, skipping!")
+            error = f"{radio.slug} loader returned an empty artist or title. artist={artist}, title={title}"
+            logger.error(error)
+            sentry_sdk.capture_message(error)
             return
 
         created, play = handle_success(radio, artist, title)
