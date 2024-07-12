@@ -25,7 +25,7 @@ def deploy(c):
 
 
 @task
-def refresh_db(c):
+def refreshdb(c):
     print("\nThis command will drop the local radioscraper database.")
     response = input("Are you sure you want to proceed? [y/N] ")
     if response != "y":
