@@ -48,14 +48,18 @@ async def load_one(session, radio):
     try:
         song = await asyncio.wait_for(loader.load(session), timeout=AWAIT_TIMEOUT)
         return song, None
-    except:
+    except Exception:
         return None, sys.exc_info()
 
 
 def process_loader_result(radio, song, exc_info):
     if song:
-        artist_name, title = song
-        created, play = handle_success(radio, artist_name, title)
+        artist, title = song
+        if not artist or not title:
+            logger.error(f"{radio.slug} loader returned artist={artist}, title={title}, skipping!")
+            return
+
+        created, play = handle_success(radio, artist, title)
         repeated = "(repeated)" if not created else ""
         logger.info(f"{radio.slug}: {play} {repeated}")
     elif exc_info:
