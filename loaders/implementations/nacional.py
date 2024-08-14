@@ -1,9 +1,7 @@
 import html
 
-from aiohttp import ClientSession
 
-
-async def load(session: ClientSession) -> tuple[str, str] | None:
+async def load(session):
     response = await session.get("https://radio.nacional.hr/current-song")
     records = await response.json(content_type=None)  # ignore invalid header
 
