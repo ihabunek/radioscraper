@@ -1,5 +1,8 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
+from django.db.models.functions import Lower
+
+from radioscraper.postgres.lookups import ImmutableUnaccent
 
 
 class Artist(models.Model):
@@ -22,10 +25,16 @@ class Artist(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
 
 class ArtistName(models.Model):
     """Artists can have multiple variations of their name"""
+
     artist = models.ForeignKey(Artist, CASCADE, related_name="names")
     name = models.CharField(max_length=255, unique=True, db_index=True)
+    search = models.GeneratedField(
+        expression=Lower(ImmutableUnaccent("name")),
+        output_field=models.CharField(max_length=255, db_index=True),
+        db_persist=True,
+    )
