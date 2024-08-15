@@ -1,8 +1,11 @@
 import re
 
 from django.contrib import messages
+from django.contrib.postgres.lookups import Unaccent
 from django.core.exceptions import ValidationError
+from django.db import connection
 from django.db.models.aggregates import Count
+from django.db.models.functions import Lower
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
@@ -10,6 +13,7 @@ from django.views.generic import DeleteView, DetailView, ListView, TemplateView,
 from music.models import Artist, ArtistName
 from music.utils import merge_artists
 from radioscraper.mixins import UserIsStaffMixin
+from radioscraper.postgres.lookups import ImmutableUnaccent
 
 
 class ArtistListView(ListView):
@@ -26,10 +30,16 @@ class ArtistListView(ListView):
         return qs.none()
 
     def find_artist_ids(self, query):
-        return (ArtistName.objects
-            .filter(name__iunaccent__icontains=query)
-            .values_list('artist_id', flat=True)
-            .distinct())
+        sql = """
+        SELECT DISTINCT artist_id
+        FROM music_artistname
+        WHERE search LIKE '%%' || LOWER(IUNACCENT(%s)) || '%%'
+        """
+
+        with connection.cursor() as cursor:
+            cursor.execute(sql, [query])
+            data = cursor.fetchall()
+            return [row[0] for row in data]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
