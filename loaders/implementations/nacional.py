@@ -2,6 +2,7 @@ import html
 
 
 SKIP_ARTISTS = [
+    "na meti nacionala",
     "nacional",
     "gradske novice",
 ]
