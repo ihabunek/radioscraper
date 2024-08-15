@@ -35,7 +35,7 @@
       series: [
         {
           label: "Week of",
-          value: (self, ts) => fmtDate(new Date(ts * 1000)),
+          value: (self, ts) => ts ? fmtDate(new Date(ts * 1000)) : null,
         },
         {
           paths: uPlot.paths.bars(),
