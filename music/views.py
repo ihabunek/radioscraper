@@ -5,9 +5,9 @@ from django.core.exceptions import ValidationError
 from django.db.models.aggregates import Count
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import View, ListView, DetailView, TemplateView, DeleteView
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
 
-from music.models import ArtistName, Artist
+from music.models import Artist, ArtistName
 from music.utils import merge_artists
 from radioscraper.mixins import UserIsStaffMixin
 
