@@ -91,7 +91,7 @@ class ArtistDetailView(DetailView):
 
     def get_chart_data(self):
         return (self.object.play_set
-            .extra(select={'day': 'date(timestamp)'})
+            .extra(select={'day': "date_trunc('week', timestamp)"})
             .order_by('day')
             .values('day')
             .annotate(count=Count("*"))
