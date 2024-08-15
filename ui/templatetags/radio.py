@@ -23,6 +23,12 @@ def date_to_ms(date):
 
 
 @register.filter()
+def date_to_ts(date):
+    """Convert date to epoch seconds, used for charts"""
+    return int(time.mktime(date.timetuple()))
+
+
+@register.filter()
 def human_format(num):
     magnitude = 0
 
