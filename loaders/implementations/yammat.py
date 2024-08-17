@@ -1,28 +1,18 @@
-import bs4
-
-ADMIN_URL = "https://www.yammat.fm/wp-admin/admin-ajax.php"
+from bs4 import BeautifulSoup
 
 
 async def load(session):
-    response = await session.get(ADMIN_URL, params={"action": "get_nonce"})
-    response.raise_for_status()
+    response = await session.get("https://www.yammat.fm/wp-json/yammat/v1/json_sidebar_songs")
     data = await response.json()
+    html = data["html"]["current_desktop"]
+    soup = BeautifulSoup(html, "html.parser")
 
-    response = await session.post(ADMIN_URL, data={
-        "action": "ajax_update_sidebar_songs",
-        "afp_nonce": data["afp_nonce"]
-    })
-    response.raise_for_status()
-    data = await response.json()
+    # Yes, title and artist are the wrong way around
+    [artist] = soup.select(".stream-content__title")
+    [title] = soup.select(".stream-content__artist")
 
-    playing = data["html"]["current_desktop"]
-    soup = bs4.BeautifulSoup(playing, 'html.parser')
-    spans = [span.text.strip() for span in soup.find_all('span')]
-
-    if len(spans) != 2:
-        raise Exception("Can't find artist and title from: {}".format(spans))
-
-    artist, title = spans
+    artist = artist.text.strip()
+    title = title.text.strip()
 
     if not artist or not title:
         return None
