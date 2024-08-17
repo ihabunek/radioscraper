@@ -9,6 +9,8 @@ SKIP_ARTISTS = [
     "gost dana",
     "sport i tjelovježba",
     "nacionalov zajutrak",
+    "nacionalov zornjak",
+    "coolturnet",
 ]
 
 SKIP_TITLES = [
@@ -18,6 +20,8 @@ SKIP_TITLES = [
     "novice iz grada",
     "ljeto na nacionalu",
     "vremenska prognoza vremena",
+    "centralne vijesti",
+    "poslovne vijesti radio nacionala",
 ]
 
 
