@@ -3,12 +3,12 @@ import re
 from radio.utils.normalize import split_artist_title
 
 
-async def load(session, url):
+async def load(session, url, normalize_case=False):
     headers = {"Icy-MetaData": "1"}
 
     async with session.get(url, headers=headers) as response:
         # Find chunk size, metadata is included after each chunk
-        offset = int(response.headers.get('icy-metaint'))
+        offset = int(response.headers.get("icy-metaint"))
 
         # Check sane offset value (usually 16k)
         if not (1 < offset < 64 * 1024):
@@ -27,10 +27,10 @@ async def load(session, url):
 
         # Read and decode metadata
         meta = await response.content.readexactly(length)
+        meta = meta.decode()
 
-    meta = meta.decode("utf-8")
-    match = re.search("StreamTitle='(.+)';", meta)
-    if not match:
-        raise Exception(f"metadata not found in: {meta}")
+        match = re.search("StreamTitle='(.+)';", meta)
+        if not match:
+            raise Exception(f"metadata not found in: {meta}")
 
-    return split_artist_title(match.group(1))
+        return split_artist_title(match.group(1), normalize_case)
