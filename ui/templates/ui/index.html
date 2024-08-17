@@ -10,11 +10,6 @@
 
   <p>Collecting radio playlists for no particular reason.</p>
 
-  <p>
-    <a href="{% url 'radio:plays' %}">List plays</a> ·
-    <a href="{% url 'radio:stats' %}">Statistics</a>
-  </p>
-
   <div id="radio-search">
       <input id="radio-search-input" type="text" placeholder="Search radios..." />
       {% include "ui/partial/radios.html" with radios=online_radios %}
