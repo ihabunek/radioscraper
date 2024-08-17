@@ -218,6 +218,16 @@ ul.pagination {
       .radio-grid .radio.outage:hover {
         background: repeating-linear-gradient(-45deg, #e6e6e6, #e6e6e6 20px, whitesmoke 20px, whitesmoke 40px); }
 
+#radio-search-input {
+  display: none;
+  width: 100%;
+  background-color: #fefefe;
+  border-radius: 0;
+  border: 1px solid #434750;
+  height: 2.2rem;
+  padding: 0 0.5rem;
+  margin-bottom: 1rem; }
+
 table.table {
   border-collapse: collapse;
   width: 100%;

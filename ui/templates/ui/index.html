@@ -15,7 +15,10 @@
     <a href="{% url 'radio:stats' %}">Statistics</a>
   </p>
 
-  {% include "ui/partial/radios.html" with radios=online_radios %}
+  <div id="radio-search">
+      <input id="radio-search-input" type="text" placeholder="Search radios..." />
+      {% include "ui/partial/radios.html" with radios=online_radios %}
+  </div>
 
   {% if offline_radios %}
     <h2 style="margin-top: 2rem">Offline stations</h2>
@@ -24,4 +27,30 @@
     {% include "ui/partial/radios.html" with radios=offline_radios %}
   {% endif %}
 </div>
+
+<script>
+(function() {
+  const input = document.getElementById("radio-search-input");
+  input.addEventListener("input", filterRadios);
+  input.style.display = "block"; // Hidden by default
+  input.value = "";
+  filterRadios();
+})()
+
+function filterRadios() {
+  const input = document.getElementById("radio-search-input");
+  const search = input.value.trim().toLowerCase();
+
+  const container = document.getElementById("radio-search");
+  const radios = container.getElementsByClassName("radio");
+  for (radio of radios) {
+    radio.style.display = visibility(radio, search);
+  }
+}
+
+function visibility(element, search) {
+  const name = radio.dataset.name.toLowerCase();
+  return name.includes(search) ? "block" : "none";
+}
+</script>
 {% endblock %}

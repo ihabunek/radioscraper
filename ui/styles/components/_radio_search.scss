@@ -1,0 +1,10 @@
+#radio-search-input {
+    display: none;  // By default, so it's not visible if JS is not available
+    width: 100%;
+    background-color: $white;
+    border-radius: 0;
+    border: 1px solid $medium-gray;
+    height: 2.2rem;
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+}
