@@ -11,6 +11,7 @@ SKIP_ARTISTS = [
     "nacionalov zajutrak",
     "nacionalov zornjak",
     "coolturnet",
+    "sport subotom",
 ]
 
 SKIP_TITLES = [
