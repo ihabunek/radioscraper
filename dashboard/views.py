@@ -7,15 +7,13 @@ class IndexView(UserIsStaffMixin, TemplateView):
     template_name = "dashboard/index.html"
 
     def get_context_data(self, **kwargs):
-        active_outages = (
-            Outage.objects
-            .filter(end__isnull=True)
-            .select_related("radio")
-        )
+        active_outages = Outage.objects.filter(end__isnull=True).select_related("radio")
+        recent_failures = LoaderFailure.objects.prefetch_related("radio").order_by("-id")[:50]
 
         context = super().get_context_data(**kwargs)
         context.update({
-            "active_outages": active_outages
+            "active_outages": active_outages,
+            "recent_failures": recent_failures,
         })
         return context
 

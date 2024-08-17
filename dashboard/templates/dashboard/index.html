@@ -36,5 +36,34 @@
   {% else %}
     <p>There are no active outages. \m/</p>
   {% endif %}
+
+  {% if recent_failures %}
+    <h3>Recent failures</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Radio</th>
+          <th>Error message</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for failure in recent_failures %}
+          <tr>
+            <td>
+              <a href="{% url 'dashboard:failure-detail' failure.pk %}">
+                {{ failure.timestamp }}
+              </a>
+            </td>
+            <td>{{ failure.radio.name }}</td>
+            <td>{{ failure.error_message }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no active outages. \m/</p>
+  {% endif %}
 </div>
 {% endblock %}
