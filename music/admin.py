@@ -7,6 +7,6 @@ class ArtistAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'slug',
-        'names',
+        'names__name',
     )
     ordering = ('name',)
