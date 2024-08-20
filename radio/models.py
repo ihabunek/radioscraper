@@ -5,8 +5,10 @@ from datetime import datetime, timedelta
 from django.db import models
 from django.db.models import Count
 from django.db.models.deletion import PROTECT
+from django.db.models.functions import Lower
 from django.db.models.functions.datetime import TruncDay
 
+from radioscraper.postgres.lookups import ImmutableUnaccent
 from radioscraper.utils.datetime import day_start, day_end
 from radioscraper.utils.datetime import month_start, month_end
 
@@ -100,6 +102,20 @@ class Play(models.Model):
     artist_name = models.CharField(max_length=255, db_index=True)
     title = models.CharField(max_length=255, db_index=True)
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    artist_name_search = models.GeneratedField(
+        expression=Lower(ImmutableUnaccent("artist_name")),
+        output_field=models.CharField(max_length=255),
+        db_persist=True,
+        db_index=True,
+    )
+
+    title_search = models.GeneratedField(
+        expression=Lower(ImmutableUnaccent("title")),
+        output_field=models.CharField(max_length=255),
+        db_persist=True,
+        db_index=True,
+    )
 
     objects = PlayManager()
 
