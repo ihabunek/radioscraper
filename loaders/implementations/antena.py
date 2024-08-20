@@ -12,4 +12,7 @@ async def load(session):
     })
     contents = await response.text()
 
+    # Remove weird prefix added to songs sometimes
+    contents  = contents.replace("(AZ)", "")
+
     return split_artist_title(contents, normalize_case=True)
