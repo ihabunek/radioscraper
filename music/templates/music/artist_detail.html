@@ -20,7 +20,6 @@
 
 <script type="text/javascript">
   const element = document.getElementById("plays-chart");
-  const chartData = [{% for k, v in chart_data %}[{{ k|date_to_ms }}, {{ v }}],{% endfor %}];
   const xValues = [{% for k, v in chart_data %}{{ k|date_to_ts }},{% endfor %}];
   const yValues = [{% for k, v in chart_data %}{{ v }},{% endfor %}];
 
