@@ -4,13 +4,9 @@ from .common import timestamp_ms
 
 
 async def load(session):
-    url = "https://stream.zabavni.hr/now_playing.php"
-    params = {
-        "the_stream": "https://genf196.server4you.de:8585;",
-        "_": timestamp_ms(),
-    }
-
-    response = await session.get(url, params=params)
+    # Shoutcast URL provided by radio staff
+    url = "https://genf196.server4you.de:8585/currentsong"
+    response = await session.get(url, params={"sid": "1"})
     contents = await response.text()
 
     # Handle error returned in HTTP 200 response
