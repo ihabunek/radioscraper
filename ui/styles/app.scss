@@ -19,10 +19,24 @@ $break-mobile: 640px;
 @import "components/radio_search";
 @import "components/table";
 
+--color: #{$white};
+--color-dim: #{$off-white};
+--color-gray: #{$light-gray};
+--background: #{$black};
+
+@media (prefers-color-scheme: dark) {
+  --color: #{$black};
+  --color-dim: #{$dark-gray};
+  --color-gray: #{$medium-gray};
+  --background: #{$white};
+}
+
 // Typography
 
 html {
   font-family: $font-family;
+  color: var(--color);
+  background-color: var(--background);
 }
 
 h1, h2, h3, h4, h5 {
@@ -40,7 +54,7 @@ h4 { font-size: 1.125rem }
 h5 { font-size: 1rem; font-weight: bold; }
 
 a {
-  color: black;
+  color: var(--color);
 }
 
 p {
@@ -103,7 +117,7 @@ p {
 }
 
 .callout {
-  border: 1px solid $black;
+  border: 1px solid var(--background);
   padding: 1rem;
   margin-bottom: 1rem;
 }

@@ -19,6 +19,7 @@ dependencies = [
 dev = [
     "django-debug-toolbar",
     "django-stubs~=4.2",
+    "fabric",
     "ipython",
 ]
 test = [
