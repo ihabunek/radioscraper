@@ -1,2 +1,0 @@
-gunicorn~=22.0
-sentry-sdk[django]
