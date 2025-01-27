@@ -1,0 +1,33 @@
+[project]
+name = "radioscraper"
+version = "0.1.0"
+description = "Collecting radio playlists for no particular reason."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiohttp[speedups]~=3.10",
+    "beautifulsoup4~=4.12",
+    "dj-database-url~=2.0",
+    "django-extensions~=3.2",
+    "django~=4.2",
+    "psycopg2-binary~=2.9",
+    "python-dateutil~=2.9",
+    "pytz",
+]
+
+[project.optional-dependencies]
+dev = [
+    "django-debug-toolbar",
+    "django-stubs~=4.2",
+    "fabric",
+    "ipython",
+]
+test = [
+    "factory-boy",
+    "pytest",
+    "pytest-django",
+]
+prod = [
+    "gunicorn~=22.0",
+    "sentry-sdk[django]",
+]

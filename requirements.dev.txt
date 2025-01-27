@@ -1,3 +1,0 @@
-django-debug-toolbar
-django-stubs~=4.2
-ipython
