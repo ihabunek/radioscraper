@@ -2,7 +2,7 @@ table.table {
   border-collapse: collapse;
   width: 100%;
   font-size: .9rem;
-  border: 1px solid $off-white;
+  border: 1px solid var(--background-dim);
   margin-bottom: 1rem;
 
   td, th {
@@ -12,7 +12,7 @@ table.table {
 
   thead > tr,
   tbody > tr:nth-child(even) {
-    background-color: $off-white;
+    background-color: var(--background-dim);
   }
 
   &.collapsible {
