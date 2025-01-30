@@ -1,7 +1,9 @@
 import html
+from aiohttp import ClientSession
 
 
 SKIP_ARTISTS = [
+    "kulturni gost",
     "na meti nacionala",
     "nacional",
     "gradske novice",
@@ -26,16 +28,17 @@ SKIP_TITLES = [
 ]
 
 
-async def load(session):
-    response = await session.get("https://radio.nacional.hr/current-song")
-    records = await response.json(content_type=None)  # ignore invalid header
+async def load(session: ClientSession):
+    url = "https://player.nacional.hr/api/playlist/current_entry"
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"}
+    response = await session.get(url, headers=headers)
+    response.raise_for_status()
 
-    _, playing, _ = records[0]
+    data = await response.json()
 
-    if not playing or len(playing) != 2:
-        return None
+    artist = data["artist"]
+    title = data["song"]
 
-    artist, title = playing
     artist = html.unescape(artist)
     title = html.unescape(title)
 
