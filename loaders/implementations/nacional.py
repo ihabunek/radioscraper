@@ -1,5 +1,5 @@
-import html
-from aiohttp import ClientSession
+from aiohttp.client import ClientSession
+from loaders.implementations.common import shoutcast
 
 
 SKIP_ARTISTS = [
@@ -29,18 +29,13 @@ SKIP_TITLES = [
 
 
 async def load(session: ClientSession):
-    url = "https://player.nacional.hr/api/playlist/current_entry"
-    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"}
-    response = await session.get(url, headers=headers)
-    response.raise_for_status()
+    stream_url = "https://nnc1-bpmmc501.radioca.st/stream"
+    result = await shoutcast.load(session, stream_url, normalize_case=True)
 
-    data = await response.json()
+    if not result:
+        return None
 
-    artist = data["artist"]
-    title = data["song"]
-
-    artist = html.unescape(artist)
-    title = html.unescape(title)
+    artist, title = result
 
     if title.lower() in SKIP_TITLES:
         return None
