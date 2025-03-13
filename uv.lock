@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.13"
 
 [[package]]
@@ -778,9 +779,11 @@ dependencies = [
     { name = "dj-database-url" },
     { name = "django" },
     { name = "django-extensions" },
+    { name = "gunicorn" },
     { name = "psycopg2-binary" },
     { name = "python-dateutil" },
     { name = "pytz" },
+    { name = "sentry-sdk", extra = ["django"] },
 ]
 
 [package.optional-dependencies]
@@ -789,10 +792,6 @@ dev = [
     { name = "django-stubs" },
     { name = "fabric" },
     { name = "ipython" },
-]
-prod = [
-    { name = "gunicorn" },
-    { name = "sentry-sdk", extra = ["django"] },
 ]
 test = [
     { name = "factory-boy" },
@@ -811,15 +810,16 @@ requires-dist = [
     { name = "django-stubs", marker = "extra == 'dev'", specifier = "~=4.2" },
     { name = "fabric", marker = "extra == 'dev'" },
     { name = "factory-boy", marker = "extra == 'test'" },
-    { name = "gunicorn", marker = "extra == 'prod'", specifier = "~=22.0" },
+    { name = "gunicorn", specifier = "~=22.0" },
     { name = "ipython", marker = "extra == 'dev'" },
     { name = "psycopg2-binary", specifier = "~=2.9" },
     { name = "pytest", marker = "extra == 'test'" },
     { name = "pytest-django", marker = "extra == 'test'" },
     { name = "python-dateutil", specifier = "~=2.9" },
     { name = "pytz" },
-    { name = "sentry-sdk", extras = ["django"], marker = "extra == 'prod'" },
+    { name = "sentry-sdk", extras = ["django"] },
 ]
+provides-extras = ["dev", "test"]
 
 [[package]]
 name = "sentry-sdk"

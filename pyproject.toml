@@ -10,9 +10,11 @@ dependencies = [
     "dj-database-url~=2.0",
     "django-extensions~=3.2",
     "django~=4.2",
+    "gunicorn~=22.0",
     "psycopg2-binary~=2.9",
     "python-dateutil~=2.9",
     "pytz",
+    "sentry-sdk[django]",
 ]
 
 [project.optional-dependencies]
@@ -26,8 +28,4 @@ test = [
     "factory-boy",
     "pytest",
     "pytest-django",
-]
-prod = [
-    "gunicorn~=22.0",
-    "sentry-sdk[django]",
 ]
