@@ -1,23 +1,13 @@
-from xml.etree import ElementTree
+from radio.utils.normalize import split_artist_title
+from radioscraper import shoutcast
 
-
-# This hasn't given any info in a while
-# TODO: check out the shoutcast server at
-# http://194.145.208.251:8000/played.html?sid=1
 
 async def load(session):
-    response = await session.get("http://laganini.fm/logs/zagreb/NowOnAir.xml")
-    contents = await response.text()
+    stream_url = "http://194.145.208.251:8000/start/lfmzg"
+    artist_title = await shoutcast.fetch_stream_title(session, stream_url)
 
-    root = ElementTree.fromstring(contents)
-    song = root.find('.//Song')
-    title = song.attrib.get('title').strip()
+    prefix = "Now On Air:"
+    if artist_title.startswith(prefix):
+        artist_title = artist_title[len(prefix) :].strip()
 
-    artist = song.find('Artist')
-    artist_name = artist.get('name').strip()
-
-    if artist_name and title:
-        return (
-            artist_name.title(),
-            title,
-        )
+    return split_artist_title(artist_title, normalize_case=True)
