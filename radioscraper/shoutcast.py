@@ -1,14 +1,15 @@
 import re
 
-from radio.utils.normalize import split_artist_title
+from aiohttp.client import ClientSession
 
 
-async def load(session, url, normalize_case=False):
+async def fetch_stream_title(session: ClientSession, url: str) -> str:
+    """Attempt to extract StreamTitle meta from a shoutcast stream."""
     headers = {"Icy-MetaData": "1"}
 
     async with session.get(url, headers=headers) as response:
         # Find chunk size, metadata is included after each chunk
-        offset = int(response.headers.get("icy-metaint"))
+        offset = int(response.headers.get("icy-metaint", ""))
 
         # Check sane offset value (usually 16k)
         if not (1 < offset < 64 * 1024):
@@ -33,4 +34,4 @@ async def load(session, url, normalize_case=False):
         if not match:
             raise Exception(f"metadata not found in: {meta}")
 
-        return split_artist_title(match.group(1), normalize_case)
+        return match.group(1)

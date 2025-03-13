@@ -1,4 +1,5 @@
 from aiohttp.client import ClientSession
+from radio.utils.normalize import split_artist_title
 from radioscraper import shoutcast
 
 
@@ -44,15 +45,15 @@ SKIP_TITLES = [
     "vremenska prognoza vremena",
 ]
 
-
 async def load(session: ClientSession):
     stream_url = "https://nnc1-bpmmc501.radioca.st/stream"
-    result = await shoutcast.load(session, stream_url, normalize_case=True)
+    stream_title = await shoutcast.fetch_stream_title(session, stream_url)
+    artist_title = split_artist_title(stream_title, normalize_case=True)
 
-    if not result:
+    if not artist_title:
         return None
 
-    artist, title = result
+    artist, title = artist_title
 
     if title.lower().startswith("centralne vijesti"):
         return None
