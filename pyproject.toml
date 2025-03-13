@@ -3,7 +3,7 @@ name = "radioscraper"
 version = "0.1.0"
 description = "Collecting radio playlists for no particular reason."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "aiohttp[speedups]~=3.10",
     "beautifulsoup4~=4.12",
