@@ -129,7 +129,7 @@ body {
 
 header {
   color: #fefefe;
-  background-color: #0a0a0a;
+  background-color: #1a1a1a;
   padding-top: 1rem;
   height: 100px; }
   header h1 {
@@ -148,7 +148,7 @@ footer {
   flex-direction: column;
   justify-content: center;
   color: #fefefe;
-  background-color: #0a0a0a;
+  background-color: #1a1a1a;
   text-align: center;
   height: 120px; }
   footer a, footer a:visited, footer a:hover {
@@ -183,7 +183,7 @@ ul.pagination {
     display: block;
     padding: 0.5rem 1rem;
     color: #fefefe;
-    background-color: #0a0a0a; }
+    background-color: #1a1a1a; }
   ul.pagination .current,
   ul.pagination .ellipsis {
     display: block;
@@ -254,7 +254,7 @@ table.table {
       table.table.collapsible tbody td:last-child {
         padding-bottom: 0.5rem; } }
 :root {
-  --color: #0a0a0a;
+  --color: #1a1a1a;
   --color-dim: #262626;
   --color-gray: #404040;
   --background: #fefefe;
@@ -267,9 +267,9 @@ table.table {
     --color: #fefefe;
     --color-dim: #F5F5F5;
     --color-gray: #A3A3A3;
-    --background: #0a0a0a;
-    --background-dim: #171717;
-    --background-gray: #262626; } }
+    --background: #1a1a1a;
+    --background-dim: #262626;
+    --background-gray: #404040; } }
 
 html {
   font-family: Consolas, "Liberation Mono", Courier, monospace;

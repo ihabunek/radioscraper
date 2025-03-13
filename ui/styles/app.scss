@@ -5,7 +5,7 @@ $off-white: whitesmoke;
 $light-gray: #e6e6e6;
 $medium-gray: #434750;
 $dark-gray: #293133;
-$black: #0a0a0a;
+$black: #1a1a1a;
 
 $gray50: #FAFAFA;
 $gray100: #F5F5F5;
@@ -46,8 +46,8 @@ $break-mobile: 640px;
     --color-dim: #{$gray100};
     --color-gray: #{$gray400};
     --background: #{$black};
-    --background-dim: #{$gray900};
-    --background-gray: #{$gray800};
+    --background-dim: #{$gray800};
+    --background-gray: #{$gray700};
   }
 }
 
