@@ -1,5 +1,5 @@
-from loaders.implementations.common import shoutcast
 from aiohttp.client import ClientSession
+from radioscraper import shoutcast
 
 
 async def load(session: ClientSession):

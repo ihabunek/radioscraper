@@ -1,6 +1,10 @@
 from xml.etree import ElementTree
 
 
+# This hasn't given any info in a while
+# TODO: check out the shoutcast server at
+# http://194.145.208.251:8000/played.html?sid=1
+
 async def load(session):
     response = await session.get("http://laganini.fm/logs/zagreb/NowOnAir.xml")
     contents = await response.text()

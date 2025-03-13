@@ -1,5 +1,5 @@
 from aiohttp.client import ClientSession
-from loaders.implementations.common import shoutcast
+from radioscraper import shoutcast
 
 
 SKIP_ARTISTS = [
