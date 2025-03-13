@@ -1,13 +1,17 @@
-from radio.utils.normalize import split_artist_title
-
-from .common import timestamp_ms
+# live.radio101.hr uses azuracast
+# https://www.azuracast.com/docs/developers/now-playing-data/
 
 
 async def load(session):
-    url = "https://live.radio101.hr:8000/stats"
-    params = {'sid': 1, 'json': 1, '_': timestamp_ms()}
+    url = "https://live.radio101.hr/api/nowplaying/radio_101"
 
-    response = await session.get(url, params=params)
+    response = await session.get(url)
     contents = await response.json()
 
-    return split_artist_title(contents['songtitle'])
+    artist = contents["now_playing"]["song"]["artist"]
+    title = contents["now_playing"]["song"]["title"]
+
+    if artist and title:
+        return artist, title
+
+    # TODO: what does the data look like when nothing is playing?
