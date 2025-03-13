@@ -21,7 +21,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    border: 1px solid #0a0a0a;
+    border: 1px solid var(--color);
     padding: 1rem;
     text-decoration: none;
 
@@ -30,25 +30,25 @@
     }
 
     &:hover {
-      background-color: $off-white;
+      background-color: var(--background-dim);
     }
 
     &.outage {
       background: repeating-linear-gradient(
         -45deg,
-        $off-white,
-        $off-white 20px,
-        white 20px,
-        white 40px
+        var(--background-dim),
+        var(--background-dim) 20px,
+        var(--background) 20px,
+        var(--background) 40px
       );
 
       &:hover {
         background: repeating-linear-gradient(
           -45deg,
-          $light-gray,
-          $light-gray 20px,
-          $off-white 20px,
-          $off-white 40px
+          var(--background-gray),
+          var(--background-gray) 20px,
+          var(--background-dim) 20px,
+          var(--background-dim) 40px
         );
       }
     }
