@@ -4,9 +4,9 @@ from invoke import run
 
 PROJECT_HOME = "/home/ihabunek/projects/radioscraper"
 DUMP_FILE = f"/tmp/radioscraper-{date.today()}.sql"
-VIRTUAL_ENV = "/home/ihabunek/.virtualenvs/radioscraper/"
-PYTHON = f"{VIRTUAL_ENV}/bin/python"
-PIP = f"{VIRTUAL_ENV}/bin/pip"
+PYTHON = "/home/ihabunek/projects/radioscraper/.venv/bin/python"
+UV = "/home/ihabunek/.cargo/bin/uv"
+
 
 
 @task
@@ -16,8 +16,7 @@ def deploy(c):
 
     with c.cd(PROJECT_HOME):
         c.run("git pull --ff-only")
-        c.run(f"{PIP} install -r requirements.txt")
-        c.run(f"{PIP} install -r requirements.prod.txt")
+        c.run(f"{UV} sync")
         c.run(f"{PYTHON} manage.py migrate")
         c.run(f"{PYTHON} manage.py collectstatic --clear --no-input")
 
