@@ -58,8 +58,8 @@ img:not([alt]) {
     scroll-behavior: auto !important; } }
 
 .button {
-  color: var(--background);
-  background-color: var(--color-dim);
+  color: var(--color);
+  background-color: var(--background-dark);
   border-radius: 0;
   border: 1px solid transparent;
   cursor: pointer;
@@ -69,8 +69,10 @@ img:not([alt]) {
   margin-bottom: 1rem;
   padding: 0.75em 0.9em;
   text-decoration: none; }
+  .button:hover {
+    background-color: var(--background-gray); }
   .button[disabled] {
-    background-color: var(--medium-gray);
+    background-color: var(--background-dim);
     cursor: not-allowed; }
   .button.hollow {
     border: 1px solid var(--color);
@@ -260,6 +262,7 @@ table.table {
   --background: #fefefe;
   --background-dim: #F5F5F5;
   --background-gray: #E5E5E5;
+  --background-dark: #D4D4D4;
   --medium-gray: #737373; }
 
 @media (prefers-color-scheme: dark) {
@@ -269,7 +272,8 @@ table.table {
     --color-gray: #A3A3A3;
     --background: #1a1a1a;
     --background-dim: #262626;
-    --background-gray: #404040; } }
+    --background-gray: #404040;
+    --background-dark: #525252; } }
 
 html {
   font-family: Consolas, "Liberation Mono", Courier, monospace;

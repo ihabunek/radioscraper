@@ -1,6 +1,6 @@
 .button {
-  color: var(--background);
-  background-color: var(--color-dim);
+  color: var(--color);
+  background-color: var(--background-dark);
   border-radius: 0;
   border: 1px solid transparent;
   cursor: pointer;
@@ -11,8 +11,12 @@
   padding: 0.75em 0.9em;
   text-decoration: none;
 
+  &:hover {
+    background-color: var(--background-gray);
+  }
+
   &[disabled] {
-    background-color: var(--medium-gray);
+    background-color: var(--background-dim);
     cursor: not-allowed;
   }
 

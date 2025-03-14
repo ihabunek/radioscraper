@@ -37,6 +37,7 @@ $break-mobile: 640px;
   --background: #{$white};
   --background-dim: #{$gray100};
   --background-gray: #{$gray200};
+  --background-dark: #{$gray300};
   --medium-gray: #{$gray500};
 }
 
@@ -48,6 +49,7 @@ $break-mobile: 640px;
     --background: #{$black};
     --background-dim: #{$gray800};
     --background-gray: #{$gray700};
+    --background-dark: #{$gray600};
   }
 }
 
