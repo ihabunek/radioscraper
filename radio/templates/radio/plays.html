@@ -48,47 +48,40 @@
   </form>
 
   {% if plays %}
-  <table id="plays-table" class="collapsible table">
-    <thead>
-      <tr>
-        <th>Time</th>
-        <th>Radio</th>
-        <th>Artist</th>
-        <th>Title</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for play in plays %}
-        <tr>
-          <td class="no-wrap">
-            {{ play.timestamp }}
-          </td>
-          <td class="no-wrap">
-            <a href="{% url 'radio:stats' play.radio.slug %}">{{ play.radio.name }}</a>
-          </td>
-          <td>
-            <a href="{% url 'music:artist-detail' play.artist.slug %}">{{ play.artist_name }}</a><span class="show-mobile-only">:</span>
-          </td>
-          <td>
-            {{ play.title }}
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <h5>No plays matching given search parameters.</h5>
-  {% endif %}
+    {% include "radio/partial/next_first_buttons.html" %}
 
-  <div class="columns is-mobile">
-    <div class="column">
-      <a href="{{ first_link }}" class="button">&laquo; First</a>
-    </div>
-    <div class="column text-right">
-      {% if next_link %}
-        <a href="{{ next_link }}" class="button">Next &rsaquo;</a>
-      {% endif %}
-    </div>
-  </div>
+    <table id="plays-table" class="collapsible table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Radio</th>
+          <th>Artist</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for play in plays %}
+          <tr>
+            <td class="no-wrap">
+              {{ play.timestamp }}
+            </td>
+            <td class="no-wrap">
+              <a href="{% url 'radio:stats' play.radio.slug %}">{{ play.radio.name }}</a>
+            </td>
+            <td>
+              <a href="{% url 'music:artist-detail' play.artist.slug %}">{{ play.artist_name }}</a><span class="show-mobile-only">:</span>
+            </td>
+            <td>
+              {{ play.title }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% include "radio/partial/next_first_buttons.html" %}
+  {% else %}
+    <h5>No plays matching given search parameters.</h5>
+  {% endif %}
 </div>
 {% endblock %}

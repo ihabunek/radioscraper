@@ -1,0 +1,10 @@
+  <div class="columns is-mobile">
+    <div class="column">
+      <a href="{{ first_link }}" class="button">&laquo; First</a>
+    </div>
+    <div class="column text-right">
+      {% if next_link %}
+        <a href="{{ next_link }}" class="button">Next &rsaquo;</a>
+      {% endif %}
+    </div>
+  </div>
