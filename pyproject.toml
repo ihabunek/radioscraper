@@ -9,7 +9,7 @@ dependencies = [
     "beautifulsoup4~=4.12",
     "dj-database-url~=2.0",
     "django-extensions~=3.2",
-    "django~=4.2",
+    "django~=5.1",
     "gunicorn~=22.0",
     "psycopg2-binary~=2.9",
     "python-dateutil~=2.9",
@@ -20,7 +20,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "django-debug-toolbar",
-    "django-stubs~=4.2",
+    "django-stubs~=5.1",
     "fabric",
     "ipython",
 ]
