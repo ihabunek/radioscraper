@@ -63,7 +63,7 @@
         {% for play in plays %}
           <tr>
             <td class="no-wrap">
-              {{ play.timestamp }}
+              {{ play.timestamp|date:'d.m.Y @ H:i' }}
             </td>
             <td class="no-wrap">
               <a href="{% url 'radio:stats' play.radio.slug %}">{{ play.radio.name }}</a>
