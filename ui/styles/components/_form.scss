@@ -2,6 +2,18 @@ form {
   margin-bottom: 1rem;
 }
 
+select, input {
+  color: var(--color);
+  background-color: var(--background);
+  border-radius: 0;
+  border: 1px solid var(--medium-gray);
+}
+
+select {
+  height: 2.4rem;
+  padding: 0 0.5rem;
+}
+
 form.horizontal {
   .form-row {
     display: flex;
@@ -15,7 +27,7 @@ form.horizontal {
     flex-grow: 1;
     max-width: 10rem;
 
-    border: 1px solid var(--color-gray);
+    border: 1px solid var(--medium-gray);
     border-right: none;
     padding: 0 1rem;
   }
@@ -23,20 +35,7 @@ form.horizontal {
   input,
   select {
     flex-grow: 1;
-    color: var(--color);
-    background-color: var(--background);
-    border-radius: 0;
-    border: 1px solid var(--color-gray);
     height: 2.2rem;
     padding: 0 0.5rem;
   }
-}
-
-select {
-  color: var(--color);
-  background-color: var(--background);
-  border-radius: 0;
-  border: 1px solid var(--medium-gray);
-  height: 2.4rem;
-  padding: 0 0.5rem;
 }
