@@ -8,7 +8,7 @@
           {{ radio.play_count|human_format }} plays
           {% if radio.first_play.timestamp %}
           <br />
-          since {{ radio.first_play.timestamp.date }}
+          since {{ radio.first_play.timestamp.date|date:'d.m.Y' }}
           {% endif %}
         </p>
 
@@ -18,7 +18,7 @@
           {{ radio.last_play.title }}<br />
         </p>
 
-        <p class="no-margin text-gray"><em>{{ radio.last_play.timestamp }}</em></p>
+        <p class="no-margin text-gray"><em>{{ radio.last_play.timestamp|date:'d.m.Y @ H:i' }}</em></p>
         {% endif %}
       </div>
     </a>
