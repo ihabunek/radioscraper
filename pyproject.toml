@@ -17,15 +17,13 @@ dependencies = [
     "sentry-sdk[django]",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "django-debug-toolbar",
     "django-stubs~=4.2",
     "fabric",
-    "ipython",
-]
-test = [
     "factory-boy",
+    "ipython",
     "pytest",
     "pytest-django",
 ]

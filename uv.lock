@@ -955,15 +955,13 @@ dependencies = [
     { name = "sentry-sdk", extra = ["django"] },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "django-debug-toolbar" },
     { name = "django-stubs" },
     { name = "fabric" },
-    { name = "ipython" },
-]
-test = [
     { name = "factory-boy" },
+    { name = "ipython" },
     { name = "pytest" },
     { name = "pytest-django" },
 ]
@@ -974,21 +972,24 @@ requires-dist = [
     { name = "beautifulsoup4", specifier = "~=4.12" },
     { name = "dj-database-url", specifier = "~=2.0" },
     { name = "django", specifier = "~=4.2" },
-    { name = "django-debug-toolbar", marker = "extra == 'dev'" },
     { name = "django-extensions", specifier = "~=3.2" },
-    { name = "django-stubs", marker = "extra == 'dev'", specifier = "~=4.2" },
-    { name = "fabric", marker = "extra == 'dev'" },
-    { name = "factory-boy", marker = "extra == 'test'" },
     { name = "gunicorn", specifier = "~=22.0" },
-    { name = "ipython", marker = "extra == 'dev'" },
     { name = "psycopg2-binary", specifier = "~=2.9" },
-    { name = "pytest", marker = "extra == 'test'" },
-    { name = "pytest-django", marker = "extra == 'test'" },
     { name = "python-dateutil", specifier = "~=2.9" },
     { name = "pytz" },
     { name = "sentry-sdk", extras = ["django"] },
 ]
-provides-extras = ["dev", "test"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "django-debug-toolbar" },
+    { name = "django-stubs", specifier = "~=4.2" },
+    { name = "fabric" },
+    { name = "factory-boy" },
+    { name = "ipython" },
+    { name = "pytest" },
+    { name = "pytest-django" },
+]
 
 [[package]]
 name = "sentry-sdk"
