@@ -4,6 +4,9 @@ from .common import timestamp_ms
 
 
 async def load(session):
+    # Below does not work as of early 2025-05
+    return None
+
     # Shoutcast URL provided by radio staff
     url = "https://genf196.server4you.de:8585/currentsong"
     response = await session.get(url, params={"sid": "1"})
