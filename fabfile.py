@@ -16,7 +16,7 @@ def deploy(c):
 
     with c.cd(PROJECT_HOME):
         c.run("git pull --ff-only")
-        c.run(f"{UV} sync")
+        c.run(f"{UV} sync --no-dev")
         c.run(f"{PYTHON} manage.py migrate")
         c.run(f"{PYTHON} manage.py collectstatic --clear --no-input")
 
