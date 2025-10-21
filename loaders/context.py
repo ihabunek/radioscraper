@@ -25,7 +25,7 @@ def get_loader(radio_slug):
 
 
 def run_loaders(slugs=None):
-    radios = Radio.objects.active().order_by('name')
+    radios = Radio.objects.filter(load=True).order_by('name')
     if slugs:
         radios = radios.filter(slug__in=slugs)
     radios = list(radios)

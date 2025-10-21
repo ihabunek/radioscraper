@@ -23,6 +23,8 @@ class RadioAdmin(admin.ModelAdmin):
         'play_count',
         'since',
         'active',
+        'load',
+        'offline',
     )
 
     readonly_fields = (
