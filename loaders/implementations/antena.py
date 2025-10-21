@@ -4,7 +4,7 @@ from .common import timestamp_ms
 
 
 async def load(session):
-    url = 'http://streaming.antenazagreb.hr/stream/now_playing.php'
+    url = 'https://streaming.antenazagreb.hr/stream/player/info/listen_antena_aac_.txt'
 
     response = await session.get(url, params={
         'the_stream': 'http://live.antenazagreb.hr:8000/;',
