@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 import aiohttp
 import asyncio
 import logging
@@ -20,6 +21,17 @@ HTTP_TIMEOUT = 50
 AWAIT_TIMEOUT = 60
 
 
+@asynccontextmanager
+async def client_session():
+    timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
+    async with aiohttp.ClientSession(
+        timeout=timeout,
+        # Ignore invalid SSL certificates
+        connector=aiohttp.TCPConnector(ssl=False),
+    ) as session:
+        yield session
+
+
 def get_loader(radio_slug):
     return import_module(f"loaders.implementations.{radio_slug}")
 
@@ -36,8 +48,7 @@ def run_loaders(slugs=None):
 
 
 async def load_all(radios):
-    timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
-    async with aiohttp.ClientSession(timeout=timeout) as session:
+    async with client_session() as session:
         aws = [load_one(session, radio) for radio in radios]
         results = await asyncio.gather(*aws)
 
