@@ -3,7 +3,7 @@ from fabric import task
 from invoke import run
 
 PROJECT_HOME = "/home/ihabunek/projects/radioscraper"
-DUMP_FILE = f"/tmp/radioscraper-{date.today()}.sql"
+DUMP_FILE = f"/tmp/radioscraper-{date.today()}.dump"
 PYTHON = "/home/ihabunek/projects/radioscraper/.venv/bin/python"
 UV = "/home/ihabunek/.cargo/bin/uv"
 
@@ -24,6 +24,18 @@ def deploy(c):
 
 
 @task
+def dumpdb(c):
+    print(f"Saving dump to {DUMP_FILE}")
+    c.run(f"pg_dump -d radioscraper --format custom --no-owner --no-acl > {DUMP_FILE}")
+
+    print("Copying dump to localhost")
+    run(f"scp -C bezdomni:{DUMP_FILE} {DUMP_FILE}")
+
+    print("Deleting dump on server")
+    c.run(f"rm -f {DUMP_FILE}")
+
+
+@task
 def refreshdb(c):
     print("\nThis command will drop the local radioscraper database.")
     response = input("Are you sure you want to proceed? [y/N] ")
@@ -34,7 +46,7 @@ def refreshdb(c):
     # Make dump on host and fetch it
     print(f"Saving dump to {DUMP_FILE}")
     c.run(f"rm -f {DUMP_FILE}")
-    c.run(f"pg_dump -d radioscraper --format custom --no-owner > {DUMP_FILE}")
+    c.run(f"pg_dump -d radioscraper --format custom --no-owner --no-acl > {DUMP_FILE}")
 
     print("Copying dump to localhost")
     run(f"scp -C bezdomni:{DUMP_FILE} {DUMP_FILE}")
