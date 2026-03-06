@@ -15,4 +15,5 @@ async def load(session):
     artist = data["now_playing"]["song"]["artist"]
     title = data["now_playing"]["song"]["title"]
 
-    return artist, title
+    if artist and title:
+        return artist, title
