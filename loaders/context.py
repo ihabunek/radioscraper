@@ -1,8 +1,10 @@
 from contextlib import asynccontextmanager
+from types import SimpleNamespace
 import aiohttp
 import asyncio
 import logging
 import sys
+import time
 
 from django.db import transaction
 from django.utils import timezone
@@ -26,6 +28,7 @@ async def client_session():
     timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
     async with aiohttp.ClientSession(
         timeout=timeout,
+        trace_configs=[logger_trace_config()],
         # Ignore invalid SSL certificates
         connector=aiohttp.TCPConnector(ssl=False),
     ) as session:
@@ -116,3 +119,33 @@ def handle_failure(radio, exc_info):
         error_message=error_message,
         stack_trace=stack_trace,
     )
+
+def logger_trace_config() -> aiohttp.TraceConfig:
+    async def on_request_start(
+        session: aiohttp.ClientSession,
+        context: SimpleNamespace,
+        params: aiohttp.TraceRequestStartParams,
+    ):
+        context.start = time.monotonic()
+        logger.debug(f"--> {params.method} {params.url}")
+
+    async def on_request_redirect(
+        session: aiohttp.ClientSession,
+        context: SimpleNamespace,
+        params: aiohttp.TraceRequestRedirectParams,
+    ):
+        logger.debug(f"--> redirected to {params.method} {params.url}")
+
+    async def on_request_end(
+        session: aiohttp.ClientSession,
+        context: SimpleNamespace,
+        params: aiohttp.TraceRequestEndParams,
+    ):
+        elapsed = round(1000 * (time.monotonic() - context.start))
+        logger.debug(f"<-- {params.method} {params.url} HTTP {params.response.status} {elapsed}ms")
+
+    trace_config = aiohttp.TraceConfig()
+    trace_config.on_request_start.append(on_request_start)
+    trace_config.on_request_end.append(on_request_end)
+    trace_config.on_request_redirect.append(on_request_redirect)
+    return trace_config
