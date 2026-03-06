@@ -1,20 +1,18 @@
-from bs4 import BeautifulSoup
+import random
+
+from loaders.implementations.common import timestamp_ms
 
 
 async def load(session):
-    response = await session.get("https://www.yammat.fm/wp-json/yammat/v1/json_sidebar_songs")
+    response = await session.get(
+        "https://stream.yammat.fm/api/nowplaying/1",
+        params={
+            "_": timestamp_ms(),
+            "rand": random.randint(1, 999),
+        },
+    )
     data = await response.json()
-    html = data["html"]["current_desktop"]
-    soup = BeautifulSoup(html, "html.parser")
-
-    # Yes, title and artist are the wrong way around
-    [artist] = soup.select(".stream-content__title")
-    [title] = soup.select(".stream-content__artist")
-
-    artist = artist.text.strip()
-    title = title.text.strip()
-
-    if not artist or not title:
-        return None
+    artist = data["now_playing"]["song"]["artist"]
+    title = data["now_playing"]["song"]["title"]
 
     return artist, title
