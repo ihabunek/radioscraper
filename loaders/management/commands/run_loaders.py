@@ -16,4 +16,3 @@ class Command(BaseCommand):
         logger.info("--- RUNNING LOADERS -------------------------------------")
         run_loaders(options["radios"])
         logger.info("--- DONE ------------------------------------------------")
-        logger.info("")
