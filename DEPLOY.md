@@ -1,6 +1,14 @@
 Server setup
 ============
 
+## Prerequisites
+
+Prerequisites for python-systemd:
+
+```
+dnf install git python3-pip gcc python3-devel systemd-devel
+```
+
 ## Clone project
 
 ```sh
