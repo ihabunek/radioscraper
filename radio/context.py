@@ -2,7 +2,7 @@ from music.utils import get_or_create_artist
 from radio.models import Play, Radio
 from radioscraper.utils.logger import get_logger
 
-logger = get_logger("run_loaders")
+logger = get_logger(__name__)
 
 
 def radios(request):

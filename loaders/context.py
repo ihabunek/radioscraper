@@ -25,6 +25,12 @@ HTTP_TIMEOUT = 50
 AWAIT_TIMEOUT = 60
 
 
+class LoaderResult(StrEnum):
+    SONG_LOADED = auto()
+    NOTHING_PLAYING = auto()
+    ERROR = auto()
+
+
 @asynccontextmanager
 async def client_session():
     timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
@@ -41,7 +47,10 @@ def get_loader(radio_slug):
     return import_module(f"loaders.implementations.{radio_slug}")
 
 
-def run_loaders(slugs=None) -> dict[LoaderResult, int]:
+def run_loaders(slugs=None):
+    logger.info("Running loaders...")
+    start = time.perf_counter()
+
     radios = Radio.objects.filter(load=True).order_by("name")
     if slugs:
         radios = radios.filter(slug__in=slugs)
@@ -53,7 +62,10 @@ def run_loaders(slugs=None) -> dict[LoaderResult, int]:
         result = process_loader_result(radio, song, exc_info)
         summary[result] += 1
 
-    return summary
+    duration = time.perf_counter() - start
+    counts = ", ".join([f"{result}: {count}" for result, count in summary.items()])
+    logger.info(f"Loaders finished, duration={duration:.3f}s, {counts}")
+
 
 async def load_all(radios):
     async with client_session() as session:
@@ -71,12 +83,6 @@ async def load_one(session, radio):
         return song, None
     except Exception:
         return None, sys.exc_info()
-
-
-class LoaderResult(StrEnum):
-    SONG_LOADED = auto()
-    NOTHING_PLAYING = auto()
-    ERROR = auto()
 
 
 def process_loader_result(radio, song, exc_info) -> LoaderResult:
