@@ -1,15 +1,12 @@
-import logging
-
 from music.utils import get_or_create_artist
-from radio.models import Radio, Play
+from radio.models import Play, Radio
+from radioscraper.utils.logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def radios(request):
-    return {
-        "radios": Radio.objects.active().order_by('name')
-    }
+    return {"radios": Radio.objects.active().order_by("name")}
 
 
 def add_play(radio, artist_name, title):

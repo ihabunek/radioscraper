@@ -2,7 +2,6 @@ from contextlib import asynccontextmanager
 from types import SimpleNamespace
 import aiohttp
 import asyncio
-import logging
 import sys
 import time
 
@@ -16,8 +15,9 @@ import sentry_sdk
 from loaders.models import LoaderFailure, Outage
 from radio.models import Radio
 from radio.context import add_play
+from radioscraper.utils.logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 HTTP_TIMEOUT = 50
 AWAIT_TIMEOUT = 60
