@@ -73,6 +73,12 @@ ListenStream=/run/radioscraper/socket
 WantedBy=sockets.target
 ```
 
+Enable and start the service:
+
+```sh
+systemctl enable --now radioscraper.service
+```
+
 **`/etc/systemd/system/radioscraper-loaders.service`**
 
 ```ini
@@ -106,4 +112,54 @@ Enable and start the timer:
 
 ```sh
 systemctl enable --now radioscraper-loaders.timer
+```
+
+## Collect static files
+
+```sh
+uv run python manage.py collectstatic
+```
+
+## Nginx
+
+**`/etc/nginx/conf.d/radioscraper.conf`**
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location /static/ {
+        alias /var/www/radioscraper/;
+    }
+
+    location = /favicon.ico {
+        alias /var/www/radioscraper/favicon.ico;
+    }
+
+    location = /robots.txt {
+        alias /var/www/radioscraper/robots.txt;
+    }
+
+    location /report.html {
+        alias /home/ihabunek/reports/web/radioscraper.html;
+        auth_basic "Restricted";
+        auth_basic_user_file /home/ihabunek/.htpasswd;
+    }
+
+    location / {
+        proxy_pass http://unix:/run/radioscraper/socket;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        add_header X-Clacks-Overhead "GNU Terry Pratchett";
+    }
+}
+```
+
+Reload nginx:
+
+```sh
+systemctl reload nginx
 ```
