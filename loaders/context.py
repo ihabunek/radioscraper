@@ -89,7 +89,7 @@ def process_loader_result(radio, song, exc_info) -> LoaderResult:
 
         created, play = handle_success(radio, artist, title)
         repeated = "(repeated)" if not created else ""
-        logger.info(f"{radio.slug}: {play} {repeated}")
+        logger.debug(f"{radio.slug}: {play} {repeated}")
         return LoaderResult.SONG_LOADED
     elif exc_info:
         handle_failure(radio, exc_info)
