@@ -96,7 +96,7 @@ def process_loader_result(radio, song, exc_info) -> LoaderResult:
         logger.error(f"{radio.slug} failed", exc_info=exc_info)
         return LoaderResult.ERROR
     else:
-        logger.info(f"{radio.slug}: nothing currently playing")
+        logger.debug(f"{radio.slug}: nothing currently playing")
         return LoaderResult.NOTHING_PLAYING
 
 
