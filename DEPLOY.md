@@ -5,7 +5,7 @@ Server setup
 
 Prerequisites for python-systemd:
 
-```
+```sh
 dnf install git python3-pip gcc python3-devel systemd-devel
 ```
 
@@ -17,12 +17,12 @@ git clone https://github.com/ihabunek/radioscraper.git
 cd radioscraper
 ```
 
-## Virtualenv
+## Install dependencies
+
+Using [uv](https://docs.astral.sh/uv/):
 
 ```sh
-mkvirtualenv radioscraper
-pip install -r requirements.txt
-pip install -r requirements.prod.txt
+uv sync
 ```
 
 ## Settings
@@ -50,7 +50,7 @@ User=ihabunek
 Group=ihabunek
 RuntimeDirectory=gunicorn
 WorkingDirectory=/home/ihabunek/projects/radioscraper
-ExecStart=/home/ihabunek/.virtualenvs/radioscraper/bin/gunicorn radioscraper.wsgi
+ExecStart=/home/ihabunek/projects/radioscraper/.venv/bin/gunicorn radioscraper.wsgi
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
@@ -68,15 +68,42 @@ Description=Radioscraper socket
 
 [Socket]
 ListenStream=/run/radioscraper/socket
-ListenStream=0.0.0.0:9000
-ListenStream=[::]:8000
 
 [Install]
 WantedBy=sockets.target
 ```
 
-**`crontab -e`**
+**`/etc/systemd/system/radioscraper-loaders.service`**
 
+```ini
+[Unit]
+Description=Radio scraper loaders
+After=network.target
+
+[Service]
+Type=oneshot
+User=ihabunek
+Group=ihabunek
+WorkingDirectory=/home/ihabunek/projects/radioscraper
+ExecStart=/home/ihabunek/projects/radioscraper/.venv/bin/python manage.py run_loaders
 ```
-* * * * * /home/ihabunek/.virtualenvs/radioscraper/bin/python /home/ihabunek/projects/radioscraper/manage.py run_loaders
+
+**`/etc/systemd/system/radioscraper-loaders.timer`**
+
+```ini
+[Unit]
+Description=Run radio scraper loaders every minute
+
+[Timer]
+OnCalendar=minutely
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+Enable and start the timer:
+
+```sh
+systemctl enable --now radioscraper-loaders.timer
 ```
