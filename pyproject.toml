@@ -27,3 +27,6 @@ dev = [
     "pytest",
     "pytest-django",
 ]
+
+[tool.ruff]
+line-length = 100
