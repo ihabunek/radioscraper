@@ -2,6 +2,8 @@ from .base import *  # noqa
 
 ALLOWED_HOSTS = ["www.radioscraper.com"]
 
+STATIC_ROOT = "/var/www/radioscraper"
+
 # Much security
 # See `./manage.py check --deploy`
 CSRF_COOKIE_SECURE = True

@@ -124,6 +124,7 @@ STATIC_URL = '/static/'
 # Additional locations the staticfiles app will traverse.
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ui/dist'),
+    os.path.join(BASE_DIR, 'ui/images'),
 ]
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
