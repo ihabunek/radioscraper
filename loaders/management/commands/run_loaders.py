@@ -1,3 +1,4 @@
+import time
 from django.core.management.base import BaseCommand
 
 from loaders.context import run_loaders
@@ -13,6 +14,9 @@ class Command(BaseCommand):
         parser.add_argument("radios", nargs="*", type=str)
 
     def handle(self, *args, **options):
-        logger.info("--- RUNNING LOADERS -------------------------------------")
-        run_loaders(options["radios"])
-        logger.info("--- DONE ------------------------------------------------")
+        start = time.perf_counter()
+        logger.info("Starting loaders...")
+        summary = run_loaders(options["radios"])
+        duration = time.perf_counter() - start
+        counts = ", ".join([f"{result}: {count}" for result, count in summary.items()])
+        logger.info(f"Loaders finished, duration={duration:.3f}s, {counts}")

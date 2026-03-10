@@ -1,20 +1,22 @@
-from contextlib import asynccontextmanager
-from types import SimpleNamespace
-import aiohttp
+from __future__ import annotations
+
 import asyncio
+from collections import defaultdict
 import sys
 import time
-
-from django.db import transaction
-from django.utils import timezone
+from contextlib import asynccontextmanager
+from enum import StrEnum, auto
 from importlib import import_module
 from traceback import format_exception
+from types import SimpleNamespace
 
-import sentry_sdk
+import aiohttp
+from django.db import transaction
+from django.utils import timezone
 
 from loaders.models import LoaderFailure, Outage
-from radio.models import Radio
 from radio.context import add_play
+from radio.models import Radio
 from radioscraper.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -39,16 +41,19 @@ def get_loader(radio_slug):
     return import_module(f"loaders.implementations.{radio_slug}")
 
 
-def run_loaders(slugs=None):
-    radios = Radio.objects.filter(load=True).order_by('name')
+def run_loaders(slugs=None) -> dict[LoaderResult, int]:
+    radios = Radio.objects.filter(load=True).order_by("name")
     if slugs:
         radios = radios.filter(slug__in=slugs)
     radios = list(radios)
 
+    summary: dict[LoaderResult, int] = defaultdict(lambda: 0)
     results = asyncio.run(load_all(radios))
     for radio, song, exc_info in results:
-        process_loader_result(radio, song, exc_info)
+        result = process_loader_result(radio, song, exc_info)
+        summary[result] += 1
 
+    return summary
 
 async def load_all(radios):
     async with client_session() as session:
@@ -68,23 +73,31 @@ async def load_one(session, radio):
         return None, sys.exc_info()
 
 
-def process_loader_result(radio, song, exc_info):
+class LoaderResult(StrEnum):
+    SONG_LOADED = auto()
+    NOTHING_PLAYING = auto()
+    ERROR = auto()
+
+
+def process_loader_result(radio, song, exc_info) -> LoaderResult:
     if song:
         artist, title = song
         if not artist or not title:
             error = f"{radio.slug} loader returned an empty artist or title. artist={artist}, title={title}"
             logger.error(error)
-            sentry_sdk.capture_message(error)
-            return
+            return LoaderResult.ERROR
 
         created, play = handle_success(radio, artist, title)
         repeated = "(repeated)" if not created else ""
         logger.info(f"{radio.slug}: {play} {repeated}")
+        return LoaderResult.SONG_LOADED
     elif exc_info:
         handle_failure(radio, exc_info)
         logger.error(f"{radio.slug} failed", exc_info=exc_info)
+        return LoaderResult.ERROR
     else:
         logger.info(f"{radio.slug}: nothing currently playing")
+        return LoaderResult.NOTHING_PLAYING
 
 
 @transaction.atomic
@@ -103,7 +116,7 @@ def handle_failure(radio, exc_info):
         end__isnull=True,
         defaults={
             "start": timezone.now(),
-        }
+        },
     )
 
     outage.failure_count += 1
@@ -119,6 +132,7 @@ def handle_failure(radio, exc_info):
         error_message=error_message,
         stack_trace=stack_trace,
     )
+
 
 def logger_trace_config() -> aiohttp.TraceConfig:
     async def on_request_start(
