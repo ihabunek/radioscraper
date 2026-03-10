@@ -14,15 +14,6 @@ DATABASES = {
     }
 }
 
-# # Set up email for prod
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = ""
-# EMAIL_PORT = 465
-# EMAIL_USE_SSL = True
-# EMAIL_HOST_USER = ""
-# EMAIL_HOST_PASSWORD = ""
-# EMAIL_SUBJECT_PREFIX = "[Radioscraper]"
-
 # Setup Sentry
 # https://docs.sentry.io/platforms/python/integrations/django/
 import sentry_sdk

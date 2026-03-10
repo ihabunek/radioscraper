@@ -28,10 +28,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'default'
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
         'app': {
             'level': 'INFO',
             'class': 'logging.handlers.SysLogHandler',
@@ -49,11 +45,11 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['app', 'mail_admins'],
+            'handlers': ['app'],
             'level': 'ERROR'
         },
         'loaders': {
-            'handlers': ['loaders', 'mail_admins'],
+            'handlers': ['loaders'],
             'level': 'INFO',
         }
     },
