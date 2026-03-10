@@ -15,6 +15,7 @@ dependencies = [
     "python-dateutil~=2.9",
     "pytz",
     "sentry-sdk[django]",
+    "systemd-python>=235",
 ]
 
 [dependency-groups]
