@@ -48,6 +48,9 @@ SKIP_TITLES = [
 async def load(session: ClientSession):
     stream_url = "https://nnc1-bpmmc501.radioca.st/stream"
     stream_title = await shoutcast.fetch_stream_title(session, stream_url)
+    if not stream_title:
+        return None
+
     artist_title = split_artist_title(stream_title, normalize_case=True)
 
     if not artist_title:

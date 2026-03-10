@@ -3,7 +3,7 @@ import re
 from aiohttp.client import ClientSession
 
 
-async def fetch_stream_title(session: ClientSession, url: str) -> str:
+async def fetch_stream_title(session: ClientSession, url: str) -> str | None:
     """Attempt to extract StreamTitle meta from a shoutcast stream."""
     headers = {"Icy-MetaData": "1"}
 
@@ -21,6 +21,10 @@ async def fetch_stream_title(session: ClientSession, url: str) -> str:
         # Determine length of meta data from first byte
         b = await response.content.readexactly(1)
         length = b[0] * 16
+
+        # No meta info
+        if length == 0:
+            return None
 
         # Check sane length value (usually 32)
         if not (1 < length < 128):
