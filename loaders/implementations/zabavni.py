@@ -2,11 +2,7 @@ from radio.utils.normalize import split_artist_title
 
 
 async def load(session):
-    # Shoutcast URL provided by radio staff
-    url = "https://genf196.startdedicated.de:8585/currentsong"
-
-    # Old one, gone temporarily?
-    # url = "https://genf196.server4you.de:8585/currentsong"
+    url = "https://www.radiocentar.hr:8585/currentsong?sid=1"
 
     response = await session.get(url, params={"sid": "1"})
     contents = await response.text()
