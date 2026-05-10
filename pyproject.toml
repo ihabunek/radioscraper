@@ -9,7 +9,7 @@ dependencies = [
     "beautifulsoup4~=4.12",
     "django-extensions~=3.2",
     "django~=5.2",
-    "gunicorn~=22.0",
+    "gunicorn~=26.0",
     "psycopg2-binary~=2.9",
     "python-dateutil~=2.9",
     "pytz",
