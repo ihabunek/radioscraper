@@ -19,4 +19,4 @@ css-watch: css
 	done
 
 deploy:
-	fab -H bezdomni --prompt-for-sudo-password deploy
+	fab -H bigfish --prompt-for-sudo-password deploy

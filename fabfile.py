@@ -4,9 +4,6 @@ from invoke import run
 
 PROJECT_HOME = "/home/ihabunek/projects/radioscraper"
 DUMP_FILE = f"/tmp/radioscraper-{date.today()}.dump"
-PYTHON = "/home/ihabunek/projects/radioscraper/.venv/bin/python"
-UV = "/home/ihabunek/.cargo/bin/uv"
-
 
 
 @task
@@ -16,11 +13,11 @@ def deploy(c):
 
     with c.cd(PROJECT_HOME):
         c.run("git pull --ff-only")
-        c.run(f"{UV} sync --no-dev")
-        c.run(f"{PYTHON} manage.py migrate")
-        c.run(f"{PYTHON} manage.py collectstatic --clear --no-input")
+        c.run("uv sync --no-dev")
+        c.run("uv run manage.py migrate")
+        c.run("uv run manage.py collectstatic --clear --no-input")
 
-    c.sudo("sudo service radioscraper reload")
+    c.sudo("sudo systemctl reload radioscraper")
 
 
 @task
