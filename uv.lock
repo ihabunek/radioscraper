@@ -522,16 +522,16 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "4.2.29"
+version = "5.2.14"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "sqlparse" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1e/7d/7306757cf2ac016d718d8a5dbae66de630addaa73dca2c341fc388458e71/django-4.2.29.tar.gz", hash = "sha256:86d91bc8086569c8d08f9c55888b583a921ac1f95ed3bdc7d5659d4709542014", size = 10438980, upload-time = "2026-03-03T13:56:42.083Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/65/95/95f7faa0950867afaa0bef2460c6263afd6a2c78cc9434046ed28160b015/django-5.2.14.tar.gz", hash = "sha256:58a63ba841662e5c686b57ba1fec52ddd68c0b93bd96ac3029d55728f00bf8a2", size = 10895118, upload-time = "2026-05-05T13:57:31.104Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ae/2b/bd0a1d1846d5580e9f209b9e0128b4859e381ec1b39d6d175c61294bb530/django-4.2.29-py3-none-any.whl", hash = "sha256:074d7c4d2808050e528388bda442bd491f06def4df4fe863f27066851bba010c", size = 7996481, upload-time = "2026-03-03T13:56:36.495Z" },
+    { url = "https://files.pythonhosted.org/packages/14/44/f172870cf87aa25afef48fb72adba89ee8b77fcab6f3b23d240b923f1528/django-5.2.14-py3-none-any.whl", hash = "sha256:6f712143bd3064310d1f50fac859c3e9a274bdcfc9595339853be7779297fc76", size = 8311320, upload-time = "2026-05-05T13:57:25.795Z" },
 ]
 
 [[package]]
@@ -561,18 +561,17 @@ wheels = [
 
 [[package]]
 name = "django-stubs"
-version = "4.2.7"
+version = "5.2.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "django-stubs-ext" },
-    { name = "types-pytz" },
     { name = "types-pyyaml" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1c/1f/1b1da357d37cbbf21496c17aad5a55416c7c37944a909c4a19ddd61994df/django-stubs-4.2.7.tar.gz", hash = "sha256:8ccd2ff4ee5adf22b9e3b7b1a516d2e1c2191e9d94e672c35cc2bc3dd61e0f6b", size = 258590, upload-time = "2023-12-05T19:02:28.493Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9c/01/86c921e0e19c9fa7e705bf795998dbf55eb183e7be0342a3027dc1bcbc9f/django_stubs-5.2.9.tar.gz", hash = "sha256:c192257120b08785cfe6f2f1c91f1797aceae8e9daa689c336e52c91e8f6a493", size = 257970, upload-time = "2026-01-20T23:59:27.018Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/31/33/a4024662b31999841bc18ef845a790f6b6a9ad50f5b2aceb029896612d17/django_stubs-4.2.7-py3-none-any.whl", hash = "sha256:4cf4de258fa71adc6f2799e983091b9d46cfc67c6eebc68fe111218c9a62b3b8", size = 456669, upload-time = "2023-12-05T19:02:25.29Z" },
+    { url = "https://files.pythonhosted.org/packages/0d/05/4c9c419b7051eb4b350100b086be6df487f968ab672d3d370f8ccf7c3746/django_stubs-5.2.9-py3-none-any.whl", hash = "sha256:2317a7130afdaa76f6ff7f623650d7f3bf1b6c86a60f95840e14e6ec6de1a7cd", size = 508656, upload-time = "2026-01-20T23:59:25.12Z" },
 ]
 
 [[package]]
@@ -1324,7 +1323,7 @@ requires-dist = [
     { name = "aiohttp", extras = ["speedups"], specifier = "~=3.10" },
     { name = "beautifulsoup4", specifier = "~=4.12" },
     { name = "dj-database-url", specifier = "~=2.0" },
-    { name = "django", specifier = "~=4.2" },
+    { name = "django", specifier = "~=5.2" },
     { name = "django-extensions", specifier = "~=3.2" },
     { name = "gunicorn", specifier = "~=22.0" },
     { name = "psycopg2-binary", specifier = "~=2.9" },
@@ -1337,7 +1336,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "django-debug-toolbar" },
-    { name = "django-stubs", specifier = "~=4.2" },
+    { name = "django-stubs", specifier = "~=5.2" },
     { name = "fabric" },
     { name = "factory-boy" },
     { name = "ipython" },
@@ -1417,15 +1416,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/eb/79/72064e6a701c2183016abbbfedaba506d81e30e232a68c9f0d6f6fcd1574/traitlets-5.14.3.tar.gz", hash = "sha256:9ed0579d3502c94b4b3732ac120375cda96f923114522847de4b3bb98b96b6b7", size = 161621, upload-time = "2024-04-19T11:11:49.746Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/00/c0/8f5d070730d7836adc9c9b6408dec68c6ced86b304a9b26a14df072a6e8c/traitlets-5.14.3-py3-none-any.whl", hash = "sha256:b74e89e397b1ed28cc831db7aea759ba6640cb3de13090ca145426688ff1ac4f", size = 85359, upload-time = "2024-04-19T11:11:46.763Z" },
-]
-
-[[package]]
-name = "types-pytz"
-version = "2026.1.1.20260304"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fe/56/2f12a15ea8c5615c8fb896c4fbbb527ab1c0f776ed5860c6fc9ec26ea2c7/types_pytz-2026.1.1.20260304.tar.gz", hash = "sha256:0c3542d8e9b0160b424233440c52b83d6f58cae4b85333d54e4f961cf013e117", size = 11198, upload-time = "2026-03-04T03:57:24.445Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/94/b8/e77c355f179dc89d44e7ca6dbf7a46e650806df1d356a5462e5829fccea5/types_pytz-2026.1.1.20260304-py3-none-any.whl", hash = "sha256:175332c1cf7bd6b1cc56b877f70bf02def1a3f75e5adcc05385ce2c3c70e6500", size = 10126, upload-time = "2026-03-04T03:57:23.481Z" },
 ]
 
 [[package]]

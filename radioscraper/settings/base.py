@@ -75,13 +75,13 @@ WSGI_APPLICATION = 'radioscraper.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {'default': dj_database_url.config()}
 
 
 # Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -100,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
+# https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -112,14 +112,11 @@ USE_L10N = False
 
 USE_TZ = True
 
-DATE_FORMAT = 'd.m.Y'
-DATETIME_FORMAT = 'd.m.Y @ H:i'
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
+# https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 # URL to use when referring to static files located in STATIC_ROOT.
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 # Additional locations the staticfiles app will traverse.
 STATICFILES_DIRS = [
@@ -132,6 +129,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
