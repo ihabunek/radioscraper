@@ -1,4 +1,3 @@
-import dj_database_url
 import os
 
 from radioscraper.postgres.lookups import ImmutableUnaccent  # noqa
@@ -77,7 +76,7 @@ WSGI_APPLICATION = 'radioscraper.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config()}
+DATABASES = {}
 
 
 # Password validation
