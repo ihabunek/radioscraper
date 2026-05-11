@@ -7,8 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "aiohttp[speedups]~=3.10",
     "beautifulsoup4~=4.12",
-    "django-extensions~=3.2",
-    "django~=5.2",
+    "django~=6.0",
     "gunicorn~=26.0",
     "psycopg2-binary~=2.9",
     "python-dateutil~=2.9",
@@ -20,7 +19,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "django-debug-toolbar",
-    "django-stubs~=5.2",
+    "django-extensions~=4.1",
+    "django-stubs~=6.0",
     "fabric",
     "factory-boy",
     "ipython",
