@@ -354,6 +354,6 @@ p {
     margin-right: 0rem; }
 
 .callout {
-  border: 1px solid var(--background);
+  border: 1px solid var(--color);
   padding: 1rem;
   margin-bottom: 1rem; }
