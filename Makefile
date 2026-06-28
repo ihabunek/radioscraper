@@ -18,5 +18,8 @@ css-watch: css
 		inotifywait -qre close_write ui/styles; make css; \
 	done
 
+dumpdb:
+	fab -H bigfish dumpdb
+
 deploy:
 	fab -H bigfish --prompt-for-sudo-password deploy
