@@ -16,14 +16,14 @@ def split_artist_title(string, normalize_case=False) -> Optional[Tuple[str, str]
     string = string.replace("_", " ").strip()
 
     # Try splitting by hyphen surrounded by whitespace
-    bits = re.split('\\s+-\\s+', string, 1)
+    bits = re.split('\\s+-\\s+', string, maxsplit=1)
 
     # Try with only one space from any side (radio student does this)
     if len(bits) < 2:
-        bits = re.split('-\\s+', string, 1)
+        bits = re.split('-\\s+', string, maxsplit=1)
 
     if len(bits) < 2:
-        bits = re.split('\\s+-', string, 1)
+        bits = re.split('\\s+-', string, maxsplit=1)
 
     # Check for known hyphenated authors
     if len(bits) < 2:
